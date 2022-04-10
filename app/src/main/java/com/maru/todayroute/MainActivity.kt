@@ -1,4 +1,4 @@
-package com.example.todayroute
+package com.maru.todayroute
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

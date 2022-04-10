@@ -1,4 +1,4 @@
-package com.example.todayroute
+package com.maru.todayroute
 
 import org.junit.Test
 
