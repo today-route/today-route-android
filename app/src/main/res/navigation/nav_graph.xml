@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/recordRouteFragment">
+
+    <fragment
+        android:id="@+id/recordRouteFragment"
+        android:name="com.maru.todayroute.recordroute.RecordRouteFragment"
+        android:label="RecordRouteFragment"
+        tools:layout="@layout/fragment_record_route"
+        />
+    <fragment
+        android:id="@+id/feedFragment"
+        android:name="com.maru.todayroute.feed.FeedFragment"
+        android:label="FeedFragment"
+        tools:layout="@layout/fragment_feed"
+        />
+    <fragment
+        android:id="@+id/myPage"
+        android:name="com.maru.todayroute.mypage.MyPage"
+        android:label="MyPage"
+        tools:layout="@layout/fragment_my_page"
+        />
+    <fragment
+        android:id="@+id/searchFragment"
+        android:name="com.maru.todayroute.search.SearchFragment"
+        android:label="SearchFragment"
+        tools:layout="@layout/fragment_search"
+        />
+</navigation>
