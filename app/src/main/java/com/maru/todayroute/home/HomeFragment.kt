@@ -1,4 +1,4 @@
-package com.maru.todayroute.recordroute
+package com.maru.todayroute.home
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -7,12 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import com.maru.todayroute.R
 
-class RecordRouteFragment : Fragment() {
+class HomeFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        return inflater.inflate(R.layout.fragment_record_route, container, false)
+        return inflater.inflate(R.layout.fragment_home, container, false)
     }
 }
