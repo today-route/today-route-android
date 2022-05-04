@@ -10,40 +10,66 @@
 
     <ImageView
         android:id="@+id/iv_profile_iamge"
-        android:layout_width="188dp"
-        android:layout_height="216dp"
+        android:layout_width="156dp"
+        android:layout_height="168dp"
         android:background="#BFBFBF"
         app:layout_constraintBottom_toTopOf="@+id/et_nickname"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.67" />
+        app:layout_constraintVertical_bias="0.751" />
 
     <EditText
         android:id="@+id/et_nickname"
         android:layout_width="300dp"
         android:layout_height="40dp"
-        android:hint="닉네임(필수)"
+        android:background="@drawable/bg_profile_input"
+        android:hint=" 닉네임(필수)"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.584"
-        android:background="@drawable/bg_profile_input"/>
+        app:layout_constraintVertical_bias="0.499" />
 
     <EditText
+        android:id="@+id/et_editText"
         android:layout_width="300dp"
         android:layout_height="160dp"
-        android:hint="자신을 한줄로 설명해주세요"
+        android:background="@drawable/bg_profile_input"
+        android:hint=" 자신을 한줄로 설명해주세요"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_nickname"
-        app:layout_constraintVertical_bias="0.256"
-        android:background="@drawable/bg_profile_input"/>
+        app:layout_constraintVertical_bias="0.118" />
+
+    <Button
+        android:id="@+id/btn_complete"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text=" 완 료 "
+        android:textSize="20dp"
+        android:layout_marginTop="36dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_editText"
+        app:layout_constraintVertical_bias="0.037" />
+
+    <Button
+        android:id="@+id/btn_galleryOpen"
+        android:layout_width="32dp"
+        android:layout_height="40dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.662"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.39" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
