@@ -9,6 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TodayRoute">
+
+        <meta-data
+            android:name="com.naver.maps.map.CLIENT_ID"
+            android:value="4cbxzd2ci5"/>
+
         <activity
             android:name="com.maru.todayroute.MainActivity"
             android:exported="true">
