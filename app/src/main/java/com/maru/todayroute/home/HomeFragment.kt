@@ -15,6 +15,7 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.maru.todayroute.databinding.FragmentHomeBinding
 import com.naver.maps.geometry.LatLng
+import com.naver.maps.map.CameraAnimation
 import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
@@ -58,6 +59,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                 } else {
                     isRecording = true
                     this.text = "루트 기록 종료"
+                    getLastLocation()
                     recordStartTime = System.currentTimeMillis()
                 }
             }
@@ -111,8 +113,12 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                 currentLocation.first,
                 currentLocation.second
             )
-        )
-        naverMap.moveCamera(cameraUpdate)
+        ).animate(CameraAnimation.Easing)
+        val zoomLevel = CameraUpdate.zoomTo(16.0)
+        naverMap.run {
+            moveCamera(zoomLevel)
+            moveCamera(cameraUpdate)
+        }
     }
 
     private fun hasNotLocationPermission(): Boolean {
