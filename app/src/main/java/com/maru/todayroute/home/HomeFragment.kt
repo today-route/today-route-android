@@ -28,6 +28,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     private lateinit var naverMap: NaverMap
     private lateinit var currentLocation: Pair<Double, Double>
 
+    private var isRecording = false
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -42,6 +44,21 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         binding.mvMap.getMapAsync(this)
         if (hasNotLocationPermission()) {
             requestLocationPermission()
+        }
+        setButtonClickListener()
+    }
+
+    private fun setButtonClickListener() {
+        with (binding.btStartRecordRoute) {
+            setOnClickListener {
+                if (isRecording) {
+                    isRecording = false
+                    this.text = "루트 기록 시작"
+                } else {
+                    isRecording = true
+                    this.text = "루트 기록 종료"
+                }
+            }
         }
     }
 
