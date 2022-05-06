@@ -32,6 +32,7 @@
         app:layout_constraintEnd_toEndOf="parent"/>
 
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/bt_start_record_route"
         android:layout_width="200dp"
         android:layout_height="64dp"
         android:text="루트 기록 시작"
