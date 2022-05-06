@@ -29,6 +29,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     private lateinit var currentLocation: Pair<Double, Double>
 
     private var isRecording = false
+    private var recordStartTime = -1L
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -57,6 +58,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                 } else {
                     isRecording = true
                     this.text = "루트 기록 종료"
+                    recordStartTime = System.currentTimeMillis()
                 }
             }
         }
