@@ -8,11 +8,13 @@
     android:orientation="vertical"
     tools:context=".initialprofile.InitialProfileActivity">
 
+
     <ImageView
-        android:id="@+id/iv_profile_iamge"
+        android:id="@+id/iv_profile_image"
         android:layout_width="156dp"
         android:layout_height="168dp"
         android:background="#BFBFBF"
+
         app:layout_constraintBottom_toTopOf="@+id/et_nickname"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

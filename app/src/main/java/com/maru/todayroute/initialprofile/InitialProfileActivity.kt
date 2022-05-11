@@ -1,15 +1,18 @@
 package com.maru.todayroute.initialprofile
 
+import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.BitmapFactory
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.util.Log
-import android.widget.Button
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.maru.todayroute.R
 import com.maru.todayroute.databinding.ActivityInitialProfileBinding
-
+import java.lang.Exception
 
 
 class InitialProfileActivity : AppCompatActivity() {
@@ -21,9 +24,34 @@ class InitialProfileActivity : AppCompatActivity() {
             super.onCreate(savedInstanceState)
             setContentView(binding.root)
 
-            val btn_galleryOpen = findViewById<Button>(R.id.btn_galleryOpen) as Button
+            val RequestGalleryLauncher = registerForActivityResult(
+                ActivityResultContracts.StartActivityForResult())
+            {
+                try {
+                    val calculateRatio = CalculateInSampleSize(
+                        it.data!!.data!!,
+                        resources.getDimensionPixelSize(com.google.android.material.R.dimen.design_fab_image_size),
+                        resources.getDimensionPixelSize(com.google.android.material.R.dimen.design_fab_image_size)
+                    )
+                    val option = BitmapFactory.Options()
+                    option.inSampleSize = calculateRatio
 
-            btn_galleryOpen.setOnClickListener {
+                    var inputStream = contentResolver.openInputStream(it.data!!.data!!)
+                    val bitmap = BitmapFactory.decodeStream(inputStream, null, option)
+                    inputStream!!.close()
+                    inputStream = null
+
+                    bitmap?.let {
+                        binding.ivProfileImage.setImageBitmap(bitmap)
+                    } ?: let{
+                        Log.d("bitmapp", "bitmap null")
+                    }
+                }catch (e: Exception){
+                    e.printStackTrace()
+                }
+            }
+
+            binding.btnGalleryOpen.setOnClickListener {
                 // 버튼을 누른경우 권한 물어봄
                 val cameraPermissionCheck = ContextCompat.checkSelfPermission(
                     this@InitialProfileActivity,
@@ -43,9 +71,14 @@ class InitialProfileActivity : AppCompatActivity() {
                 } else {
                     // 권한이 있다면
                     Log.d("permissionsss", "권한이 이미 있음")
-                }
-            }
+                    val intent = Intent(Intent.ACTION_PICK)
+                    intent.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+                    intent.setType("image/*")
+                    RequestGalleryLauncher.launch(intent)
 
+                }
+
+            }
 
         }
 
@@ -71,8 +104,34 @@ class InitialProfileActivity : AppCompatActivity() {
             }
         }
 
+    // 이미지 비율맞춰 크기 줄이기
+    private fun CalculateInSampleSize(fileUri: Uri, reqWidth: Int, reqHeighth: Int): Int{
+        val options = BitmapFactory.Options()
+        options.inJustDecodeBounds = true
+        try{
+            var inputStream = contentResolver.openInputStream(fileUri)
+            BitmapFactory.decodeStream(inputStream, null, options)
+            inputStream!!.close()
+            inputStream = null
+        }catch(e: Exception){
+            e.printStackTrace()
+        }
 
+        val (height: Int, width: Int) = options.run{ outHeight to outWidth}
+        var inSampleSize = 1
 
+        // inSampleSize 비율계산
+        if(height > reqHeighth || width > reqWidth){
+            val halfHeight: Int = height / 2
+            val halfWidth: Int = width / 2
+            while(halfHeight / inSampleSize >= reqHeighth && halfWidth / inSampleSize >= reqWidth){
+                inSampleSize *= 2
+            }
+        }
+        return inSampleSize
     }
+}
+
+
 
 
