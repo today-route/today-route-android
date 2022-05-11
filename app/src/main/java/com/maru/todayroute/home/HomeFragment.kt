@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
 import android.os.Looper
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -21,6 +22,7 @@ import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.PathOverlay
+import kotlin.math.roundToInt
 
 class HomeFragment : Fragment(), OnMapReadyCallback {
 
@@ -60,18 +62,31 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
                 for (location in locationResult.locations){
-                    geoCoordList.add(LatLng(location.latitude, location.longitude))
-                    currentLocation = Pair(location.latitude, location.longitude)
-                    showOverlayOnCurrentLocation(currentLocation)
-                    if (2 <= geoCoordList.size) {
-                        path.coords = geoCoordList
-                        if (path.map == null) {
-                            path.map = naverMap
+                    Log.d("location", "${location.latitude} ${location.longitude}")
+
+                    if (!isSameLocation(location.latitude, location.longitude)) {
+                        geoCoordList.add(LatLng(location.latitude, location.longitude))
+                        currentLocation = Pair(location.latitude, location.longitude)
+                        showOverlayOnCurrentLocation(currentLocation)
+                        if (2 <= geoCoordList.size) {
+                            path.coords = geoCoordList
+                            if (path.map == null) {
+                                path.map = naverMap
+                            }
                         }
                     }
                 }
             }
         }
+    }
+
+    private fun isSameLocation(newLatitude: Double, newLongitude: Double): Boolean {
+        val preLatitude = (currentLocation.first * 10000).roundToInt()
+        val preLongitude = (currentLocation.second * 10000).roundToInt()
+        val targetLatitude = (newLatitude * 10000).roundToInt()
+        val targetLongitude = (newLongitude * 10000).roundToInt()
+
+        return preLatitude == targetLatitude && preLongitude == targetLongitude
     }
 
     @SuppressLint("MissingPermission")
@@ -206,9 +221,5 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             )
         )
-    }
-
-    companion object {
-        const val REQUESTING_LOCATION_UPDATES_KEY = "requesting_location_updates"
     }
 }
