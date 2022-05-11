@@ -3,6 +3,7 @@ package com.maru.todayroute.home
 import android.Manifest
 import android.annotation.SuppressLint
 import android.content.pm.PackageManager
+import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
 import android.os.Looper
@@ -64,7 +65,9 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                     showOverlayOnCurrentLocation(currentLocation)
                     if (2 <= geoCoordList.size) {
                         path.coords = geoCoordList
-                        path.map = naverMap
+                        if (path.map == null) {
+                            path.map = naverMap
+                        }
                     }
                 }
             }
@@ -74,6 +77,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     @SuppressLint("MissingPermission")
     private fun startLocationUpdates() {
         path = PathOverlay()
+        path.color = Color.YELLOW
+        path.width = 20
         geoCoordList.add(LatLng(currentLocation.first, currentLocation.second))
 
         initLocationCallback()
@@ -106,6 +111,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                     this.text = "루트 기록 종료"
                     getLastLocation()
                     startLocationUpdates()
+                    setMapCameraZoom(16.0)
                     recordStartTime = System.currentTimeMillis()
                 }
             }
@@ -160,11 +166,11 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                 currentLocation.second
             )
         ).animate(CameraAnimation.Easing)
-        val zoomLevel = CameraUpdate.zoomTo(16.0)
-        naverMap.run {
-            moveCamera(zoomLevel)
-            moveCamera(cameraUpdate)
-        }
+        naverMap.moveCamera(cameraUpdate)
+    }
+
+    private fun setMapCameraZoom(level: Double) {
+        naverMap.moveCamera(CameraUpdate.zoomTo(level))
     }
 
     private fun hasNotLocationPermission(): Boolean {
