@@ -115,7 +115,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun setButtonClickListener() {
-        with (binding.btStartRecordRoute) {
+        with (binding.btnStartRecordRoute) {
             setOnClickListener {
                 if (isRecording) {
                     isRecording = false
@@ -126,10 +126,13 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                     this.text = "루트 기록 종료"
                     getLastLocation()
                     startLocationUpdates()
-                    setMapCameraZoom(16.0)
                     recordStartTime = System.currentTimeMillis()
                 }
             }
+        }
+
+        binding.btnCurrentLocation.setOnClickListener {
+            moveMapCameraToCurrentLocation(currentLocation)
         }
     }
 
@@ -162,6 +165,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                 currentLocation = Pair(location.latitude, location.longitude)
 
                 showOverlayOnCurrentLocation(currentLocation)
+                moveMapCameraToCurrentLocation(currentLocation)
             }
         }
     }
@@ -171,7 +175,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             isVisible =  true
             position = LatLng(currentLocation.first, currentLocation.second)
         }
-        moveMapCameraToCurrentLocation(currentLocation)
     }
 
     private fun moveMapCameraToCurrentLocation(currentLocation: Pair<Double, Double>) {
@@ -181,6 +184,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                 currentLocation.second
             )
         ).animate(CameraAnimation.Easing)
+        setMapCameraZoom(16.0)
         naverMap.moveCamera(cameraUpdate)
     }
 
