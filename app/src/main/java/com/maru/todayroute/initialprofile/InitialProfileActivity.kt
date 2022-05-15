@@ -11,6 +11,7 @@ import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.maru.todayroute.MainActivity
 import com.maru.todayroute.databinding.ActivityInitialProfileBinding
 import java.lang.Exception
 
@@ -82,9 +83,12 @@ class InitialProfileActivity : AppCompatActivity() {
                 requestGalleryLauncher.launch(intent)
 
             }
-
         }
 
+        binding.btnComplete.setOnClickListener {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     // 권한 물어본것에 대한 대답 받음
