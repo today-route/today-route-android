@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/homeFragment"
+        android:id="@+id/home_fragment"
         android:title="Home"
         android:icon="@drawable/ic_baseline_home_24"/>
     <item
-        android:id="@+id/feedFragment"
+        android:id="@+id/feed_fragment"
         android:title="Feed"
         android:icon="@drawable/ic_baseline_dynamic_feed_24"/>
     <item
-        android:id="@+id/searchFragment"
+        android:id="@+id/search_fragment"
         android:title="Search"
         android:icon="@drawable/ic_baseline_search_24"/>
     <item
-        android:id="@+id/myPageFragment"
+        android:id="@+id/my_page_fragment"
         android:title="My Page"
         android:icon="@drawable/ic_baseline_person_24"/>
 </menu>

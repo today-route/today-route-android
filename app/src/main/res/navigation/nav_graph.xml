@@ -3,28 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/homeFragment">
+    app:startDestination="@id/home_fragment">
 
     <fragment
-        android:id="@+id/homeFragment"
+        android:id="@+id/home_fragment"
         android:name="com.maru.todayroute.home.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home"
         />
     <fragment
-        android:id="@+id/feedFragment"
+        android:id="@+id/feed_fragment"
         android:name="com.maru.todayroute.feed.FeedFragment"
         android:label="FeedFragment"
         tools:layout="@layout/fragment_feed"
         />
     <fragment
-        android:id="@+id/myPageFragment"
+        android:id="@+id/my_page_fragment"
         android:name="com.maru.todayroute.mypage.MyPageFragment"
         android:label="MyPage"
         tools:layout="@layout/fragment_my_page"
         />
     <fragment
-        android:id="@+id/searchFragment"
+        android:id="@+id/search_fragment"
         android:name="com.maru.todayroute.search.SearchFragment"
         android:label="SearchFragment"
         tools:layout="@layout/fragment_search"
