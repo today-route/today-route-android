@@ -2,6 +2,7 @@ package com.maru.todayroute.addnewroute
 
 import android.os.Bundle
 import android.view.*
+import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
 import com.maru.todayroute.MainActivity
 import com.maru.todayroute.R
@@ -23,6 +24,7 @@ class AddNewRouteFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setToolbar()
+        setGroupSpinner()
     }
 
     private fun setToolbar() {
@@ -32,6 +34,17 @@ class AddNewRouteFragment : Fragment() {
         activity.supportActionBar?.title = "새 루트"
         activity.supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_ios_24)
         setHasOptionsMenu(true)
+    }
+
+    private fun setGroupSpinner() {
+        val groupsDummyData = arrayOf("성희", "은진", "카레모임")
+        val spinnerAdapter = ArrayAdapter(
+            requireContext(),
+            android.R.layout.simple_spinner_dropdown_item,
+            groupsDummyData
+        )
+
+        binding.spnGroupValue.adapter = spinnerAdapter
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
