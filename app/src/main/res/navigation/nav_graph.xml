@@ -10,7 +10,13 @@
         android:name="com.maru.todayroute.home.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home"
-        />
+        >
+        <action
+            android:id="@+id/action_home_fragment_to_add_new_route"
+            app:destination="@id/add_new_route"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+    </fragment>
     <fragment
         android:id="@+id/feed_fragment"
         android:name="com.maru.todayroute.feed.FeedFragment"
@@ -29,4 +35,9 @@
         android:label="SearchFragment"
         tools:layout="@layout/fragment_search"
         />
+    <fragment
+        android:id="@+id/add_new_route"
+        android:name="com.maru.todayroute.addnewroute.AddNewRoute"
+        android:label="AddNewRoute"
+        tools:layout="@layout/fragment_add_new_route"/>
 </navigation>

@@ -14,7 +14,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.*
+import com.maru.todayroute.R
 import com.maru.todayroute.databinding.FragmentHomeBinding
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraAnimation
@@ -121,6 +123,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                     isRecording = false
                     this.text = "루트 기록 시작"
                     stopLocationUpdates()
+                    moveToAddNewRouteFragment()
                 } else {
                     isRecording = true
                     this.text = "루트 기록 종료"
@@ -225,5 +228,9 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             )
         )
+    }
+
+    private fun moveToAddNewRouteFragment() {
+        findNavController().navigate(R.id.action_home_fragment_to_add_new_route)
     }
 }
