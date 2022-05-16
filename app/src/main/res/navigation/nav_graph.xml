@@ -37,7 +37,7 @@
         />
     <fragment
         android:id="@+id/add_new_route"
-        android:name="com.maru.todayroute.addnewroute.AddNewRoute"
+        android:name="com.maru.todayroute.addnewroute.AddNewRouteFragment"
         android:label="AddNewRoute"
         tools:layout="@layout/fragment_add_new_route"/>
 </navigation>
