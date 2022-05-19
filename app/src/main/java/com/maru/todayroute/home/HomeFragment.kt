@@ -12,11 +12,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.*
-import com.maru.todayroute.R
 import com.maru.todayroute.databinding.FragmentHomeBinding
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraAnimation
@@ -64,7 +64,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     private fun initLocationCallback() {
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
-                for (location in locationResult.locations){
+                for (location in locationResult.locations) {
                     Log.d("location", "${location.latitude} ${location.longitude}")
 
                     if (!isSameLocation(location.latitude, location.longitude)) {
@@ -76,7 +76,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                                     path.map = naverMap
                                 }
                             }
-
                         }
                         currentLocation = Pair(location.latitude, location.longitude)
                         moveMapCameraToCurrentLocation(currentLocation)
@@ -98,9 +97,11 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
     private fun initPathOverlay() {
         path = PathOverlay()
-        path.color = Color.YELLOW
-        path.outlineColor = Color.YELLOW
-        path.width = 20
+        with(path) {
+            color = Color.YELLOW
+            outlineColor = Color.YELLOW
+            width = 20
+        }
         geoCoordList.add(LatLng(currentLocation.first, currentLocation.second))
     }
 
@@ -125,13 +126,21 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun setButtonClickListener() {
-        with (binding.btnStartRecordRoute) {
+        with(binding.btnStartRecordRoute) {
             setOnClickListener {
                 if (isRecording) {
                     isRecording = false
                     this.text = "루트 기록 시작"
-                    stopLocationUpdates()
-                    moveToAddNewRouteFragment()
+                    if (isValidRecord()) {
+                        stopLocationUpdates()
+                        moveToAddNewRouteFragment()
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            "유효하지 않은 기록입니다. 다시 기록해주세요.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 } else {
                     isRecording = true
                     this.text = "루트 기록 종료"
@@ -146,6 +155,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             moveMapCameraToCurrentLocation(currentLocation)
         }
     }
+
+    private fun isValidRecord(): Boolean = geoCoordList.size >= 2
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -185,7 +196,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
     private fun showOverlayOnCurrentLocation(currentLocation: Pair<Double, Double>) {
         naverMap.locationOverlay.apply {
-            isVisible =  true
+            isVisible = true
             position = LatLng(currentLocation.first, currentLocation.second)
         }
     }
