@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.android.material.snackbar.Snackbar
 import com.maru.todayroute.MainActivity
 import com.maru.todayroute.R
 import com.maru.todayroute.databinding.FragmentAddNewRouteBinding
@@ -61,7 +62,7 @@ class AddNewRouteFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun setGroupSpinner() {
-        val groupsDummyData = arrayOf("성희", "은진", "카레모임")
+        val groupsDummyData = arrayOf("성희", "은진", "카레모임") // for prototype
         val spinnerAdapter = ArrayAdapter(
             requireContext(),
             android.R.layout.simple_spinner_dropdown_item,
@@ -90,7 +91,9 @@ class AddNewRouteFragment : Fragment(), OnMapReadyCallback {
                     .show()
             }
             R.id.menu_add_new_route_toolbar_save -> {
-                // TODO: 저장되었다는 메세지 띄우기
+                // TODO: 서버에 루트 저장
+                Snackbar.make(binding.root, "새로운 루트가 저장되었습니다.", Snackbar.LENGTH_SHORT).show()
+                // TODO: 루트 보관함으로 이동
             }
         }
         return super.onOptionsItemSelected(item)
