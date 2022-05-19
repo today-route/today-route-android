@@ -69,7 +69,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                     if (!isSameLocation(location.latitude, location.longitude)) {
                         geoCoordList.add(LatLng(location.latitude, location.longitude))
                         currentLocation = Pair(location.latitude, location.longitude)
-                        showOverlayOnCurrentLocation(currentLocation)
+                        moveMapCameraToCurrentLocation(Pair(location.latitude, location.longitude))
+                        showOverlayOnCurrentLocation(Pair(location.latitude, location.longitude))
                         if (2 <= geoCoordList.size) {
                             path.coords = geoCoordList
                             if (path.map == null) {
@@ -168,6 +169,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                 currentLocation = Pair(location.latitude, location.longitude)
 
                 showOverlayOnCurrentLocation(currentLocation)
+                setMapCameraZoom(16.0)
                 moveMapCameraToCurrentLocation(currentLocation)
             }
         }
@@ -187,7 +189,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                 currentLocation.second
             )
         ).animate(CameraAnimation.Easing)
-        setMapCameraZoom(16.0)
         naverMap.moveCamera(cameraUpdate)
     }
 
