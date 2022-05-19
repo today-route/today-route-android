@@ -39,7 +39,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     private var recordStartTime = -1L
 
     private lateinit var locationCallback: LocationCallback
-    private val geoCoordList = mutableListOf<LatLng>()
+    private lateinit var geoCoordList: MutableList<LatLng>
     private lateinit var path: PathOverlay
 
     override fun onCreateView(
@@ -102,7 +102,10 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             outlineColor = Color.YELLOW
             width = 20
         }
-        geoCoordList.add(LatLng(currentLocation.first, currentLocation.second))
+    }
+
+    private fun initGeoCoordList() {
+        geoCoordList = mutableListOf(LatLng(currentLocation.first, currentLocation.second))
     }
 
     @SuppressLint("MissingPermission")
@@ -146,6 +149,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                     this.text = "루트 기록 종료"
                     getLastLocation()
                     initPathOverlay()
+                    initGeoCoordList()
                     recordStartTime = System.currentTimeMillis()
                 }
             }
