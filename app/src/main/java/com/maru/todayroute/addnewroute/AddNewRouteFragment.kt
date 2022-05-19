@@ -5,7 +5,9 @@ import android.os.Bundle
 import android.view.*
 import android.widget.ArrayAdapter
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.maru.todayroute.MainActivity
 import com.maru.todayroute.R
 import com.maru.todayroute.databinding.FragmentAddNewRouteBinding
@@ -77,7 +79,15 @@ class AddNewRouteFragment : Fragment(), OnMapReadyCallback {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             android.R.id.home -> {
-                // TODO: 다이얼로그 띄우기
+                MaterialAlertDialogBuilder(requireContext())
+                    .setTitle("새 루트 생성을 취소하시겠습니까?")
+                    .setMessage("취소하실 경우 기록된 루트가 삭제됩니다.")
+                    .setNegativeButton("아니요") { _, _ ->
+                    }
+                    .setPositiveButton("네") { _, _ ->
+                        findNavController().popBackStack()
+                    }
+                    .show()
             }
             R.id.menu_add_new_route_toolbar_save -> {
                 // TODO: 저장되었다는 메세지 띄우기
