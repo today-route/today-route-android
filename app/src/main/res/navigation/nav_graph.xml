@@ -39,5 +39,9 @@
         android:id="@+id/add_new_route"
         android:name="com.maru.todayroute.addnewroute.AddNewRouteFragment"
         android:label="AddNewRoute"
-        tools:layout="@layout/fragment_add_new_route"/>
+        tools:layout="@layout/fragment_add_new_route">
+        <argument
+            android:name="geoCoordList"
+            app:argType="com.naver.maps.geometry.LatLng[]" />
+    </fragment>
 </navigation>

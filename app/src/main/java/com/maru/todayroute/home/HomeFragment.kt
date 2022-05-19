@@ -231,6 +231,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun moveToAddNewRouteFragment() {
-        findNavController().navigate(R.id.action_home_fragment_to_add_new_route)
+        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToAddNewRoute(geoCoordList.toTypedArray()))
     }
 }
