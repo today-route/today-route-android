@@ -48,6 +48,7 @@ class InitialProfileActivity : AppCompatActivity() {
                 inputStream = null
 
                 bitmap?.let {
+                    binding.ivProfileImage.clipToOutline = true
                     binding.ivProfileImage.setImageBitmap(bitmap)
                 } ?: let {
                     Log.d("bitmapp", "bitmap null")
