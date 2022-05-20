@@ -98,9 +98,9 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     private fun initPathOverlay() {
         path = PathOverlay()
         with(path) {
-            color = Color.YELLOW
-            outlineColor = Color.YELLOW
-            width = 20
+            color = Color.rgb(114, 149, 185)
+            outlineColor = Color.rgb(114, 149, 185)
+            width = 30
         }
     }
 

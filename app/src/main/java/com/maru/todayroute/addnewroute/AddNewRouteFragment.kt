@@ -121,8 +121,8 @@ class AddNewRouteFragment : Fragment(), OnMapReadyCallback {
 
     private fun drawRoute() {
         val path = PathOverlay()
-        path.color = Color.YELLOW
-        path.outlineColor = Color.YELLOW
+        path.color = Color.rgb(165, 188, 211)
+        path.outlineColor = Color.rgb(165, 188, 211)
         path.width = 20
         path.coords = geoCoordList
         path.map = naverMap
