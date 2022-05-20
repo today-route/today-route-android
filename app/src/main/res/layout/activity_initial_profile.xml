@@ -37,7 +37,7 @@
         app:layout_constraintVertical_bias="0.499" />
 
     <EditText
-        android:id="@+id/et_editText"
+        android:id="@+id/et_introduction"
         android:layout_width="300dp"
         android:layout_height="160dp"
         android:background="@drawable/bg_profile_input"
@@ -66,7 +66,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_editText"
+        app:layout_constraintTop_toBottomOf="@+id/et_introduction"
         app:layout_constraintVertical_bias="0.037" />
 
     <androidx.appcompat.widget.AppCompatButton
