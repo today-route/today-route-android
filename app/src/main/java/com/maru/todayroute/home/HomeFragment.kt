@@ -12,8 +12,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.*
 import com.maru.todayroute.databinding.FragmentHomeBinding
 import com.naver.maps.geometry.LatLng
@@ -37,7 +39,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     private var recordStartTime = -1L
 
     private lateinit var locationCallback: LocationCallback
-    private val geoCoordList = mutableListOf<LatLng>()
+    private lateinit var geoCoordList: MutableList<LatLng>
     private lateinit var path: PathOverlay
 
     override fun onCreateView(
@@ -51,9 +53,10 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewLifecycleOwner.lifecycle.addObserver(MapViewLifecycleObserver(binding.mvMap, savedInstanceState))
-        binding.mvMap.getMapAsync(this)
         if (hasNotLocationPermission()) {
             requestLocationPermission()
+        } else {
+            binding.mvMap.getMapAsync(this)
         }
         setButtonClickListener()
     }
@@ -61,19 +64,22 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     private fun initLocationCallback() {
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
-                for (location in locationResult.locations){
+                for (location in locationResult.locations) {
                     Log.d("location", "${location.latitude} ${location.longitude}")
 
                     if (!isSameLocation(location.latitude, location.longitude)) {
-                        geoCoordList.add(LatLng(location.latitude, location.longitude))
-                        currentLocation = Pair(location.latitude, location.longitude)
-                        showOverlayOnCurrentLocation(currentLocation)
-                        if (2 <= geoCoordList.size) {
-                            path.coords = geoCoordList
-                            if (path.map == null) {
-                                path.map = naverMap
+                        if (isRecording) {
+                            geoCoordList.add(LatLng(location.latitude, location.longitude))
+                            if (2 <= geoCoordList.size) {
+                                path.coords = geoCoordList
+                                if (path.map == null) {
+                                    path.map = naverMap
+                                }
                             }
                         }
+                        currentLocation = Pair(location.latitude, location.longitude)
+                        moveMapCameraToCurrentLocation(currentLocation)
+                        showOverlayOnCurrentLocation(currentLocation)
                     }
                 }
             }
@@ -89,13 +95,21 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         return preLatitude == targetLatitude && preLongitude == targetLongitude
     }
 
-    @SuppressLint("MissingPermission")
-    private fun startLocationUpdates() {
+    private fun initPathOverlay() {
         path = PathOverlay()
-        path.color = Color.YELLOW
-        path.width = 20
-        geoCoordList.add(LatLng(currentLocation.first, currentLocation.second))
+        with(path) {
+            color = Color.rgb(114, 149, 185)
+            outlineColor = Color.rgb(114, 149, 185)
+            width = 30
+        }
+    }
 
+    private fun initGeoCoordList() {
+        geoCoordList = mutableListOf(LatLng(currentLocation.first, currentLocation.second))
+    }
+
+    @SuppressLint("MissingPermission")
+    private fun setLocationChangedListener() {
         initLocationCallback()
         val locationRequest = LocationRequest.create().apply {
             interval = 5
@@ -115,17 +129,27 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun setButtonClickListener() {
-        with (binding.btnStartRecordRoute) {
+        with(binding.btnStartRecordRoute) {
             setOnClickListener {
                 if (isRecording) {
                     isRecording = false
                     this.text = "루트 기록 시작"
-                    stopLocationUpdates()
+                    if (isValidRecord()) {
+                        stopLocationUpdates()
+                        moveToAddNewRouteFragment()
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            "유효하지 않은 기록입니다. 다시 기록해주세요.",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 } else {
                     isRecording = true
                     this.text = "루트 기록 종료"
                     getLastLocation()
-                    startLocationUpdates()
+                    initPathOverlay()
+                    initGeoCoordList()
                     recordStartTime = System.currentTimeMillis()
                 }
             }
@@ -135,6 +159,8 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             moveMapCameraToCurrentLocation(currentLocation)
         }
     }
+
+    private fun isValidRecord(): Boolean = geoCoordList.size >= 2
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
@@ -154,6 +180,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     override fun onMapReady(naverMap: NaverMap) {
         this.naverMap = naverMap
         getLastLocation()
+        setLocationChangedListener()
     }
 
     @SuppressLint("MissingPermission")
@@ -165,6 +192,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                 currentLocation = Pair(location.latitude, location.longitude)
 
                 showOverlayOnCurrentLocation(currentLocation)
+                setMapCameraZoom(16.0)
                 moveMapCameraToCurrentLocation(currentLocation)
             }
         }
@@ -172,7 +200,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
     private fun showOverlayOnCurrentLocation(currentLocation: Pair<Double, Double>) {
         naverMap.locationOverlay.apply {
-            isVisible =  true
+            isVisible = true
             position = LatLng(currentLocation.first, currentLocation.second)
         }
     }
@@ -184,7 +212,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                 currentLocation.second
             )
         ).animate(CameraAnimation.Easing)
-        setMapCameraZoom(16.0)
         naverMap.moveCamera(cameraUpdate)
     }
 
@@ -211,7 +238,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                 permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false
                         || permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false
                 -> {
-                    getLastLocation()
+                    binding.mvMap.getMapAsync(this)
                 }
                 else -> {
 
@@ -225,5 +252,9 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                 Manifest.permission.ACCESS_COARSE_LOCATION
             )
         )
+    }
+
+    private fun moveToAddNewRouteFragment() {
+        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToAddNewRoute(geoCoordList.toTypedArray()))
     }
 }
