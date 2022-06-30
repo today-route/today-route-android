@@ -17,3 +17,4 @@ dependencyResolutionManagement {
 }
 rootProject.name = "TodayRoute"
 include(":app")
+include(":data")

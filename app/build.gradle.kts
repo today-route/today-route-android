@@ -59,4 +59,7 @@ dependencies {
 
     // Libraries
     implementation(Dep.Libraries.NAVER_MAPS)
+
+    // Module
+    implementation(project(":data"))
 }
