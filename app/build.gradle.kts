@@ -2,6 +2,8 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("androidx.navigation.safeargs.kotlin")
+    kotlin("kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -32,9 +34,13 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        dataBinding = true
     }
     kotlinOptions {
         jvmTarget = "1.8"
+    }
+    kapt {
+        correctErrorTypes = true
     }
 }
 
@@ -51,6 +57,10 @@ dependencies {
     // Navigation
     implementation(Dep.AndroidX.Navigation.NAVIGATION_FRAGMENT)
     implementation(Dep.AndroidX.Navigation.NAVIGATION_UI)
+
+    // Hilt
+    implementation(Dep.AndroidX.Hilt.HILT_ANDROID)
+    kapt(Dep.AndroidX.Hilt.HILT_ANDROID_COMPILER)
 
     // Test
     testImplementation(Dep.Test.JUNIT)

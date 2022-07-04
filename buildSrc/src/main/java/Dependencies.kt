@@ -35,6 +35,13 @@ object Dep {
             const val NAVIGATION_UI = "androidx.navigation:navigation-ui-ktx:${VERSION}"
             const val NAVIGATION_SAFE_ARGS_PLUGIN = "androidx.navigation:navigation-safe-args-gradle-plugin:${VERSION}"
         }
+
+        object Hilt {
+            private const val VERSION = "2.41"
+            const val HILT_PLUGIN = "com.google.dagger:hilt-android-gradle-plugin:${VERSION}"
+            const val HILT_ANDROID = "com.google.dagger:hilt-android:${VERSION}"
+            const val HILT_ANDROID_COMPILER = "com.google.dagger:hilt-android-compiler:${VERSION}"
+        }
     }
 
     object Test {

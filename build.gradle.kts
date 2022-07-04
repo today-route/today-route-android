@@ -4,6 +4,7 @@ buildscript {
     }
     dependencies {
         classpath(Dep.AndroidX.Navigation.NAVIGATION_SAFE_ARGS_PLUGIN)
+        classpath(Dep.AndroidX.Hilt.HILT_PLUGIN)
     }
 }
 
@@ -11,7 +12,7 @@ buildscript {
 plugins {
     id("com.android.application") version "7.1.1" apply false
     id("com.android.library") version "7.1.1" apply false
-    id ("org.jetbrains.kotlin.android") version "1.6.10" apply false
+    id("org.jetbrains.kotlin.android") version "1.6.10" apply false
 }
 
 tasks.register("clean", Delete::class) {
