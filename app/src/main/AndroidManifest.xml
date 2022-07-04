@@ -22,7 +22,7 @@
             android:value="4cbxzd2ci5"/>
 
         <activity
-            android:name=".initialprofile.InitialProfileActivity"
+            android:name="com.maru.todayroute.ui.initial.InitialProfileActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,7 +33,7 @@
         </activity>
 
         <activity
-            android:name=".MainActivity"
+            android:name=".ui.MainActivity"
             android:exported="true">
 
         </activity>

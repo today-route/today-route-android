@@ -1,4 +1,4 @@
-package com.maru.todayroute.home
+package com.maru.todayroute.util
 
 import android.os.Bundle
 import androidx.lifecycle.DefaultLifecycleObserver

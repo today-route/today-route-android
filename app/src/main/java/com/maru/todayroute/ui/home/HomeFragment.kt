@@ -1,4 +1,4 @@
-package com.maru.todayroute.home
+package com.maru.todayroute.ui.home
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -18,6 +18,7 @@ import androidx.core.app.ActivityCompat
 import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.*
 import com.maru.todayroute.databinding.FragmentHomeBinding
+import com.maru.todayroute.util.MapViewLifecycleObserver
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraAnimation
 import com.naver.maps.map.CameraUpdate

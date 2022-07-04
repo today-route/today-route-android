@@ -1,4 +1,4 @@
-package com.maru.todayroute.initialprofile
+package com.maru.todayroute.ui.initial
 
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -9,7 +9,7 @@ import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import com.maru.todayroute.MainActivity
+import com.maru.todayroute.ui.MainActivity
 import com.maru.todayroute.databinding.ActivityInitialProfileBinding
 import java.lang.Exception
 

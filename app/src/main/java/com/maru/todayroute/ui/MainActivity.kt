@@ -1,4 +1,4 @@
-package com.maru.todayroute
+package com.maru.todayroute.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -7,6 +7,7 @@ import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
+import com.maru.todayroute.R
 import com.maru.todayroute.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

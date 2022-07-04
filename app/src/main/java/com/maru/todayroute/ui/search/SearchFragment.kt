@@ -1,4 +1,4 @@
-package com.maru.todayroute.search
+package com.maru.todayroute.ui.search
 
 import android.os.Bundle
 import android.view.LayoutInflater

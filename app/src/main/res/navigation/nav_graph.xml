@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/home_fragment"
-        android:name="com.maru.todayroute.home.HomeFragment"
+        android:name="com.maru.todayroute.ui.home.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home"
         >
@@ -19,25 +19,25 @@
     </fragment>
     <fragment
         android:id="@+id/feed_fragment"
-        android:name="com.maru.todayroute.feed.FeedFragment"
+        android:name="com.maru.todayroute.ui.feed.FeedFragment"
         android:label="FeedFragment"
         tools:layout="@layout/fragment_feed"
         />
     <fragment
         android:id="@+id/my_page_fragment"
-        android:name="com.maru.todayroute.mypage.MyPageFragment"
+        android:name="com.maru.todayroute.ui.mypage.MyPageFragment"
         android:label="MyPage"
         tools:layout="@layout/fragment_my_page"
         />
     <fragment
         android:id="@+id/search_fragment"
-        android:name="com.maru.todayroute.search.SearchFragment"
+        android:name="com.maru.todayroute.ui.search.SearchFragment"
         android:label="SearchFragment"
         tools:layout="@layout/fragment_search"
         />
     <fragment
         android:id="@+id/add_new_route"
-        android:name="com.maru.todayroute.addnewroute.AddNewRouteFragment"
+        android:name="com.maru.todayroute.ui.addnewroute.AddNewRouteFragment"
         android:label="AddNewRoute"
         tools:layout="@layout/fragment_add_new_route">
         <argument

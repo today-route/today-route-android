@@ -1,4 +1,4 @@
-package com.maru.todayroute.addnewroute
+package com.maru.todayroute.ui.addnewroute
 
 import android.graphics.Color
 import android.os.Bundle
@@ -9,10 +9,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
-import com.maru.todayroute.MainActivity
+import com.maru.todayroute.ui.MainActivity
 import com.maru.todayroute.R
 import com.maru.todayroute.databinding.FragmentAddNewRouteBinding
-import com.maru.todayroute.home.MapViewLifecycleObserver
+import com.maru.todayroute.util.MapViewLifecycleObserver
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraAnimation
 import com.naver.maps.map.CameraUpdate
