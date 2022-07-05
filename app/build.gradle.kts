@@ -69,6 +69,7 @@ dependencies {
 
     // Libraries
     implementation(Dep.Libraries.NAVER_MAPS)
+    implementation(Dep.Libraries.KAKAO_LOGIN)
 
     // Module
     implementation(project(":data"))

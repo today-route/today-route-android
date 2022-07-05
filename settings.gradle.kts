@@ -13,6 +13,9 @@ dependencyResolutionManagement {
         maven {
             setUrl("https://naver.jfrog.io/artifactory/maven/")
         }
+        maven {
+            setUrl("https://devrepo.kakao.com/nexus/content/groups/public/")
+        }
     }
 }
 rootProject.name = "TodayRoute"

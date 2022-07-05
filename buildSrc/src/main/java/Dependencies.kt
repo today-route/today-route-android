@@ -16,6 +16,7 @@ object Versions {
 
     // Libraries
     const val NAVER_MAPS = "3.14.0"
+    const val KAKAO_LOGIN = "2.11.0"
 }
 
 object Dep {
@@ -52,6 +53,7 @@ object Dep {
 
     object Libraries {
         const val NAVER_MAPS = "com.naver.maps:map-sdk:${Versions.NAVER_MAPS}"
+        const val KAKAO_LOGIN = "com.kakao.sdk:v2-user:${Versions.KAKAO_LOGIN}"
     }
 }
 
