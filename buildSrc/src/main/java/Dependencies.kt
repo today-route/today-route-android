@@ -6,8 +6,11 @@ object Versions {
     const val MATERIAL = "1.6.1"
     const val CONSTRAINT_LAYOUT = "2.1.4"
     const val LEGACY_SUPPORT = "1.0.0"
-    const val LIFECYCLE = "2.4.1"
     const val LOCATION = "20.0.0"
+    const val SECRET_GRADLE = "2.0.1"
+
+    // Kotlin
+    const val COROUTINE = "1.3.9"
 
     // Test
     const val JUNIT = "4.13.2"
@@ -27,8 +30,15 @@ object Dep {
         const val MATERIAL = "com.google.android.material:material:${Versions.MATERIAL}"
         const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout:${Versions.CONSTRAINT_LAYOUT}"
         const val LEGACY_SUPPORT = "androidx.legacy:legacy-support-v4:${Versions.LEGACY_SUPPORT}"
-        const val LIFECYCLE = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.LIFECYCLE}"
         const val LOCATION = "com.google.android.gms:play-services-location:${Versions.LOCATION}"
+        const val SECRET_GRADLE_PLUGIN = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:${Versions.SECRET_GRADLE}"
+
+        object LIFECYCLE {
+            private const val VERSION = "2.4.1"
+            const val RUNTIME = "androidx.lifecycle:lifecycle-runtime-ktx:${VERSION}"
+            const val VIEW_MODEL = "androidx.lifecycle:lifecycle-viewmodel-ktx:${VERSION}"
+            const val LIVE_DATA = "androidx.lifecycle:lifecycle-livedata-ktx:${VERSION}"
+        }
 
         object Navigation {
             private const val VERSION = "2.4.2"
@@ -45,6 +55,10 @@ object Dep {
         }
     }
 
+    object Kotlin {
+        const val COROUTINE = "org.jetbrains.kotlinx:kotlinx-coroutines-android:${Versions.COROUTINE}"
+    }
+
     object Test {
         const val JUNIT = "junit:junit:${Versions.JUNIT}"
         const val EXT_JUNIT = "androidx.test.ext:junit:${Versions.EXT_JUNIT}"
@@ -54,6 +68,12 @@ object Dep {
     object Libraries {
         const val NAVER_MAPS = "com.naver.maps:map-sdk:${Versions.NAVER_MAPS}"
         const val KAKAO_LOGIN = "com.kakao.sdk:v2-user:${Versions.KAKAO_LOGIN}"
+
+        object Glide {
+            private const val VERSION = "4.13.2"
+            const val GLIDE = "com.github.bumptech.glide:glide:${VERSION}"
+            const val GLIDE_COMPILER = "com.github.bumptech.glide:compiler:${VERSION}"
+        }
     }
 }
 

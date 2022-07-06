@@ -5,7 +5,7 @@ buildscript {
     dependencies {
         classpath(Dep.AndroidX.Navigation.NAVIGATION_SAFE_ARGS_PLUGIN)
         classpath(Dep.AndroidX.Hilt.HILT_PLUGIN)
-        classpath("com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:2.0.1")
+        classpath(Dep.AndroidX.SECRET_GRADLE_PLUGIN)
     }
 }
 

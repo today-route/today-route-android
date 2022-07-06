@@ -52,8 +52,12 @@ dependencies {
     implementation(Dep.AndroidX.MATERIAL)
     implementation(Dep.AndroidX.CONSTRAINT_LAYOUT)
     implementation(Dep.AndroidX.LEGACY_SUPPORT)
-    implementation(Dep.AndroidX.LIFECYCLE)
     implementation(Dep.AndroidX.LOCATION)
+
+    // Lifecycle
+    implementation(Dep.AndroidX.LIFECYCLE.RUNTIME)
+    implementation(Dep.AndroidX.LIFECYCLE.VIEW_MODEL)
+    implementation(Dep.AndroidX.LIFECYCLE.LIVE_DATA)
 
     // Navigation
     implementation(Dep.AndroidX.Navigation.NAVIGATION_FRAGMENT)
@@ -63,6 +67,9 @@ dependencies {
     implementation(Dep.AndroidX.Hilt.HILT_ANDROID)
     kapt(Dep.AndroidX.Hilt.HILT_ANDROID_COMPILER)
 
+    // Kotlin
+    implementation(Dep.Kotlin.COROUTINE)
+
     // Test
     testImplementation(Dep.Test.JUNIT)
     androidTestImplementation(Dep.Test.EXT_JUNIT)
@@ -71,6 +78,10 @@ dependencies {
     // Libraries
     implementation(Dep.Libraries.NAVER_MAPS)
     implementation(Dep.Libraries.KAKAO_LOGIN)
+
+    // Glide
+    implementation(Dep.Libraries.Glide.GLIDE)
+    annotationProcessor(Dep.Libraries.Glide.GLIDE_COMPILER)
 
     // Module
     implementation(project(":data"))
