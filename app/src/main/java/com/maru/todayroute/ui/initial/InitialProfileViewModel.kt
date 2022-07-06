@@ -18,4 +18,8 @@ class InitialProfileViewModel : ViewModel() {
             }
         }
     }
+
+    fun bindingImage(imageUri: String) {
+        profileImageUrl.value = imageUri
+    }
 }
