@@ -2,26 +2,24 @@ package com.maru.todayroute.ui.initial
 
 import android.content.Intent
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.maru.todayroute.R
 import com.maru.todayroute.ui.MainActivity
 import com.maru.todayroute.databinding.ActivityInitialProfileBinding
+import com.maru.todayroute.util.BaseActivity
 import java.lang.Exception
 
 
-class InitialProfileActivity : AppCompatActivity() {
+class InitialProfileActivity :
+    BaseActivity<ActivityInitialProfileBinding>(R.layout.activity_initial_profile) {
 
-    //ActivityInitialProfileBinding은 xml파일을 class로 만들어놓은 것
-    private val binding: ActivityInitialProfileBinding by lazy {
-        ActivityInitialProfileBinding.inflate(
-            layoutInflater
-        )
-    }
+    private val viewModel by viewModels<InitialProfileViewModel>()
 
     private val requestGalleryLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
@@ -43,9 +41,11 @@ class InitialProfileActivity : AppCompatActivity() {
         }
     }
 
-        override fun onCreate(savedInstanceState: Bundle?) {
+    override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
+
+        binding.viewModel = viewModel
 
         binding.btnGalleryOpen.setOnClickListener {
             // 버튼을 누른경우 권한 물어봄

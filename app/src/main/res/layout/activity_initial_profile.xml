@@ -1,86 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ui.initial.InitialProfileActivity">
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.maru.todayroute.ui.initial.InitialProfileViewModel" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".ui.initial.InitialProfileActivity">
 
 
-    <ImageView
-        android:id="@+id/iv_profile_image"
-        android:layout_width="156dp"
-        android:layout_height="168dp"
-        android:background="@drawable/bg_profile_input"
-        android:scaleType="centerCrop"
-        app:layout_constraintBottom_toTopOf="@+id/et_nickname"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.751" />
+        <ImageView
+            android:id="@+id/iv_profile_image"
+            android:layout_width="156dp"
+            android:layout_height="168dp"
+            android:background="@drawable/bg_profile_input"
+            android:scaleType="centerCrop"
+            app:imageUrl="@{viewModel.profileImageUrl}"
+            app:layout_constraintBottom_toTopOf="@+id/et_nickname"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.751" />
 
-    <EditText
-        android:id="@+id/et_nickname"
-        android:layout_width="300dp"
-        android:layout_height="40dp"
-        android:background="@drawable/bg_profile_input"
-        android:hint=" 닉네임(필수)"
-        android:paddingHorizontal="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.499" />
+        <EditText
+            android:id="@+id/et_nickname"
+            android:layout_width="300dp"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_profile_input"
+            android:hint=" 닉네임(필수)"
+            android:paddingHorizontal="8dp"
+            android:text="@={viewModel.nickname}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.499" />
 
-    <EditText
-        android:id="@+id/et_introduction"
-        android:layout_width="300dp"
-        android:layout_height="160dp"
-        android:background="@drawable/bg_profile_input"
-        android:gravity="top"
-        android:hint=" 자신을 한줄로 설명해주세요"
-        android:paddingHorizontal="8dp"
-        android:paddingTop="8dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.495"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_nickname"
-        app:layout_constraintVertical_bias="0.118" />
+        <EditText
+            android:id="@+id/et_introduction"
+            android:layout_width="300dp"
+            android:layout_height="160dp"
+            android:background="@drawable/bg_profile_input"
+            android:gravity="top"
+            android:hint=" 자신을 한줄로 설명해주세요"
+            android:paddingHorizontal="8dp"
+            android:paddingTop="8dp"
+            android:text="@={viewModel.introduction}"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.495"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_nickname"
+            app:layout_constraintVertical_bias="0.118" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_complete"
-        android:layout_width="100dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:backgroundTint="#7295B9"
-        android:padding="14dp"
-        android:text=" 완 료 "
-        android:textColor="@color/white"
-        android:textSize="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_introduction"
-        app:layout_constraintVertical_bias="0.037" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_complete"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:backgroundTint="#7295B9"
+            android:padding="14dp"
+            android:text=" 완 료 "
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/et_introduction"
+            app:layout_constraintVertical_bias="0.037" />
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_galleryOpen"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:elevation="100dp"
-        android:background="@drawable/bg_gallery_button"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.683"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.386" />
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_galleryOpen"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/bg_gallery_button"
+            android:elevation="100dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.683"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.386" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
