@@ -1,6 +1,8 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
+    kotlin("kapt")
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -30,6 +32,9 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    kapt {
+        correctErrorTypes = true
+    }
 }
 
 dependencies {
@@ -37,4 +42,20 @@ dependencies {
     testImplementation(Dep.Test.JUNIT)
     androidTestImplementation(Dep.Test.EXT_JUNIT)
     androidTestImplementation(Dep.Test.ESPRESSO)
+
+    // Hilt
+    implementation(Dep.AndroidX.Hilt.HILT_ANDROID)
+    kapt(Dep.AndroidX.Hilt.HILT_ANDROID_COMPILER)
+
+    // Retrofit
+    implementation(Dep.Libraries.Retrofit.RETROFIT)
+    implementation(Dep.Libraries.Retrofit.RETROFIT_CONVERTER)
+
+    // Moshi
+    implementation(Dep.Libraries.Moshi.MOSHI)
+    kapt(Dep.Libraries.Moshi.MOSHI_KOTLIN_CODEGEN)
+
+    // OkHttp3
+    implementation(Dep.Libraries.OkHttp3.OK_HTTP)
+    implementation(Dep.Libraries.OkHttp3.LOGGING_INTERCEPTOR)
 }

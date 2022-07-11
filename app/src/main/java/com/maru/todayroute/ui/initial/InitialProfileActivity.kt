@@ -12,9 +12,10 @@ import com.maru.todayroute.R
 import com.maru.todayroute.ui.MainActivity
 import com.maru.todayroute.databinding.ActivityInitialProfileBinding
 import com.maru.todayroute.util.BaseActivity
+import dagger.hilt.android.AndroidEntryPoint
 import java.lang.Exception
 
-
+@AndroidEntryPoint
 class InitialProfileActivity :
     BaseActivity<ActivityInitialProfileBinding>(R.layout.activity_initial_profile) {
 

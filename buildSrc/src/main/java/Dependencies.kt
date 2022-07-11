@@ -74,6 +74,24 @@ object Dep {
             const val GLIDE = "com.github.bumptech.glide:glide:${VERSION}"
             const val GLIDE_COMPILER = "com.github.bumptech.glide:compiler:${VERSION}"
         }
+
+        object Retrofit {
+            private const val VERSION = "2.9.0"
+            const val RETROFIT = "com.squareup.retrofit2:retrofit:${VERSION}"
+            const val RETROFIT_CONVERTER = "com.squareup.retrofit2:converter-moshi:${VERSION}"
+        }
+
+        object Moshi {
+            private const val VERSION = "1.13.0"
+            const val MOSHI = "com.squareup.moshi:moshi:${VERSION}"
+            const val MOSHI_KOTLIN_CODEGEN = "com.squareup.moshi:moshi-kotlin-codegen:${VERSION}"
+        }
+
+        object OkHttp3 {
+            private const val VERSION = "4.9.3"
+            const val OK_HTTP = "com.squareup.okhttp3:okhttp:${VERSION}"
+            const val LOGGING_INTERCEPTOR = "com.squareup.okhttp3:logging-interceptor:${VERSION}"
+        }
     }
 }
 

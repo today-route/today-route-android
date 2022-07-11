@@ -3,8 +3,14 @@ package com.maru.todayroute.ui.initial
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.kakao.sdk.user.UserApiClient
+import com.maru.data.repository.UserRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class InitialProfileViewModel : ViewModel() {
+@HiltViewModel
+class InitialProfileViewModel @Inject constructor (
+    private val userRepository: UserRepository
+) : ViewModel() {
 
     val profileImageUrl = MutableLiveData<String>()
     val nickname = MutableLiveData<String>()
