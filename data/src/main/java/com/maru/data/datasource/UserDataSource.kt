@@ -10,6 +10,6 @@ interface UserDataSource {
     }
 
     interface Remote {
-        suspend fun addNewUser(user: User)
+        suspend fun addNewUser(user: User): Result<User>
     }
 }

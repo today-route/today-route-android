@@ -19,7 +19,7 @@ class UserRepository @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override suspend fun addNewUser(user: User) {
-        TODO("Not yet implemented")
+    override suspend fun addNewUser(user: User): Result<User> {
+        return userRemoteDataSource.addNewUser(user)
     }
 }

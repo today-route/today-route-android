@@ -19,7 +19,11 @@ object RetrofitInstance {
         Retrofit.Builder()
             .addConverterFactory(MoshiConverterFactory.create())
             .client(okHttpClient)
-            .baseUrl("") // TODO: 오늘의 길 서버 url 입력
+            .baseUrl("http://localhost:4000/") // TODO: 서버 배포하면 오늘의 길 서버 url 입력
             .build()
+    }
+
+    val service: RetrofitService by lazy {
+        retrofit.create(RetrofitService::class.java)
     }
 }

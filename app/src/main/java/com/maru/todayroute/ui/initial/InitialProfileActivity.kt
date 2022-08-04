@@ -8,6 +8,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.maru.data.model.User
 import com.maru.todayroute.R
 import com.maru.todayroute.ui.MainActivity
 import com.maru.todayroute.databinding.ActivityInitialProfileBinding
@@ -62,7 +63,7 @@ class InitialProfileActivity :
         }
 
         binding.btnComplete.setOnClickListener {
-            // TODO: 서버에 새로운 User POST 요청
+            viewModel.addNewUser()
             val intent = Intent(this, MainActivity::class.java)
             startActivity(intent)
             finish()
