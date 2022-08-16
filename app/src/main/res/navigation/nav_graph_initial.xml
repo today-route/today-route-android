@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph_initial"
+    app:startDestination="@id/signInFragment">
+
+    <fragment
+        android:id="@+id/signInFragment"
+        android:name="com.maru.todayroute.ui.initial.SignInFragment"
+        android:label="SignInFragment"
+        tools:layout="@layout/fragment_sign_in">
+        <action
+            android:id="@+id/action_signInFragment_to_initialUserInfoFragment"
+            app:destination="@id/initialUserInfoFragment"
+            app:popUpTo="@id/signInFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/initialUserInfoFragment"
+        android:name="com.maru.todayroute.ui.initial.InitialUserInfoFragment"
+        android:label="InitialUserInfoFragment"
+        tools:layout="@layout/fragment_initial_user_info">
+        <action
+            android:id="@+id/action_initialUserInfoFragment_to_connectCoupleFragment"
+            app:destination="@id/connectCoupleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/connectCoupleFragment"
+        android:name="com.maru.todayroute.ui.initial.ConnectCoupleFragment"
+        android:label="ConnectCoupleFragment"
+        tools:layout="@layout/fragment_connect_couple">
+        <action
+            android:id="@+id/action_connectCoupleFragment_to_initialCoupleInfoFragment"
+            app:destination="@id/initialCoupleInfoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/initialCoupleInfoFragment"
+        android:name="com.maru.todayroute.ui.initial.InitialCoupleInfoFragment"
+        android:label="InitialCoupleInfoFragment"
+        tools:layout="@layout/fragment_initial_couple_info"/>
+</navigation>
