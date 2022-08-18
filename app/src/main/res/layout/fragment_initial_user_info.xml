@@ -15,10 +15,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="96dp"
+            android:layout_marginTop="132dp"
             android:text="성별과 생년월일을\n입력해주세요"
             android:textColor="@color/tmp_black"
-            android:textSize="32sp"
+            android:textSize="28sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -30,7 +30,7 @@
             android:layout_marginTop="84dp"
             android:text="성별"
             android:textColor="@color/tmp_light_gray"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@id/tv_input_user_info"
             app:layout_constraintTop_toBottomOf="@id/tv_input_user_info" />
@@ -75,7 +75,7 @@
             android:layout_marginTop="36dp"
             android:text="생년월일"
             android:textColor="@color/tmp_light_gray"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@id/tv_input_user_info"
             app:layout_constraintTop_toBottomOf="@id/rg_gender" />

@@ -26,10 +26,10 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="96dp"
-            android:text="같이 사용할 연인을\n초대해주세요."
+            android:layout_marginTop="132dp"
+            android:text="함께 사용할 연인을\n초대해주세요."
             android:textColor="@color/tmp_black"
-            android:textSize="32sp"
+            android:textSize="28sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -41,7 +41,7 @@
             android:layout_marginTop="84dp"
             android:text="초대링크"
             android:textColor="@color/tmp_light_gray"
-            android:textSize="24sp"
+            android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@id/tv_invite_your_couple"
             app:layout_constraintTop_toBottomOf="@id/tv_invite_your_couple" />
