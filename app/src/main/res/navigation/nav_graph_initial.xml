@@ -22,21 +22,21 @@
         android:label="InitialUserInfoFragment"
         tools:layout="@layout/fragment_initial_user_info">
         <action
-            android:id="@+id/action_initialUserInfoFragment_to_connectCoupleFragment"
-            app:destination="@id/connectCoupleFragment" />
+            android:id="@+id/action_initialUserInfoFragment_to_initialCoupleInfoFragment"
+            app:destination="@id/initialCoupleInfoFragment" />
     </fragment>
     <fragment
         android:id="@+id/connectCoupleFragment"
         android:name="com.maru.todayroute.ui.initial.ConnectCoupleFragment"
         android:label="ConnectCoupleFragment"
-        tools:layout="@layout/fragment_connect_couple">
-        <action
-            android:id="@+id/action_connectCoupleFragment_to_initialCoupleInfoFragment"
-            app:destination="@id/initialCoupleInfoFragment" />
-    </fragment>
+        tools:layout="@layout/fragment_connect_couple"/>
     <fragment
         android:id="@+id/initialCoupleInfoFragment"
         android:name="com.maru.todayroute.ui.initial.InitialCoupleInfoFragment"
         android:label="InitialCoupleInfoFragment"
-        tools:layout="@layout/fragment_initial_couple_info"/>
+        tools:layout="@layout/fragment_initial_couple_info">
+        <action
+            android:id="@+id/action_initialCoupleInfoFragment_to_connectCoupleFragment"
+            app:destination="@id/connectCoupleFragment" />
+    </fragment>
 </navigation>

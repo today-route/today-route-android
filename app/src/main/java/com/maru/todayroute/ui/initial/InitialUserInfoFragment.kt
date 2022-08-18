@@ -13,7 +13,7 @@ class InitialUserInfoFragment : BaseFragment<FragmentInitialUserInfoBinding>(R.l
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnNext.setOnClickListener {
-            findNavController().navigate(R.id.action_initialUserInfoFragment_to_connectCoupleFragment)
+            findNavController().navigate(R.id.action_initialUserInfoFragment_to_initialCoupleInfoFragment)
         }
     }
 }

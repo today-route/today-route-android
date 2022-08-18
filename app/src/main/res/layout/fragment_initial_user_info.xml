@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="96dp"
-            android:text="회원님의 정보를 \n입력해주세요"
+            android:text="성별과 생년월일을\n입력해주세요"
             android:textColor="@color/tmp_black"
             android:textSize="32sp"
             android:textStyle="bold"
@@ -24,40 +24,16 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tv_user_name"
+            android:id="@+id/tv_user_gender"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="84dp"
-            android:text="이름"
+            android:text="성별"
             android:textColor="@color/tmp_light_gray"
             android:textSize="24sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="@id/tv_input_user_info"
             app:layout_constraintTop_toBottomOf="@id/tv_input_user_info" />
-
-        <EditText
-            android:id="@+id/et_user_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="16dp"
-            android:layout_marginTop="16dp"
-            android:textColor="@color/tmp_black"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_user_name" />
-
-        <TextView
-            android:id="@+id/tv_user_gender"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="성별"
-            android:textColor="@color/tmp_light_gray"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@id/tv_user_name"
-            app:layout_constraintTop_toBottomOf="@id/et_user_name" />
 
         <RadioGroup
             android:id="@+id/rg_gender"

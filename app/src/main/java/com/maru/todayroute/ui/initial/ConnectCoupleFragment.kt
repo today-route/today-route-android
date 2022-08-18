@@ -11,9 +11,5 @@ class ConnectCoupleFragment : BaseFragment<FragmentConnectCoupleBinding>(R.layou
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        binding.btnNext.setOnClickListener {
-            findNavController().navigate(R.id.action_connectCoupleFragment_to_initialCoupleInfoFragment)
-        }
     }
 }
