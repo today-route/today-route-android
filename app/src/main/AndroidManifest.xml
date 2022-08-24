@@ -50,11 +50,6 @@
         </activity>
 
         <activity
-            android:name="com.maru.todayroute.ui.initial.InitialProfileActivity"
-            android:exported="false">
-
-        </activity>
-        <activity
             android:name=".ui.MainActivity"
             android:exported="true" />
     </application>
