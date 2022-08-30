@@ -13,7 +13,7 @@ class ConnectCoupleFragment : BaseFragment<FragmentConnectCoupleBinding>(R.layou
         super.onViewCreated(view, savedInstanceState)
 
         binding.btnInviteCouple.setOnClickListener {
-            findNavController().navigate(R.id.action_connectCoupleFragment_to_initialCoupleInfoFragment)
+            findNavController().navigate(R.id.action_connectCoupleFragment_to_inviteCoupleFragment)
         }
 
         binding.btnInputInviteCode.setOnClickListener {
