@@ -1,11 +1,13 @@
 buildscript {
     repositories {
         google()
+        mavenCentral()
     }
     dependencies {
         classpath(Dep.AndroidX.Navigation.NAVIGATION_SAFE_ARGS_PLUGIN)
         classpath(Dep.AndroidX.Hilt.HILT_PLUGIN)
         classpath(Dep.AndroidX.SECRET_GRADLE_PLUGIN)
+        classpath(Dep.AndroidX.GMS)
     }
 }
 

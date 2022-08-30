@@ -8,6 +8,8 @@ object Versions {
     const val LEGACY_SUPPORT = "1.0.0"
     const val LOCATION = "20.0.0"
     const val SECRET_GRADLE = "2.0.1"
+    const val GMS = "4.3.13"
+    const val BOM = "30.3.2"
 
     // Kotlin
     const val COROUTINE = "1.3.9"
@@ -19,7 +21,7 @@ object Versions {
 
     // Libraries
     const val NAVER_MAPS = "3.14.0"
-    const val KAKAO_LOGIN = "2.11.0"
+    const val KAKAO = "2.11.0"
 }
 
 object Dep {
@@ -31,6 +33,10 @@ object Dep {
         const val CONSTRAINT_LAYOUT = "androidx.constraintlayout:constraintlayout:${Versions.CONSTRAINT_LAYOUT}"
         const val LEGACY_SUPPORT = "androidx.legacy:legacy-support-v4:${Versions.LEGACY_SUPPORT}"
         const val LOCATION = "com.google.android.gms:play-services-location:${Versions.LOCATION}"
+        const val GMS = "com.google.gms:google-services:${Versions.GMS}"
+        const val BOM = "com.google.firebase:firebase-bom:${Versions.BOM}"
+        const val DYNAMIC_LINK = "com.google.firebase:firebase-dynamic-links-ktx"
+        const val ANALYTICS = "com.google.firebase:firebase-analytics-ktx"
         const val SECRET_GRADLE_PLUGIN = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:${Versions.SECRET_GRADLE}"
 
         object LIFECYCLE {
@@ -67,7 +73,8 @@ object Dep {
 
     object Libraries {
         const val NAVER_MAPS = "com.naver.maps:map-sdk:${Versions.NAVER_MAPS}"
-        const val KAKAO_LOGIN = "com.kakao.sdk:v2-user:${Versions.KAKAO_LOGIN}"
+        const val KAKAO_LOGIN = "com.kakao.sdk:v2-user:${Versions.KAKAO}"
+        const val KAKAO_SHARE = "com.kakao.sdk:v2-share:${Versions.KAKAO}"
 
         object Glide {
             private const val VERSION = "4.13.2"

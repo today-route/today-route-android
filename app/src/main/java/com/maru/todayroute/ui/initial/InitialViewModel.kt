@@ -17,6 +17,7 @@ class InitialViewModel @Inject constructor (
 
     private lateinit var email: String
     private lateinit var key: String
+    private var inviteCode: String? = null
     val profileImageUrl = MutableLiveData<String>()
     val nickname = MutableLiveData<String>()
     val introduction = MutableLiveData<String>()
@@ -36,7 +37,10 @@ class InitialViewModel @Inject constructor (
                 }
             }
         }
+    }
 
+    fun setInviteCode(inviteCode: String?) {
+        this.inviteCode = inviteCode
     }
 
     fun bindingImage(imageUri: String) {

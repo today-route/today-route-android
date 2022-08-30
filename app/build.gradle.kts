@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("androidx.navigation.safeargs.kotlin")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
+    id("com.google.gms.google-services")
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
 }
@@ -53,6 +54,9 @@ dependencies {
     implementation(Dep.AndroidX.CONSTRAINT_LAYOUT)
     implementation(Dep.AndroidX.LEGACY_SUPPORT)
     implementation(Dep.AndroidX.LOCATION)
+    implementation(platform(Dep.AndroidX.BOM))
+    implementation(Dep.AndroidX.DYNAMIC_LINK)
+    implementation(Dep.AndroidX.ANALYTICS)
 
     // Lifecycle
     implementation(Dep.AndroidX.LIFECYCLE.RUNTIME)
@@ -78,6 +82,7 @@ dependencies {
     // Libraries
     implementation(Dep.Libraries.NAVER_MAPS)
     implementation(Dep.Libraries.KAKAO_LOGIN)
+    implementation(Dep.Libraries.KAKAO_SHARE)
 
     // Glide
     implementation(Dep.Libraries.Glide.GLIDE)
