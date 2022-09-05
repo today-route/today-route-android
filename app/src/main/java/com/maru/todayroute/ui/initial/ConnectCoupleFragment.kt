@@ -12,12 +12,22 @@ class ConnectCoupleFragment : BaseFragment<FragmentConnectCoupleBinding>(R.layou
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        setButtonClickListener()
+    }
+
+    private fun setButtonClickListener() {
+        val navController = findNavController()
+
         binding.btnInviteCouple.setOnClickListener {
-            findNavController().navigate(R.id.action_connectCoupleFragment_to_inviteCoupleFragment)
+            navController.navigate(R.id.action_connectCoupleFragment_to_inviteCoupleFragment)
         }
 
         binding.btnInputInviteCode.setOnClickListener {
-            findNavController().navigate(R.id.action_connectCoupleFragment_to_inputInviteCodeFragment)
+            navController.navigate(R.id.action_connectCoupleFragment_to_inputInviteCodeFragment)
+        }
+
+        binding.btnBack.setOnClickListener {
+            navController.popBackStack()
         }
     }
 }

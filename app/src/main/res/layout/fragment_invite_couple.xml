@@ -53,9 +53,9 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_invite_couple"
             android:layout_width="0dp"
-            android:layout_height="56dp"
+            android:layout_height="52dp"
             android:layout_marginHorizontal="16dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="4dp"
             android:backgroundTint="@color/tmp_coral"
             android:elevation="10dp"
             android:text="초대코드 보내기"
@@ -69,7 +69,7 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_start"
             android:layout_width="0dp"
-            android:layout_height="56dp"
+            android:layout_height="54dp"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="16dp"
             android:backgroundTint="@color/tmp_coral"
