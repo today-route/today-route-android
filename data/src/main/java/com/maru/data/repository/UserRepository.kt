@@ -4,6 +4,8 @@ import com.maru.data.datasource.UserDataSource
 import com.maru.data.datasource.UserLocalDataSource
 import com.maru.data.datasource.UserRemoteDataSource
 import com.maru.data.model.User
+import com.maru.data.network.RegisterUserRequest
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class UserRepository @Inject constructor(
@@ -11,15 +13,15 @@ class UserRepository @Inject constructor(
     private val userRemoteDataSource: UserRemoteDataSource
 ) : UserDataSource.Local, UserDataSource.Remote {
 
-    override suspend fun signInUser(user: User) {
-        TODO("Not yet implemented")
+    override suspend fun saveSignInUserId(id: Int) {
+        userLocalDataSource.saveSignInUserId(id)
     }
 
-    override suspend fun getSignedInUser(): User {
-        TODO("Not yet implemented")
-    }
+    override suspend fun getSignedInUserId(): Flow<Int> =
+        userLocalDataSource.getSignedInUserId()
 
-    override suspend fun addNewUser(user: User) {
-        TODO("Not yet implemented")
-    }
+
+    override suspend fun registerNewUser(user: RegisterUserRequest): Result<User> =
+        userRemoteDataSource.registerNewUser(user)
+
 }

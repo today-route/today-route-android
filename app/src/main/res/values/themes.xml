@@ -2,15 +2,22 @@
     <!-- Base application theme. -->
     <style name="Theme.TodayRoute" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
+        <item name="colorPrimary">@color/tmp_coral</item>
+        <item name="colorPrimaryVariant">@color/tmp_coral</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_700</item>
-        <item name="colorOnSecondary">@color/black</item>
+        <item name="colorSecondary">@color/tmp_coral</item>
+        <item name="colorSecondaryVariant">@color/tmp_coral</item>
+        <item name="colorOnSecondary">@color/tmp_coral</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="android:fontFamily">@font/font</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
+
+    <style name="CustomRadioButton" parent="Theme.AppCompat.Light">
+        <item name="colorAccent">@color/tmp_coral</item>
+        <item name="colorControlNormal">@color/tmp_light_gray</item>
     </style>
 </resources>

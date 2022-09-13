@@ -10,18 +10,6 @@
         android:name="com.maru.todayroute.ui.home.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home"
-        >
-        <action
-            android:id="@+id/action_home_fragment_to_add_new_route"
-            app:destination="@id/add_new_route"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim" />
-    </fragment>
-    <fragment
-        android:id="@+id/feed_fragment"
-        android:name="com.maru.todayroute.ui.feed.FeedFragment"
-        android:label="FeedFragment"
-        tools:layout="@layout/fragment_feed"
         />
     <fragment
         android:id="@+id/my_page_fragment"
@@ -29,19 +17,4 @@
         android:label="MyPage"
         tools:layout="@layout/fragment_my_page"
         />
-    <fragment
-        android:id="@+id/search_fragment"
-        android:name="com.maru.todayroute.ui.search.SearchFragment"
-        android:label="SearchFragment"
-        tools:layout="@layout/fragment_search"
-        />
-    <fragment
-        android:id="@+id/add_new_route"
-        android:name="com.maru.todayroute.ui.addnewroute.AddNewRouteFragment"
-        android:label="AddNewRoute"
-        tools:layout="@layout/fragment_add_new_route">
-        <argument
-            android:name="geoCoordList"
-            app:argType="com.naver.maps.geometry.LatLng[]" />
-    </fragment>
 </navigation>

@@ -29,9 +29,9 @@ class MainActivity : AppCompatActivity() {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.add_new_route -> {
-                    binding.bnvMain.isVisible = false
-                }
+//                R.id.add_new_route -> {
+//                    binding.bnvMain.isVisible = false
+//                }
                 else -> {
                     binding.bnvMain.isVisible = true
                 }

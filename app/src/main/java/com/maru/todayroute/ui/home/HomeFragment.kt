@@ -114,7 +114,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         initLocationCallback()
         val locationRequest = LocationRequest.create().apply {
             interval = 5
-            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+            priority = Priority.PRIORITY_HIGH_ACCURACY
             maxWaitTime = 10
         }
 
@@ -256,6 +256,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun moveToAddNewRouteFragment() {
-        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToAddNewRoute(geoCoordList.toTypedArray()))
+//        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToAddNewRoute(geoCoordList.toTypedArray()))
     }
 }

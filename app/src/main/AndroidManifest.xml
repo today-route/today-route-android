@@ -9,14 +9,19 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
 
+    <queries>
+        <package android:name="com.kakao.talk" />
+    </queries>
+
     <application
         android:name=".TodayRouteApplication"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.TodayRoute">
+        android:theme="@style/Theme.TodayRoute"
+        android:usesCleartextTraffic="true">
 
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
@@ -39,23 +44,34 @@
         </activity>
 
         <activity
-            android:name=".ui.initial.SignInActivity"
+            android:name=".ui.initial.InitialActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="todayroute.page.link"
+                    android:path="/invite"
+                    android:scheme="https"
+                    />
+
+                <data
+                    android:host="todayroute.page.link"
+                    android:path="/invite"
+                    android:scheme="http"
+                    />
             </intent-filter>
         </activity>
 
         <activity
-            android:name="com.maru.todayroute.ui.initial.InitialProfileActivity"
-            android:exported="false">
-
-        </activity>
-        <activity
             android:name=".ui.MainActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
     </application>
 
 </manifest>

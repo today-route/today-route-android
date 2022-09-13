@@ -39,6 +39,7 @@ android {
 
 dependencies {
     implementation(Dep.AndroidX.CORE)
+    implementation(Dep.AndroidX.DATA_STORE)
     testImplementation(Dep.Test.JUNIT)
     androidTestImplementation(Dep.Test.EXT_JUNIT)
     androidTestImplementation(Dep.Test.ESPRESSO)
