@@ -1,7 +1,6 @@
 package com.maru.todayroute.ui.initial
 
 import android.os.Bundle
-import android.system.Os.accept
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -13,10 +12,10 @@ class InputInviteCodeFragment : BaseFragment<FragmentInputInviteCodeBinding>(R.l
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setButtonClickListener()
+        setupButtonClickListener()
     }
 
-    private fun setButtonClickListener() {
+    private fun setupButtonClickListener() {
         binding.btnBack.setOnClickListener {
             showAlertDialog()
         }

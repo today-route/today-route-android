@@ -10,6 +10,9 @@ object Versions {
     const val SECRET_GRADLE = "2.0.1"
     const val GMS = "4.3.13"
     const val BOM = "30.3.2"
+    const val DATA_STORE = "1.0.0"
+    const val ACTIVITY = "1.5.1"
+    const val FRAGMENT = "1.5.2"
 
     // Kotlin
     const val COROUTINE = "1.3.9"
@@ -38,6 +41,9 @@ object Dep {
         const val DYNAMIC_LINK = "com.google.firebase:firebase-dynamic-links-ktx"
         const val ANALYTICS = "com.google.firebase:firebase-analytics-ktx"
         const val SECRET_GRADLE_PLUGIN = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:${Versions.SECRET_GRADLE}"
+        const val DATA_STORE = "androidx.datastore:datastore-preferences:${Versions.DATA_STORE}"
+        const val ACTIVITY = "androidx.activity:activity-ktx:${Versions.ACTIVITY}"
+        const val FRAGMENT = "androidx.fragment:fragment-ktx:${Versions.FRAGMENT}"
 
         object LIFECYCLE {
             private const val VERSION = "2.4.1"

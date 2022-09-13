@@ -106,7 +106,7 @@
             android:layout_marginBottom="16dp"
             android:backgroundTint="@color/tmp_coral"
             android:elevation="10dp"
-            android:text="다음"
+            android:text="가입 완료"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold"

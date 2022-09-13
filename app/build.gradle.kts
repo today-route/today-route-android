@@ -57,6 +57,8 @@ dependencies {
     implementation(platform(Dep.AndroidX.BOM))
     implementation(Dep.AndroidX.DYNAMIC_LINK)
     implementation(Dep.AndroidX.ANALYTICS)
+    implementation(Dep.AndroidX.ACTIVITY)
+    implementation(Dep.AndroidX.FRAGMENT)
 
     // Lifecycle
     implementation(Dep.AndroidX.LIFECYCLE.RUNTIME)

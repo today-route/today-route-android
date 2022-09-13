@@ -7,5 +7,5 @@ import retrofit2.http.POST
 interface RetrofitService {
 
     @POST("user/register/")
-    suspend fun postNewUser(@Body user: User): User
+    suspend fun registerNewUser(@Body user: RegisterUserRequest): User
 }

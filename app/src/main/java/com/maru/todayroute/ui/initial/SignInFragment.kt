@@ -2,32 +2,41 @@ package com.maru.todayroute.ui.initial
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
 import com.kakao.sdk.common.model.ClientErrorCause
-import com.kakao.sdk.common.model.KakaoSdkError
 import com.kakao.sdk.user.UserApiClient
 import com.maru.todayroute.R
 import com.maru.todayroute.databinding.FragmentSignInBinding
 import com.maru.todayroute.util.BaseFragment
+import kotlinx.coroutines.launch
 
 class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sign_in) {
+
+    private val viewModel by activityViewModels<InitialViewModel>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        if (AuthApiClient.instance.hasToken()) {
-            UserApiClient.instance.accessTokenInfo { _, error ->
-                if (!(error != null && error is KakaoSdkError && error.isInvalidTokenError())) {
-                    // TODO: '초기 정보 입력'여부 확인 후 InitialProfileActivity로 갈 건지, MainActivity로 갈 건지 결정
-                }
-            }
-        }
 
+        setUpObserver()
+        lifecycleScope.launch {
+            viewModel.checkUserInfo()
+        }
         binding.btnKakaoLogin.setOnClickListener {
             signIn()
+        }
+    }
+
+    private fun setUpObserver() {
+        viewModel.moveToConnectCoupleFragment.observe(viewLifecycleOwner) {
+            findNavController().navigate(R.id.action_signInFragment_to_connectCoupleFragment)
+        }
+        viewModel.moveToInitialUserInfoFragment.observe(viewLifecycleOwner) {
+            findNavController().navigate(R.id.action_signInFragment_to_initialUserInfoFragment)
         }
     }
 
@@ -49,7 +58,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
 
                     UserApiClient.instance.loginWithKakaoAccount(requireContext(), callback = callback)
                 } else if (token != null) {
-                    findNavController().navigate(R.id.action_signInFragment_to_initialUserInfoFragment)
+                    viewModel.setUserInfoFromKakaoApi()
                 }
             }
         } else {

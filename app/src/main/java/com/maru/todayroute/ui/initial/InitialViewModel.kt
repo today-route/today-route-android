@@ -1,55 +1,104 @@
 package com.maru.todayroute.ui.initial
 
-import androidx.lifecycle.MutableLiveData
+import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.user.UserApiClient
-import com.maru.data.model.User
+import com.maru.data.model.Gender
+import com.maru.data.network.RegisterUserRequest
 import com.maru.data.repository.UserRepository
+import com.maru.todayroute.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class InitialViewModel @Inject constructor (
+class InitialViewModel @Inject constructor(
     private val userRepository: UserRepository
 ) : ViewModel() {
 
-    private lateinit var email: String
     private lateinit var key: String
+    private lateinit var gender: Gender
+    private lateinit var email: String
+    private lateinit var profileUrl: String
+    private lateinit var nickname: String
+    private lateinit var birthday: String
+
+    private val _moveToConnectCoupleFragment = SingleLiveEvent<Unit>()
+    val moveToConnectCoupleFragment: LiveData<Unit> get() = _moveToConnectCoupleFragment
+    private val _moveToInitialUserInfoFragment = SingleLiveEvent<Unit>()
+    val moveToInitialUserInfoFragment: LiveData<Unit> get() = _moveToInitialUserInfoFragment
+
     private var inviteCode: String? = null
-    val profileImageUrl = MutableLiveData<String>()
-    val nickname = MutableLiveData<String>()
-    val introduction = MutableLiveData<String>()
 
     init {
-        with (UserApiClient.instance) {
+        if (AuthApiClient.instance.hasToken()) {
+            setUserInfoFromKakaoApi()
+        }
+    }
+
+    fun setUserInfoFromKakaoApi() {
+        with(UserApiClient.instance) {
             me { user, error ->
                 if (error == null && user != null) {
                     email = user.kakaoAccount?.email ?: ""
-                    nickname.value = user.kakaoAccount?.profile?.nickname
-                    profileImageUrl.value = user.kakaoAccount?.profile?.thumbnailImageUrl
+                    nickname = user.kakaoAccount?.profile?.nickname ?: ""
+                    profileUrl = user.kakaoAccount?.profile?.thumbnailImageUrl ?: ""
+                    Log.e("HI", "$email $nickname $profileUrl")
                 }
             }
             accessTokenInfo { tokenInfo, error ->
                 if (error == null && tokenInfo != null) {
                     key = tokenInfo.id.toString()
+                    Log.e("HI", "$key")
                 }
             }
         }
+        _moveToInitialUserInfoFragment.call()
+    }
+
+    fun setUserGender(gender: Gender) {
+        this.gender = gender
+    }
+
+    fun setUserBirthday(birthday: String) {
+        this.birthday = birthday
     }
 
     fun setInviteCode(inviteCode: String?) {
         this.inviteCode = inviteCode
     }
 
-    fun bindingImage(imageUri: String) {
-        profileImageUrl.value = imageUri
+    suspend fun registerNewUser() {
+        val result = withContext(viewModelScope.coroutineContext) {
+            userRepository.registerNewUser(
+                RegisterUserRequest(
+                    key,
+                    gender,
+                    email,
+                    nickname,
+                    profileUrl,
+                    birthday
+                )
+            )
+        }
+//        if (result.isSuccess) {
+//            val id = result.getOrNull()!!.id
+            userRepository.saveSignInUserId(1) // TODO: parameter로 id 넘기기
+            _moveToConnectCoupleFragment.call()
+//        }
     }
 
-    fun addNewUser() {
-        viewModelScope.launch {
-            userRepository.addNewUser(User(key, email, nickname.value!!, introduction.value ?: "", profileImageUrl.value!!))
+    suspend fun checkUserInfo() {
+        val id = withContext(viewModelScope.coroutineContext) {
+            userRepository.getSignedInUserId().first()
+        }
+        Log.d("HHII", "$id")
+        if (id != -1) {
+            _moveToConnectCoupleFragment.call()
         }
     }
 }

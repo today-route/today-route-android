@@ -23,10 +23,10 @@ class InviteCoupleFragment :
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        setButtonClickListener()
+        setupButtonClickListener()
     }
 
-    private fun setButtonClickListener() {
+    private fun setupButtonClickListener() {
         binding.btnInviteCouple.setOnClickListener {
             invite()
         }
