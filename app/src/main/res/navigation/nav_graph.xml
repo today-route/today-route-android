@@ -11,6 +11,13 @@
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home"
         />
+
+    <fragment
+        android:id="@+id/calendar_fragment"
+        android:name="com.maru.todayroute.ui.calendar.CalendarFragment"
+        android:label="CalendarFragment"
+        tools:layout="@layout/fragment_calendar"/>
+
     <fragment
         android:id="@+id/my_page_fragment"
         android:name="com.maru.todayroute.ui.mypage.MyPageFragment"
