@@ -60,7 +60,7 @@ class InitialUserInfoFragment :
             R.id.rb_female -> viewModel.setUserGender(Gender.F)
             R.id.rb_male -> viewModel.setUserGender(Gender.M)
         }
-        viewModel.setUserBirthday(binding.tvUserBirthday.text.toString())
+        viewModel.setUserBirthday(binding.etUserBirthday.text.toString())
     }
 
     private fun registerNewUser() {

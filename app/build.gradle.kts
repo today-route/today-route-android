@@ -54,9 +54,9 @@ dependencies {
     implementation(Dep.AndroidX.CONSTRAINT_LAYOUT)
     implementation(Dep.AndroidX.LEGACY_SUPPORT)
     implementation(Dep.AndroidX.LOCATION)
-    implementation(platform(Dep.AndroidX.BOM))
-    implementation(Dep.AndroidX.DYNAMIC_LINK)
-    implementation(Dep.AndroidX.ANALYTICS)
+    implementation(platform(Dep.Firebase.BOM))
+    implementation(Dep.Firebase.DYNAMIC_LINK)
+    implementation(Dep.Firebase.ANALYTICS)
     implementation(Dep.AndroidX.ACTIVITY)
     implementation(Dep.AndroidX.FRAGMENT)
 

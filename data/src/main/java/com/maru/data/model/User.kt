@@ -13,7 +13,7 @@ data class User(
     val profileUrl: String,
     val birthday: String,
     val createdAt: String,
-    val deletedAt: String?
+    val deletedAt: String? = null
 )
 
 enum class Gender {

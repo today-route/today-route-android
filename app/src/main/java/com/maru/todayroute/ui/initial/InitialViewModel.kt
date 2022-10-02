@@ -53,7 +53,6 @@ class InitialViewModel @Inject constructor(
             accessTokenInfo { tokenInfo, error ->
                 if (error == null && tokenInfo != null) {
                     key = tokenInfo.id.toString()
-                    Log.e("HI", "$key")
                 }
             }
         }
@@ -85,11 +84,12 @@ class InitialViewModel @Inject constructor(
                 )
             )
         }
-//        if (result.isSuccess) {
-//            val id = result.getOrNull()!!.id
-            userRepository.saveSignInUserId(1) // TODO: parameter로 id 넘기기
+
+        if (result.isSuccess) {
+            val id = result.getOrNull()!!.id
+            userRepository.saveSignInUserId(id) // TODO: parameter로 id 넘기기
             _moveToConnectCoupleFragment.call()
-//        }
+        }
     }
 
     suspend fun checkUserInfo() {

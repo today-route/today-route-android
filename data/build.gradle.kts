@@ -59,4 +59,8 @@ dependencies {
     // OkHttp3
     implementation(Dep.Libraries.OkHttp3.OK_HTTP)
     implementation(Dep.Libraries.OkHttp3.LOGGING_INTERCEPTOR)
+
+    // Firebase
+    implementation(platform(Dep.Firebase.BOM))
+    implementation(Dep.Firebase.DATABASE)
 }

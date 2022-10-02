@@ -5,7 +5,10 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
-import com.maru.data.network.RetrofitService
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
+import com.maru.data.network.server.RetrofitService
 import com.maru.data.util.Constants.DATASTORE_NAME
 import dagger.Module
 import dagger.Provides
@@ -53,4 +56,8 @@ class AppModule {
         PreferenceDataStoreFactory.create(
             produceFile = { context.preferencesDataStoreFile(DATASTORE_NAME) }
         )
+
+    @Singleton
+    @Provides
+    fun provideFirebaseDatabaseReference(): DatabaseReference = Firebase.database.reference
 }
