@@ -15,4 +15,12 @@ class UserRemoteDataSource @Inject constructor(
 //        retrofitService.registerNewUser(user)
           firebaseHelper.registerNewUser(user)
     }
+
+    override suspend fun getCodeById(id: Int): Result<String> = runCatching {
+        firebaseHelper.getCodeById(id)
+    }
+
+//    override suspend fun findUserByInviteCode(inviteCode: String): Result<String> = runCatching {
+//        firebaseHelper.findUserByInviteCode(inviteCode)
+//    }
 }

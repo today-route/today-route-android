@@ -4,6 +4,10 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.maru.todayroute.ui.initial.InitialViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -44,6 +48,7 @@
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:inputType="none"
+            android:text="@{viewModel.code}"
             android:textColor="@color/tmp_black"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"

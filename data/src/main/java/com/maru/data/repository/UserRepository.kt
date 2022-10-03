@@ -24,4 +24,10 @@ class UserRepository @Inject constructor(
     override suspend fun registerNewUser(user: RegisterUserRequest): Result<User> =
         userRemoteDataSource.registerNewUser(user)
 
+    override suspend fun getCodeById(id: Int): Result<String> =
+        userRemoteDataSource.getCodeById(id)
+
+//    override suspend fun findUserByInviteCode(inviteCode: String): Result<String> =
+//        userRemoteDataSource.findUserByInviteCode(inviteCode)
+
 }

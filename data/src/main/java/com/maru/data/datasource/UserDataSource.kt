@@ -13,5 +13,7 @@ interface UserDataSource {
 
     interface Remote {
         suspend fun registerNewUser(user: RegisterUserRequest): Result<User>
+        suspend fun getCodeById(id: Int): Result<String>
+//        suspend fun findUserByInviteCode(inviteCode: String): Result<String>
     }
 }

@@ -39,4 +39,17 @@ class FirebaseHelper @Inject constructor(
             }
         }
 
+        suspend fun getCodeById(id: Int): String = suspendCoroutine { continuation ->
+            firebaseDatabase.child("user").child(id.toString()).child("code").get().addOnSuccessListener {
+                val code = it.value.toString()
+                continuation.resume(code)
+            }
+        }
+
+//    suspend fun findUserByInviteCode(inviteCode: String): String = suspendCoroutine { continuation ->
+//        firebaseDatabase.child("user").orderByChild("code").equalTo(inviteCode).get().addOnCompleteListener {
+//            val user = it.result.value.toString()
+//            continuation.resume(user)
+//        }
+//    }
 }

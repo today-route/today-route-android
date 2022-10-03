@@ -24,6 +24,7 @@ class InviteCoupleFragment :
         super.onViewCreated(view, savedInstanceState)
 
         setupButtonClickListener()
+        binding.viewModel = viewModel
     }
 
     private fun setupButtonClickListener() {
@@ -37,7 +38,7 @@ class InviteCoupleFragment :
 
     private fun invite() {
         val dynamicLink = FirebaseDynamicLinks.getInstance().createDynamicLink()
-            .setLink(Uri.parse("https://todayroute.page.link/invite?code=임시초대코드"))
+            .setLink(Uri.parse("https://todayroute.page.link/invite?code=${viewModel.code}"))
             .setDomainUriPrefix("https://todayroute.page.link")
             .setAndroidParameters(DynamicLink.AndroidParameters.Builder().build())
             .buildShortDynamicLink()
@@ -50,14 +51,7 @@ class InviteCoupleFragment :
 
     private fun sendInviteLink(inviteLink: Uri) {
         if (ShareClient.instance.isKakaoTalkSharingAvailable(requireContext())) {
-            val textTemplate = TextTemplate(
-                text = """
-                    OOO님이 함께 오늘의 길을 만들고 싶어해요!
-                    초대 코드 : 임시초대코드
-                """.trimIndent(),
-                link = Link(mobileWebUrl = inviteLink.toString()),
-                buttonTitle = "초대 코드 입력하기"
-            )
+            val textTemplate = viewModel.makeInviteTextTemplate(inviteLink)
 
             ShareClient.instance.shareDefault(requireContext(), textTemplate) { sharingResult, error ->
                 if (error != null) {

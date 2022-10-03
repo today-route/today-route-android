@@ -1,10 +1,13 @@
 package com.maru.todayroute.ui.initial
 
+import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kakao.sdk.auth.AuthApiClient
+import com.kakao.sdk.template.model.Link
+import com.kakao.sdk.template.model.TextTemplate
 import com.kakao.sdk.user.UserApiClient
 import com.maru.data.model.Gender
 import com.maru.data.network.RegisterUserRequest
@@ -12,6 +15,7 @@ import com.maru.data.repository.UserRepository
 import com.maru.todayroute.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
@@ -27,12 +31,17 @@ class InitialViewModel @Inject constructor(
     private lateinit var nickname: String
     private lateinit var birthday: String
 
+    val code get() = _code
+    private lateinit var _code: String
+    val inviteCode get() = _inviteCode
+    private var _inviteCode: String = ""
+
     private val _moveToConnectCoupleFragment = SingleLiveEvent<Unit>()
     val moveToConnectCoupleFragment: LiveData<Unit> get() = _moveToConnectCoupleFragment
     private val _moveToInitialUserInfoFragment = SingleLiveEvent<Unit>()
     val moveToInitialUserInfoFragment: LiveData<Unit> get() = _moveToInitialUserInfoFragment
 
-    private var inviteCode: String? = null
+
 
     init {
         if (AuthApiClient.instance.hasToken()) {
@@ -67,8 +76,8 @@ class InitialViewModel @Inject constructor(
         this.birthday = birthday
     }
 
-    fun setInviteCode(inviteCode: String?) {
-        this.inviteCode = inviteCode
+    fun setInviteCode(inviteCode: String) {
+        this._inviteCode = inviteCode
     }
 
     suspend fun registerNewUser() {
@@ -87,6 +96,7 @@ class InitialViewModel @Inject constructor(
 
         if (result.isSuccess) {
             val id = result.getOrNull()!!.id
+            _code = result.getOrNull()!!.code
             userRepository.saveSignInUserId(id) // TODO: parameter로 id 넘기기
             _moveToConnectCoupleFragment.call()
         }
@@ -98,7 +108,31 @@ class InitialViewModel @Inject constructor(
         }
         Log.d("HHII", "$id")
         if (id != -1) {
+            val result = withContext(viewModelScope.coroutineContext) {
+                userRepository.getCodeById(id)
+            }
+            if (result.isSuccess) {
+                _code = result.getOrNull()!!
+                println(_code)
+            }
             _moveToConnectCoupleFragment.call()
         }
     }
+
+    fun makeInviteTextTemplate(inviteLink: Uri): TextTemplate =
+        TextTemplate(
+            text = """
+                    ${nickname}님이 함께 오늘의 길을 만들고 싶어해요!
+                    초대 코드 : $code
+                """.trimIndent(),
+            link = Link(mobileWebUrl = inviteLink.toString()),
+            buttonTitle = "초대 코드 입력하기"
+        )
+
+//    fun findUserByInviteCode() {
+//        viewModelScope.launch {
+//            userRepository.findUserByInviteCode(inviteCode)
+//        }
+//    }
+
 }

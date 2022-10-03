@@ -2,6 +2,7 @@ package com.maru.todayroute.ui.initial
 
 import android.os.Bundle
 import android.view.View
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.maru.todayroute.R
@@ -10,9 +11,16 @@ import com.maru.todayroute.util.BaseFragment
 
 class InputInviteCodeFragment : BaseFragment<FragmentInputInviteCodeBinding>(R.layout.fragment_input_invite_code) {
 
+    private val viewModel by activityViewModels<InitialViewModel>()
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setupButtonClickListener()
+        binding.viewModel = viewModel
+
+//        binding.btnStart.setOnClickListener {
+//            viewModel.findUserByInviteCode()
+//        }
     }
 
     private fun setupButtonClickListener() {

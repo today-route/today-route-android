@@ -33,8 +33,11 @@ class InitialActivity : BaseActivity<ActivityInitialBinding>(R.layout.activity_i
                 }
                 if (deepLink != null && deepLink.getBooleanQueryParameter("code", false)) {
                     val inviteCode = deepLink.getQueryParameter("code")
-                    viewModel.setInviteCode(inviteCode)
-                    Toast.makeText(this, "$inviteCode", Toast.LENGTH_SHORT).show()
+
+                    inviteCode?.let { it ->
+                        viewModel.setInviteCode(inviteCode)
+//                        Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
     }
