@@ -68,7 +68,7 @@ object Dep {
         const val BOM = "com.google.firebase:firebase-bom:${Versions.BOM}"
         const val DYNAMIC_LINK = "com.google.firebase:firebase-dynamic-links-ktx"
         const val ANALYTICS = "com.google.firebase:firebase-analytics-ktx"
-        const val DATABASE = "com.google.firebase:firebase-database-ktx"
+        const val FIRESTORE = "com.google.firebase:firebase-firestore-ktx"
     }
 
     object Kotlin {

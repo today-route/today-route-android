@@ -1,25 +1,25 @@
 package com.maru.data.network.firebase
 
-import com.google.android.gms.common.config.GservicesValue.value
-import com.google.firebase.database.DatabaseReference
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.toObject
 import com.maru.data.model.User
 import com.maru.data.network.RegisterUserRequest
 import com.maru.data.util.Constants
 import com.maru.data.util.generateInvitationCode
 import com.maru.data.util.getCurrentDate
-import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
 
 class FirebaseHelper @Inject constructor(
-    private val firebaseDatabase: DatabaseReference
+    private val db: FirebaseFirestore
 ) {
 
     suspend fun registerNewUser(user: RegisterUserRequest): User =
         suspendCoroutine { continuation ->
-            firebaseDatabase.child("idSequence").get().addOnCompleteListener {
-                val userId = it.result.value.toString().toInt()
+            db.collection("idSequence").get().addOnSuccessListener { result ->
+                val userId = result.documents[0].data?.get("number").toString().toInt()
+                println(userId)
                 val newUser = User(
                     userId,
                     Constants.EMPTY_STRING,
@@ -32,17 +32,17 @@ class FirebaseHelper @Inject constructor(
                     getCurrentDate()
                 )
 
-                firebaseDatabase.child("user").child(userId.toString()).setValue(newUser)
-                firebaseDatabase.child("idSequence").setValue(userId + 1)
+                db.collection("users").add(newUser).addOnSuccessListener { println("success") }.addOnFailureListener { println("fail") }
+                db.collection("idSequence").document("idSequence").update("number", userId + 1)
 
                 continuation.resume(newUser)
             }
         }
 
         suspend fun getCodeById(id: Int): String = suspendCoroutine { continuation ->
-            firebaseDatabase.child("user").child(id.toString()).child("code").get().addOnSuccessListener {
-                val code = it.value.toString()
-                continuation.resume(code)
+            db.collection("user").whereEqualTo("id", id).get().addOnSuccessListener {
+                val user = it.documents[0].toObject<User>()
+                user?.let { continuation.resume(user.code) }
             }
         }
 

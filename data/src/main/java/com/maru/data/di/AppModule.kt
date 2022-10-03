@@ -5,8 +5,8 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStoreFile
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ktx.database
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.maru.data.network.server.RetrofitService
 import com.maru.data.util.Constants.DATASTORE_NAME
@@ -59,5 +59,5 @@ class AppModule {
 
     @Singleton
     @Provides
-    fun provideFirebaseDatabaseReference(): DatabaseReference = Firebase.database.reference
+    fun provideFirebaseFirestore(): FirebaseFirestore = Firebase.firestore
 }

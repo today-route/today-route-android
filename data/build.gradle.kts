@@ -62,5 +62,5 @@ dependencies {
 
     // Firebase
     implementation(platform(Dep.Firebase.BOM))
-    implementation(Dep.Firebase.DATABASE)
+    implementation(Dep.Firebase.FIRESTORE)
 }
