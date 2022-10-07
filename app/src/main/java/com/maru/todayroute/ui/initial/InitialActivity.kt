@@ -1,5 +1,7 @@
 package com.maru.todayroute.ui.initial
 
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
@@ -16,13 +18,9 @@ class InitialActivity : BaseActivity<ActivityInitialBinding>(R.layout.activity_i
 
     private val viewModel: InitialViewModel by viewModels()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        checkInviteCode()
-    }
-
-    private fun checkInviteCode() {
+    @SuppressLint("MissingSuperCall")
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
         Firebase.dynamicLinks
             .getDynamicLink(intent)
             .addOnSuccessListener { pendingDynamicLinkData ->
@@ -33,10 +31,14 @@ class InitialActivity : BaseActivity<ActivityInitialBinding>(R.layout.activity_i
                 }
                 if (deepLink != null && deepLink.getBooleanQueryParameter("code", false)) {
                     val inviteCode = deepLink.getQueryParameter("code")
+                    val startDate = deepLink.getQueryParameter("date")
 
                     inviteCode?.let { it ->
-                        viewModel.setInviteCode(inviteCode)
-//                        Toast.makeText(this, it, Toast.LENGTH_SHORT).show()
+                        viewModel.setInviteCode(it)
+                    }
+                    startDate?.let { it ->
+                        viewModel.setStartDate(it)
+//                        Toast.makeText(this, "$inviteCode $coupleName $startDate", Toast.LENGTH_SHORT).show()
                     }
                 }
             }

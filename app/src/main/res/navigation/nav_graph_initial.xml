@@ -17,7 +17,9 @@
             app:popUpToInclusive="true" />
         <action
             android:id="@+id/action_signInFragment_to_connectCoupleFragment"
-            app:destination="@id/connectCoupleFragment" />
+            app:destination="@id/connectCoupleFragment"
+            app:popUpTo="@id/signInFragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <fragment
         android:id="@+id/initialUserInfoFragment"
@@ -45,15 +47,15 @@
         android:label="ConnectCoupleFragment"
         tools:layout="@layout/fragment_connect_couple">
         <action
-            android:id="@+id/action_connectCoupleFragment_to_inviteCoupleFragment"
-            app:destination="@id/inviteCoupleFragment"
+            android:id="@+id/action_connectCoupleFragment_to_inputInviteCodeFragment"
+            app:destination="@id/inputInviteCodeFragment"
             app:enterAnim="@anim/anim_from_right"
             app:exitAnim="@anim/anim_to_left"
             app:popEnterAnim="@anim/anim_from_left"
             app:popExitAnim="@anim/anim_to_right" />
         <action
-            android:id="@+id/action_connectCoupleFragment_to_inputInviteCodeFragment"
-            app:destination="@id/inputInviteCodeFragment"
+            android:id="@+id/action_connectCoupleFragment_to_inputStartDateFragment"
+            app:destination="@id/inputStartDateFragment"
             app:enterAnim="@anim/anim_from_right"
             app:exitAnim="@anim/anim_to_left"
             app:popEnterAnim="@anim/anim_from_left"
@@ -64,4 +66,17 @@
         android:name="com.maru.todayroute.ui.initial.InputInviteCodeFragment"
         android:label="InputInviteCodeFragment"
         tools:layout="@layout/fragment_input_invite_code" />
+    <fragment
+        android:id="@+id/inputStartDateFragment"
+        android:name="com.maru.todayroute.ui.initial.InputStartDateFragment"
+        android:label="InputStartDateFragment"
+        tools:layout="@layout/fragment_input_start_date">
+        <action
+            android:id="@+id/action_inputStartDateFragment_to_inviteCoupleFragment"
+            app:destination="@id/inviteCoupleFragment"
+            app:enterAnim="@anim/anim_from_right"
+            app:exitAnim="@anim/anim_to_left"
+            app:popEnterAnim="@anim/anim_from_left"
+            app:popExitAnim="@anim/anim_to_right" />
+    </fragment>
 </navigation>

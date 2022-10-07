@@ -1,5 +1,6 @@
 package com.maru.data.datasource
 
+import com.maru.data.model.CoupleInfo
 import com.maru.data.model.User
 import com.maru.data.network.RegisterUserRequest
 import com.maru.data.network.firebase.FirebaseHelper
@@ -20,7 +21,11 @@ class UserRemoteDataSource @Inject constructor(
         firebaseHelper.getCodeById(id)
     }
 
-//    override suspend fun findUserByInviteCode(inviteCode: String): Result<String> = runCatching {
-//        firebaseHelper.findUserByInviteCode(inviteCode)
-//    }
+    override suspend fun findUserByInviteCode(inviteCode: String): Result<User> = runCatching {
+        firebaseHelper.findUserByInviteCode(inviteCode)
+    }
+
+    override suspend fun registerNewCouple(coupleInfo: CoupleInfo): Result<CoupleInfo> = runCatching {
+        firebaseHelper.registerNewCouple(coupleInfo)
+    }
 }

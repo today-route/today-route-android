@@ -44,6 +44,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
     private fun setUpObserver() {
         viewModel.moveToConnectCoupleFragment.observe(viewLifecycleOwner) {
             findNavController().navigate(R.id.action_signInFragment_to_connectCoupleFragment)
+            println("1")
         }
         viewModel.moveToInitialUserInfoFragment.observe(viewLifecycleOwner) {
             findNavController().navigate(R.id.action_signInFragment_to_initialUserInfoFragment)
@@ -69,6 +70,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
                     UserApiClient.instance.loginWithKakaoAccount(requireContext(), callback = callback)
                 } else if (token != null) {
                     viewModel.setUserInfoFromKakaoApi()
+                    findNavController().navigate(R.id.action_signInFragment_to_initialUserInfoFragment)
                 }
             }
         } else {

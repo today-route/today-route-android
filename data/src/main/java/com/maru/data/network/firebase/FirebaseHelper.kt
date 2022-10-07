@@ -2,6 +2,7 @@ package com.maru.data.network.firebase
 
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.toObject
+import com.maru.data.model.CoupleInfo
 import com.maru.data.model.User
 import com.maru.data.network.RegisterUserRequest
 import com.maru.data.util.Constants
@@ -40,16 +41,39 @@ class FirebaseHelper @Inject constructor(
         }
 
         suspend fun getCodeById(id: Int): String = suspendCoroutine { continuation ->
-            db.collection("user").whereEqualTo("id", id).get().addOnSuccessListener {
+            db.collection("users").whereEqualTo("id", id).get().addOnSuccessListener {
                 val user = it.documents[0].toObject<User>()
                 user?.let { continuation.resume(user.code) }
             }
         }
 
-//    suspend fun findUserByInviteCode(inviteCode: String): String = suspendCoroutine { continuation ->
-//        firebaseDatabase.child("user").orderByChild("code").equalTo(inviteCode).get().addOnCompleteListener {
-//            val user = it.result.value.toString()
-//            continuation.resume(user)
-//        }
-//    }
+    suspend fun findUserByInviteCode(inviteCode: String): User =
+        suspendCoroutine { continuation ->
+            db.collection("users").whereEqualTo("code", inviteCode).get()
+                .addOnSuccessListener {
+                    if (it.documents.isNotEmpty()) {
+                        val user = it.documents[0].toObject<User>()
+                        user?.let { continuation.resume(user) }
+                    } else {
+                        continuation.resume(User())
+                    }
+                }
+        }
+
+    suspend fun registerNewCouple(coupleInfo: CoupleInfo): CoupleInfo = suspendCoroutine { continuation ->
+        db.collection("coupleSequence").get().addOnSuccessListener { result ->
+            val coupleId = result.documents[0].data?.get("number").toString().toInt()
+            val newCouple = CoupleInfo(
+                coupleId,
+                coupleInfo.startDate,
+                user1ID = coupleInfo.user1ID,
+                user2Id = coupleInfo.user2Id
+            )
+
+            db.collection("couples").add(newCouple)
+            db.collection("coupleSequence").document("coupleSequence").update("number", coupleId + 1)
+
+            continuation.resume(newCouple)
+        }
+    }
 }
