@@ -3,7 +3,6 @@ package com.maru.todayroute.ui.initial
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kakao.sdk.auth.AuthApiClient
@@ -14,18 +13,17 @@ import com.maru.data.model.CoupleInfo
 import com.maru.data.model.Gender
 import com.maru.data.model.User
 import com.maru.data.network.RegisterUserRequest
-import com.maru.data.repository.UserRepository
+import com.maru.data.repository.InitialRepository
 import com.maru.todayroute.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
 class InitialViewModel @Inject constructor(
-    private val userRepository: UserRepository
+    private val userRepository: InitialRepository
 ) : ViewModel() {
 
     private var id = -1

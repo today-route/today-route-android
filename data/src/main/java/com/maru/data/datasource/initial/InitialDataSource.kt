@@ -1,11 +1,11 @@
-package com.maru.data.datasource
+package com.maru.data.datasource.initial
 
 import com.maru.data.model.CoupleInfo
 import com.maru.data.model.User
 import com.maru.data.network.RegisterUserRequest
 import kotlinx.coroutines.flow.Flow
 
-interface UserDataSource {
+interface InitialDataSource {
 
     interface Local {
         suspend fun saveSignInUserId(id: Int)

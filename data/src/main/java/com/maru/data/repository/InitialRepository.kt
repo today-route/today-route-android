@@ -1,18 +1,18 @@
 package com.maru.data.repository
 
-import com.maru.data.datasource.UserDataSource
-import com.maru.data.datasource.UserLocalDataSource
-import com.maru.data.datasource.UserRemoteDataSource
+import com.maru.data.datasource.initial.InitialDataSource
+import com.maru.data.datasource.initial.InitialLocalDataSource
+import com.maru.data.datasource.initial.InitialRemoteDataSource
 import com.maru.data.model.CoupleInfo
 import com.maru.data.model.User
 import com.maru.data.network.RegisterUserRequest
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class UserRepository @Inject constructor(
-    private val userLocalDataSource: UserLocalDataSource,
-    private val userRemoteDataSource: UserRemoteDataSource
-) : UserDataSource.Local, UserDataSource.Remote {
+class InitialRepository @Inject constructor(
+    private val userLocalDataSource: InitialLocalDataSource,
+    private val userRemoteDataSource: InitialRemoteDataSource
+) : InitialDataSource.Local, InitialDataSource.Remote {
 
     override suspend fun saveSignInUserId(id: Int) {
         userLocalDataSource.saveSignInUserId(id)

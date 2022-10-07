@@ -1,4 +1,4 @@
-package com.maru.data.datasource
+package com.maru.data.datasource.initial
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
@@ -9,9 +9,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class UserLocalDataSource @Inject constructor(
+class InitialLocalDataSource @Inject constructor(
     private val dataStore: DataStore<Preferences>
-) : UserDataSource.Local {
+) : InitialDataSource.Local {
 
     override suspend fun saveSignInUserId(id: Int) {
         dataStore.edit { prefs ->
