@@ -10,6 +10,7 @@ import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.ktx.Firebase
 import com.maru.todayroute.R
 import com.maru.todayroute.databinding.ActivityInitialBinding
+import com.maru.todayroute.ui.MainActivity
 import com.maru.todayroute.util.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -17,6 +18,16 @@ import dagger.hilt.android.AndroidEntryPoint
 class InitialActivity : BaseActivity<ActivityInitialBinding>(R.layout.activity_initial) {
 
     private val viewModel: InitialViewModel by viewModels()
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        viewModel.moveToMainActivity.observe(this) {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+    }
 
     @SuppressLint("MissingSuperCall")
     override fun onNewIntent(intent: Intent?) {

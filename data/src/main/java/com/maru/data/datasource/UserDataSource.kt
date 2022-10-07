@@ -18,5 +18,6 @@ interface UserDataSource {
         suspend fun getCodeById(id: Int): Result<String>
         suspend fun findUserByInviteCode(inviteCode: String): Result<User>
         suspend fun registerNewCouple(coupleInfo: CoupleInfo): Result<CoupleInfo>
+        suspend fun findCoupleInfoById(id: Int): Result<CoupleInfo>
     }
 }

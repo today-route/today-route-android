@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.google.firebase.dynamiclinks.DynamicLink
 import com.google.firebase.dynamiclinks.FirebaseDynamicLinks
@@ -14,6 +15,7 @@ import com.kakao.sdk.template.model.TextTemplate
 import com.maru.todayroute.R
 import com.maru.todayroute.databinding.FragmentInviteCoupleBinding
 import com.maru.todayroute.util.BaseFragment
+import kotlinx.coroutines.launch
 
 class InviteCoupleFragment :
     BaseFragment<FragmentInviteCoupleBinding>(R.layout.fragment_invite_couple) {
@@ -33,6 +35,11 @@ class InviteCoupleFragment :
         }
         binding.btnBack.setOnClickListener {
             findNavController().popBackStack()
+        }
+        binding.btnStart.setOnClickListener {
+            lifecycleScope.launch {
+                viewModel.tryStart()
+            }
         }
     }
 

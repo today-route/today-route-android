@@ -28,4 +28,8 @@ class UserRemoteDataSource @Inject constructor(
     override suspend fun registerNewCouple(coupleInfo: CoupleInfo): Result<CoupleInfo> = runCatching {
         firebaseHelper.registerNewCouple(coupleInfo)
     }
+
+    override suspend fun findCoupleInfoById(id: Int): Result<CoupleInfo> = runCatching {
+        firebaseHelper.findCoupleInfoById(id)
+    }
 }

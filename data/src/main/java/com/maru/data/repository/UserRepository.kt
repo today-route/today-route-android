@@ -37,4 +37,8 @@ class UserRepository @Inject constructor(
     override suspend fun registerNewCouple(coupleInfo: CoupleInfo): Result<CoupleInfo> =
         userRemoteDataSource.registerNewCouple(coupleInfo)
 
+    override suspend fun findCoupleInfoById(id: Int): Result<CoupleInfo> =
+        userRemoteDataSource.findCoupleInfoById(id)
+
+
 }

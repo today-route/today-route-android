@@ -66,7 +66,7 @@ class FirebaseHelper @Inject constructor(
             val newCouple = CoupleInfo(
                 coupleId,
                 coupleInfo.startDate,
-                user1ID = coupleInfo.user1ID,
+                user1Id = coupleInfo.user1Id,
                 user2Id = coupleInfo.user2Id
             )
 
@@ -75,5 +75,17 @@ class FirebaseHelper @Inject constructor(
 
             continuation.resume(newCouple)
         }
+    }
+
+    suspend fun findCoupleInfoById(id: Int): CoupleInfo = suspendCoroutine { continuation ->
+        db.collection("couples").whereEqualTo("user2Id", id).get()
+            .addOnSuccessListener {
+                if (it.documents.isNotEmpty()) {
+                    val coupleInfo = it.documents[0].toObject<CoupleInfo>()
+                    coupleInfo?.let { continuation.resume(coupleInfo) }
+                } else {
+                    continuation.resume(CoupleInfo())
+                }
+            }
     }
 }

@@ -18,6 +18,7 @@ import com.maru.data.repository.UserRepository
 import com.maru.todayroute.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
 import javax.inject.Inject
@@ -46,6 +47,8 @@ class InitialViewModel @Inject constructor(
     val moveToConnectCoupleFragment: LiveData<Unit> get() = _moveToConnectCoupleFragment
     private val _moveToInitialUserInfoFragment = SingleLiveEvent<Unit>()
     val moveToInitialUserInfoFragment: LiveData<Unit> get() = _moveToInitialUserInfoFragment
+    private val _moveToMainActivity = SingleLiveEvent<Unit>()
+    val moveToMainActivity: LiveData<Unit> get() = _moveToMainActivity
 
     private val calendar: Calendar = GregorianCalendar()
     val year = calendar.get(Calendar.YEAR)
@@ -176,7 +179,7 @@ class InitialViewModel @Inject constructor(
             userRepository.registerNewCouple(
                 CoupleInfo(
                     startDate = startDate,
-                    user1ID = id,
+                    user1Id = id,
                     user2Id = coupleUser.id
                 )
             )
@@ -184,8 +187,29 @@ class InitialViewModel @Inject constructor(
 
         if (result.isSuccess) {
             val coupleInfo = result.getOrNull()!!
-            userRepository.saveCoupleInfo(coupleInfo)
-            // TODO: MainActivity로 이동하기
+            startTodayRoute(coupleInfo)
         }
+    }
+
+    suspend fun tryStart() {
+        // 1. user2ID랑 여기 id랑 같은 게 있는지 확인
+        val result = withContext(viewModelScope.coroutineContext) {
+            userRepository.findCoupleInfoById(id)
+        }
+
+        if (result.isSuccess) {
+            val coupleInfo = result.getOrNull()
+            println(coupleInfo)
+            if (coupleInfo == null || coupleInfo.id == -1) {
+                // TODO: 연결 실패했다고 메세지 띄우기
+            } else {
+                startTodayRoute(coupleInfo)
+            }
+        }
+    }
+
+    private suspend fun startTodayRoute(coupleInfo: CoupleInfo) {
+        userRepository.saveCoupleInfo(coupleInfo)
+        _moveToMainActivity.call()
     }
 }
