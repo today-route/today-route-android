@@ -2,6 +2,9 @@ package com.maru.todayroute.ui.initial
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.maru.todayroute.R
 import com.maru.todayroute.databinding.FragmentConnectCoupleBinding
@@ -19,7 +22,7 @@ class ConnectCoupleFragment : BaseFragment<FragmentConnectCoupleBinding>(R.layou
         val navController = findNavController()
 
         binding.btnInviteCouple.setOnClickListener {
-            navController.navigate(R.id.action_connectCoupleFragment_to_inviteCoupleFragment)
+            navController.navigate(R.id.action_connectCoupleFragment_to_inputStartDateFragment)
         }
 
         binding.btnInputInviteCode.setOnClickListener {

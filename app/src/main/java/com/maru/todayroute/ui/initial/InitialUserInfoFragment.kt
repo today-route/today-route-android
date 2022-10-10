@@ -18,11 +18,6 @@ class InitialUserInfoFragment :
 
     private val viewModel by activityViewModels<InitialViewModel>()
 
-    private val calendar: Calendar = GregorianCalendar()
-    private var year: Int = calendar.get(Calendar.YEAR)
-    private var month: Int = calendar.get(Calendar.MONTH)
-    private var date: Int = calendar.get(Calendar.DATE)
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -40,11 +35,10 @@ class InitialUserInfoFragment :
             DatePickerDialog(requireContext(),
                 { _, year, month, dayOfMonth ->
                     binding.etUserBirthday.setText("${year}-${month + 1}-${dayOfMonth}")
-                    this.year = year; this.month = month; this.date = dayOfMonth
                 },
-                year,
-                month,
-                date
+                viewModel.year,
+                viewModel.month,
+                viewModel.date
             ).show()
         }
     }
@@ -60,7 +54,7 @@ class InitialUserInfoFragment :
             R.id.rb_female -> viewModel.setUserGender(Gender.F)
             R.id.rb_male -> viewModel.setUserGender(Gender.M)
         }
-        viewModel.setUserBirthday(binding.tvUserBirthday.text.toString())
+        viewModel.setUserBirthday(binding.etUserBirthday.text.toString())
     }
 
     private fun registerNewUser() {

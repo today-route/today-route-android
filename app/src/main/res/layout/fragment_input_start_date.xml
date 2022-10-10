@@ -4,10 +4,6 @@
 
     <data>
 
-        <variable
-            name="viewModel"
-            type="com.maru.todayroute.ui.initial.InitialViewModel" />
-
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -26,12 +22,12 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tv_input_invite_code"
+            android:id="@+id/tv_input_start_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="132dp"
-            android:text="받은 초대코드를\n입력해 주세요."
+            android:text="연결하실 연인분과 \n처음 만난 날을 입력해주세요"
             android:textColor="@color/tmp_black"
             android:textSize="28sp"
             android:textStyle="bold"
@@ -39,33 +35,41 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/et_invite_code"
+            android:id="@+id/et_start_date"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="16dp"
             android:layout_marginTop="84dp"
-            android:text="@{viewModel.inviteCode}"
+            android:cursorVisible="false"
+            android:drawableEnd="@drawable/ic_baseline_calendar_month_24"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:hint="여기를 클릭하세요"
+            android:inputType="none"
             android:textColor="@color/tmp_black"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_input_invite_code" />
+            app:layout_constraintTop_toBottomOf="@id/tv_input_start_date" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_connect"
+            android:id="@+id/btn_invite_couple"
             android:layout_width="0dp"
             android:layout_height="54dp"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="16dp"
             android:backgroundTint="@color/tmp_coral"
+            android:drawableEnd="@drawable/ic_baseline_send_24"
             android:elevation="10dp"
-            android:text="연결하기"
+            android:paddingStart="36dp"
+            android:text="초대코드 보내러 가기"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

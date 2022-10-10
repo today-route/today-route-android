@@ -1,5 +1,7 @@
 package com.maru.todayroute.ui.initial
 
+import android.annotation.SuppressLint
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.widget.Toast
@@ -8,6 +10,7 @@ import com.google.firebase.dynamiclinks.ktx.dynamicLinks
 import com.google.firebase.ktx.Firebase
 import com.maru.todayroute.R
 import com.maru.todayroute.databinding.ActivityInitialBinding
+import com.maru.todayroute.ui.MainActivity
 import com.maru.todayroute.util.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,10 +22,16 @@ class InitialActivity : BaseActivity<ActivityInitialBinding>(R.layout.activity_i
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        checkInviteCode()
+        viewModel.moveToMainActivity.observe(this) {
+            val intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
     }
 
-    private fun checkInviteCode() {
+    @SuppressLint("MissingSuperCall")
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
         Firebase.dynamicLinks
             .getDynamicLink(intent)
             .addOnSuccessListener { pendingDynamicLinkData ->
@@ -33,8 +42,15 @@ class InitialActivity : BaseActivity<ActivityInitialBinding>(R.layout.activity_i
                 }
                 if (deepLink != null && deepLink.getBooleanQueryParameter("code", false)) {
                     val inviteCode = deepLink.getQueryParameter("code")
-                    viewModel.setInviteCode(inviteCode)
-                    Toast.makeText(this, "$inviteCode", Toast.LENGTH_SHORT).show()
+                    val startDate = deepLink.getQueryParameter("date")
+
+                    inviteCode?.let { it ->
+                        viewModel.setInviteCode(it)
+                    }
+                    startDate?.let { it ->
+                        viewModel.setStartDate(it)
+//                        Toast.makeText(this, "$inviteCode $coupleName $startDate", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
     }

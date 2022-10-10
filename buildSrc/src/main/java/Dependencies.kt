@@ -37,9 +37,6 @@ object Dep {
         const val LEGACY_SUPPORT = "androidx.legacy:legacy-support-v4:${Versions.LEGACY_SUPPORT}"
         const val LOCATION = "com.google.android.gms:play-services-location:${Versions.LOCATION}"
         const val GMS = "com.google.gms:google-services:${Versions.GMS}"
-        const val BOM = "com.google.firebase:firebase-bom:${Versions.BOM}"
-        const val DYNAMIC_LINK = "com.google.firebase:firebase-dynamic-links-ktx"
-        const val ANALYTICS = "com.google.firebase:firebase-analytics-ktx"
         const val SECRET_GRADLE_PLUGIN = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin:secrets-gradle-plugin:${Versions.SECRET_GRADLE}"
         const val DATA_STORE = "androidx.datastore:datastore-preferences:${Versions.DATA_STORE}"
         const val ACTIVITY = "androidx.activity:activity-ktx:${Versions.ACTIVITY}"
@@ -65,6 +62,13 @@ object Dep {
             const val HILT_ANDROID = "com.google.dagger:hilt-android:${VERSION}"
             const val HILT_ANDROID_COMPILER = "com.google.dagger:hilt-android-compiler:${VERSION}"
         }
+    }
+
+    object Firebase {
+        const val BOM = "com.google.firebase:firebase-bom:${Versions.BOM}"
+        const val DYNAMIC_LINK = "com.google.firebase:firebase-dynamic-links-ktx"
+        const val ANALYTICS = "com.google.firebase:firebase-analytics-ktx"
+        const val FIRESTORE = "com.google.firebase:firebase-firestore-ktx"
     }
 
     object Kotlin {

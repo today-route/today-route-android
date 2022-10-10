@@ -4,6 +4,10 @@
 
     <data>
 
+        <variable
+            name="viewModel"
+            type="com.maru.todayroute.ui.initial.InitialViewModel" />
+
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -44,6 +48,7 @@
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:inputType="none"
+            android:text="@{viewModel.code}"
             android:textColor="@color/tmp_black"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -53,7 +58,7 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_invite_couple"
             android:layout_width="0dp"
-            android:layout_height="52dp"
+            android:layout_height="54dp"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="4dp"
             android:backgroundTint="@color/tmp_coral"
