@@ -32,4 +32,12 @@ class InitialRemoteDataSource @Inject constructor(
     override suspend fun findCoupleInfoById(id: Int): Result<CoupleInfo> = runCatching {
         firebaseHelper.findCoupleInfoById(id)
     }
+
+    override suspend fun getUserById(id: Int): Result<User> = runCatching {
+        firebaseHelper.getUserById(id)
+    }
+
+    override suspend fun getCoupleInfoById(id: Int): Result<CoupleInfo> = runCatching {
+        firebaseHelper.getCoupleInfoById(id)
+    }
 }
