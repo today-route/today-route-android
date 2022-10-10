@@ -23,7 +23,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class InitialViewModel @Inject constructor(
-    private val userRepository: InitialRepository
+    private val initialRepository: InitialRepository
 ) : ViewModel() {
 
     private var id = -1
@@ -99,7 +99,7 @@ class InitialViewModel @Inject constructor(
 
     suspend fun registerNewUser() {
         val result = withContext(viewModelScope.coroutineContext) {
-            userRepository.registerNewUser(
+            initialRepository.registerNewUser(
                 RegisterUserRequest(
                     key,
                     gender,
@@ -115,30 +115,38 @@ class InitialViewModel @Inject constructor(
             val id = result.getOrNull()!!.id
             _code = result.getOrNull()!!.code
             this.id = id
-            userRepository.saveSignInUserId(id) // TODO: parameter로 id 넘기기
+            initialRepository.saveSignInUserId(id) // TODO: parameter로 id 넘기기
             _moveToConnectCoupleFragment.call()
         }
     }
 
-    suspend fun checkUserInfo() {
-        val id = withContext(viewModelScope.coroutineContext) {
-            userRepository.getSignedInUserId().first()
+    suspend fun checkInitialProgress() {
+        val coupleId = withContext(viewModelScope.coroutineContext) {
+            initialRepository.getCoupleId().first()
         }
-        Log.d("HHII", "$id")
-        if (id != -1) {
-            val result = withContext(viewModelScope.coroutineContext) {
-                userRepository.getCodeById(id)
+
+        if (coupleId == -1) {
+            val id = withContext(viewModelScope.coroutineContext) {
+                initialRepository.getSignedInUserId().first()
             }
-            if (result.isSuccess) {
-                _code = result.getOrNull()!!
-                println(_code)
+
+            if (id != -1) {
+                val result = withContext(viewModelScope.coroutineContext) {
+                    initialRepository.getCodeById(id)
+                }
+                if (result.isSuccess) {
+                    _code = result.getOrNull()!!
+                    println(_code)
+                }
+                this.id = id
+                _moveToConnectCoupleFragment.call()
+            } else {
+                if (AuthApiClient.instance.hasToken()) {
+                    _moveToInitialUserInfoFragment.call()
+                }
             }
-            this.id = id
-            _moveToConnectCoupleFragment.call()
         } else {
-            if (AuthApiClient.instance.hasToken()) {
-                _moveToInitialUserInfoFragment.call()
-            }
+            _moveToMainActivity.call()
         }
     }
 
@@ -158,7 +166,7 @@ class InitialViewModel @Inject constructor(
 
     private suspend fun findUserByInviteCode(code: String) {
         val result = withContext(viewModelScope.coroutineContext) {
-            userRepository.findUserByInviteCode(code)
+            initialRepository.findUserByInviteCode(code)
         }
 
         if (result.isSuccess) {
@@ -174,7 +182,7 @@ class InitialViewModel @Inject constructor(
 
     suspend fun registerNewCouple() {
         val result = withContext(viewModelScope.coroutineContext) {
-            userRepository.registerNewCouple(
+            initialRepository.registerNewCouple(
                 CoupleInfo(
                     startDate = startDate,
                     user1Id = id,
@@ -185,29 +193,28 @@ class InitialViewModel @Inject constructor(
 
         if (result.isSuccess) {
             val coupleInfo = result.getOrNull()!!
-            startTodayRoute(coupleInfo)
+            startTodayRoute(coupleInfo.id)
         }
     }
 
     suspend fun tryStart() {
         // 1. user2ID랑 여기 id랑 같은 게 있는지 확인
         val result = withContext(viewModelScope.coroutineContext) {
-            userRepository.findCoupleInfoById(id)
+            initialRepository.findCoupleInfoById(id)
         }
 
         if (result.isSuccess) {
             val coupleInfo = result.getOrNull()
-            println(coupleInfo)
             if (coupleInfo == null || coupleInfo.id == -1) {
                 // TODO: 연결 실패했다고 메세지 띄우기
             } else {
-                startTodayRoute(coupleInfo)
+                startTodayRoute(coupleInfo.id)
             }
         }
     }
 
-    private suspend fun startTodayRoute(coupleInfo: CoupleInfo) {
-        userRepository.saveCoupleInfo(coupleInfo)
+    private suspend fun startTodayRoute(coupleId: Int) {
+        initialRepository.saveCoupleId(coupleId)
         _moveToMainActivity.call()
     }
 }

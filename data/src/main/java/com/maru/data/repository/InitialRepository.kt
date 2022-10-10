@@ -21,9 +21,12 @@ class InitialRepository @Inject constructor(
     override suspend fun getSignedInUserId(): Flow<Int> =
         userLocalDataSource.getSignedInUserId()
 
-    override suspend fun saveCoupleInfo(coupleInfo: CoupleInfo) {
-        userLocalDataSource.saveCoupleInfo(coupleInfo)
+    override suspend fun saveCoupleId(coupleId: Int) {
+        userLocalDataSource.saveCoupleId(coupleId)
     }
+
+    override suspend fun getCoupleId(): Flow<Int> =
+        userLocalDataSource.getCoupleId()
 
     override suspend fun registerNewUser(user: RegisterUserRequest): Result<User> =
         userRemoteDataSource.registerNewUser(user)

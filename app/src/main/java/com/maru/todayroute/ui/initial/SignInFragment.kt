@@ -34,7 +34,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
         }
 
         lifecycleScope.launch {
-            viewModel.checkUserInfo()
+            viewModel.checkInitialProgress()
         }
         binding.btnKakaoLogin.setOnClickListener {
             signIn()

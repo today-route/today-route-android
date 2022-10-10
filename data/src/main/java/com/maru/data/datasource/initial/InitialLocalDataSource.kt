@@ -4,6 +4,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
+import com.maru.data.datasource.initial.InitialLocalDataSource.PreferencesKeys.USER_ID
 import com.maru.data.model.CoupleInfo
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -24,16 +25,19 @@ class InitialLocalDataSource @Inject constructor(
             prefs[USER_ID] ?: -1
         }
 
-    override suspend fun saveCoupleInfo(coupleInfo: CoupleInfo) {
+    override suspend fun saveCoupleId(coupleId: Int) {
         dataStore.edit { prefs ->
-            prefs[COUPLE_ID] = coupleInfo.id
-            prefs[COUPLE_INFO_ID] = coupleInfo.user2Id
+            prefs[COUPLE_ID] = coupleId
         }
     }
 
+    override suspend fun getCoupleId(): Flow<Int> =
+        dataStore.data.map { prefs ->
+            prefs[COUPLE_ID] ?: -1
+        }
+
     companion object PreferencesKeys {
         val USER_ID = intPreferencesKey("user_id")
-        val COUPLE_INFO_ID = intPreferencesKey("couple_info_id")
         val COUPLE_ID = intPreferencesKey("couple_id")
     }
 }

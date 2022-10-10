@@ -10,7 +10,8 @@ interface InitialDataSource {
     interface Local {
         suspend fun saveSignInUserId(id: Int)
         suspend fun getSignedInUserId(): Flow<Int>
-        suspend fun saveCoupleInfo(coupleInfo: CoupleInfo)
+        suspend fun saveCoupleId(coupleId: Int)
+        suspend fun getCoupleId(): Flow<Int>
     }
 
     interface Remote {
