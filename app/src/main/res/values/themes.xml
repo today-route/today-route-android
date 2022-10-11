@@ -20,4 +20,8 @@
         <item name="colorAccent">@color/tmp_coral</item>
         <item name="colorControlNormal">@color/tmp_light_gray</item>
     </style>
+
+    <style name="CornerSize50Percent">
+        <item name="cornerSize">50%</item>
+    </style>
 </resources>
