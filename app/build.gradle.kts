@@ -41,6 +41,7 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    namespace = "com.maru.todayroute"
     kapt {
         correctErrorTypes = true
     }
