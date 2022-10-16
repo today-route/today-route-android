@@ -12,7 +12,7 @@ import com.kakao.sdk.user.UserApiClient
 import com.maru.data.model.CoupleInfo
 import com.maru.data.model.Gender
 import com.maru.data.model.User
-import com.maru.data.network.RegisterUserRequest
+import com.maru.data.network.SignUpRequest
 import com.maru.data.repository.InitialRepository
 import com.maru.todayroute.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -100,7 +100,7 @@ class InitialViewModel @Inject constructor(
     suspend fun registerNewUser() {
         val result = withContext(viewModelScope.coroutineContext) {
             initialRepository.registerNewUser(
-                RegisterUserRequest(
+                SignUpRequest(
                     key,
                     gender,
                     email,
@@ -112,10 +112,10 @@ class InitialViewModel @Inject constructor(
         }
 
         if (result.isSuccess) {
-            val id = result.getOrNull()!!.id
-            _code = result.getOrNull()!!.code
+            val id = result.getOrNull()!!.user.id
+            _code = result.getOrNull()!!.user.code
             this.id = id
-            initialRepository.saveSignInUserId(id) // TODO: parameter로 id 넘기기
+            initialRepository.saveSignInUserId(id)
             _moveToConnectCoupleFragment.call()
         }
     }

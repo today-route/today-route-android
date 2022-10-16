@@ -2,7 +2,8 @@ package com.maru.data.datasource.initial
 
 import com.maru.data.model.CoupleInfo
 import com.maru.data.model.User
-import com.maru.data.network.RegisterUserRequest
+import com.maru.data.network.SignUpRequest
+import com.maru.data.network.SignUpResponse
 import com.maru.data.network.firebase.FirebaseHelper
 import com.maru.data.network.server.RetrofitService
 import javax.inject.Inject
@@ -12,9 +13,9 @@ class InitialRemoteDataSource @Inject constructor(
     private val firebaseHelper: FirebaseHelper
 ) : InitialDataSource.Remote {
 
-    override suspend fun registerNewUser(user: RegisterUserRequest): Result<User> = runCatching {
-//        retrofitService.registerNewUser(user)
-          firebaseHelper.registerNewUser(user)
+    override suspend fun registerNewUser(user: SignUpRequest): Result<SignUpResponse> = runCatching {
+        retrofitService.registerNewUser(user)
+//          firebaseHelper.registerNewUser(user)
     }
 
     override suspend fun getCodeById(id: Int): Result<String> = runCatching {

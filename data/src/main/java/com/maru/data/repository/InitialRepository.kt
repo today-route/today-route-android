@@ -5,7 +5,8 @@ import com.maru.data.datasource.initial.InitialLocalDataSource
 import com.maru.data.datasource.initial.InitialRemoteDataSource
 import com.maru.data.model.CoupleInfo
 import com.maru.data.model.User
-import com.maru.data.network.RegisterUserRequest
+import com.maru.data.network.SignUpRequest
+import com.maru.data.network.SignUpResponse
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -28,7 +29,7 @@ class InitialRepository @Inject constructor(
     override suspend fun getCoupleId(): Flow<Int> =
         userLocalDataSource.getCoupleId()
 
-    override suspend fun registerNewUser(user: RegisterUserRequest): Result<User> =
+    override suspend fun registerNewUser(user: SignUpRequest): Result<SignUpResponse> =
         userRemoteDataSource.registerNewUser(user)
 
     override suspend fun getCodeById(id: Int): Result<String> =

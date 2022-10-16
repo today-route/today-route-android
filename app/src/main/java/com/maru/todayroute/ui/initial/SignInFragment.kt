@@ -44,7 +44,6 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
     private fun setUpObserver() {
         viewModel.moveToConnectCoupleFragment.observe(viewLifecycleOwner) {
             findNavController().navigate(R.id.action_signInFragment_to_connectCoupleFragment)
-            println("1")
         }
         viewModel.moveToInitialUserInfoFragment.observe(viewLifecycleOwner) {
             findNavController().navigate(R.id.action_signInFragment_to_initialUserInfoFragment)
@@ -54,10 +53,12 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
     private fun signIn() {
         val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
             if (error == null && token != null) {
+                viewModel.setUserInfoFromKakaoApi()
                 findNavController().navigate(R.id.action_signInFragment_to_initialUserInfoFragment)
             }
         }
 
+        // 카카오톡이 단말기에 있으면
         if (UserApiClient.instance.isKakaoTalkLoginAvailable(requireContext())) {
             UserApiClient.instance.loginWithKakaoTalk(requireContext()) { token, error ->
                 if (error != null) {
@@ -73,6 +74,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
                     findNavController().navigate(R.id.action_signInFragment_to_initialUserInfoFragment)
                 }
             }
+        // 카카오톡이 단말기에 없으면
         } else {
             UserApiClient.instance.loginWithKakaoAccount(requireContext(), callback = callback)
         }

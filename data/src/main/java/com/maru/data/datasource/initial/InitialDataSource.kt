@@ -2,7 +2,8 @@ package com.maru.data.datasource.initial
 
 import com.maru.data.model.CoupleInfo
 import com.maru.data.model.User
-import com.maru.data.network.RegisterUserRequest
+import com.maru.data.network.SignUpRequest
+import com.maru.data.network.SignUpResponse
 import kotlinx.coroutines.flow.Flow
 
 interface InitialDataSource {
@@ -15,7 +16,7 @@ interface InitialDataSource {
     }
 
     interface Remote {
-        suspend fun registerNewUser(user: RegisterUserRequest): Result<User>
+        suspend fun registerNewUser(user: SignUpRequest): Result<SignUpResponse>
         suspend fun getCodeById(id: Int): Result<String>
         suspend fun findUserByInviteCode(inviteCode: String): Result<User>
         suspend fun registerNewCouple(coupleInfo: CoupleInfo): Result<CoupleInfo>

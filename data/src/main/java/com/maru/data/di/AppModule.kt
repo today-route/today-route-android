@@ -42,7 +42,7 @@ class AppModule {
         Retrofit.Builder()
             .addConverterFactory(MoshiConverterFactory.create())
             .client(okHttpClient)
-            .baseUrl("http://localhost:4000/") // TODO: 서버 배포하면 오늘의 길 서버 url 입력
+            .baseUrl("http://15.165.83.166/api/")
             .build()
 
     @Singleton
