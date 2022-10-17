@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.auth0.android.jwt.JWT
 import com.maru.data.model.User
 import com.maru.data.repository.TokenRepository
+import com.maru.data.util.Constants.EMPTY_STRING
 import com.maru.todayroute.util.SingleLiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
@@ -31,8 +32,13 @@ class SplashViewModel @Inject constructor(
             repository.getAccessToken().first()
         }
 
+        if (accessToken == EMPTY_STRING) {
+            _moveToInitialActivity.call()
+            return
+        }
+
         if (isTokenExpired(JWT(accessToken))) {
-           checkRefreshToken()
+            checkRefreshToken()
         } else {
 //            getSignInUserCoupleInfoByAccessToken()
         }

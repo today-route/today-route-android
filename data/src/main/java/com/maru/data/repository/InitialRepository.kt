@@ -7,6 +7,7 @@ import com.maru.data.model.CoupleInfo
 import com.maru.data.model.User
 import com.maru.data.network.SignUpRequest
 import com.maru.data.network.SignUpResponse
+import com.maru.data.network.Token
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
@@ -49,6 +50,9 @@ class InitialRepository @Inject constructor(
 
     override suspend fun getCoupleInfoById(id: Int): Result<CoupleInfo> =
         userRemoteDataSource.getCoupleInfoById(id)
+
+    override suspend fun signInUser(key: String): Result<Token> =
+        userRemoteDataSource.signInUser(key)
 
 
 }

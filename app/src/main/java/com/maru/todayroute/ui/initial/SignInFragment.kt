@@ -33,9 +33,9 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
             activity?.finish()
         }
 
-        lifecycleScope.launch {
-            viewModel.checkInitialProgress()
-        }
+//        lifecycleScope.launch {
+//            viewModel.checkInitialProgress()
+//        }
         binding.btnKakaoLogin.setOnClickListener {
             signIn()
         }
@@ -54,7 +54,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
         val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
             if (error == null && token != null) {
                 viewModel.setUserInfoFromKakaoApi()
-                findNavController().navigate(R.id.action_signInFragment_to_initialUserInfoFragment)
+//                findNavController().navigate(R.id.action_signInFragment_to_initialUserInfoFragment)
             }
         }
 
@@ -71,7 +71,7 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
                     UserApiClient.instance.loginWithKakaoAccount(requireContext(), callback = callback)
                 } else if (token != null) {
                     viewModel.setUserInfoFromKakaoApi()
-                    findNavController().navigate(R.id.action_signInFragment_to_initialUserInfoFragment)
+//                    findNavController().navigate(R.id.action_signInFragment_to_initialUserInfoFragment)
                 }
             }
         // 카카오톡이 단말기에 없으면

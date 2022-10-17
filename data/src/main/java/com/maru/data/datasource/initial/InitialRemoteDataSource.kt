@@ -4,6 +4,7 @@ import com.maru.data.model.CoupleInfo
 import com.maru.data.model.User
 import com.maru.data.network.SignUpRequest
 import com.maru.data.network.SignUpResponse
+import com.maru.data.network.Token
 import com.maru.data.network.firebase.FirebaseHelper
 import com.maru.data.network.server.RetrofitService
 import javax.inject.Inject
@@ -40,5 +41,9 @@ class InitialRemoteDataSource @Inject constructor(
 
     override suspend fun getCoupleInfoById(id: Int): Result<CoupleInfo> = runCatching {
         firebaseHelper.getCoupleInfoById(id)
+    }
+
+    override suspend fun signInUser(key: String): Result<Token> = runCatching {
+        retrofitService.signInUser(key)
     }
 }

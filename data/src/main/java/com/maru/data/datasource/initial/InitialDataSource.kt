@@ -4,6 +4,7 @@ import com.maru.data.model.CoupleInfo
 import com.maru.data.model.User
 import com.maru.data.network.SignUpRequest
 import com.maru.data.network.SignUpResponse
+import com.maru.data.network.Token
 import kotlinx.coroutines.flow.Flow
 
 interface InitialDataSource {
@@ -23,5 +24,7 @@ interface InitialDataSource {
         suspend fun findCoupleInfoById(id: Int): Result<CoupleInfo>
         suspend fun getUserById(id: Int): Result<User>
         suspend fun getCoupleInfoById(id: Int): Result<CoupleInfo>
+
+        suspend fun signInUser(key: String): Result<Token>
     }
 }

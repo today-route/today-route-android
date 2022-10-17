@@ -17,6 +17,7 @@ import com.maru.data.repository.InitialRepository
 import com.maru.todayroute.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.util.*
 import javax.inject.Inject
@@ -76,10 +77,29 @@ class InitialViewModel @Inject constructor(
             accessTokenInfo { tokenInfo, error ->
                 if (error == null && tokenInfo != null) {
                     key = tokenInfo.id.toString()
+                    viewModelScope.launch {
+                        trySignIn()
+                    }
                 }
             }
         }
     }
+
+    private suspend fun trySignIn() {
+        val result = withContext(viewModelScope.coroutineContext) {
+            initialRepository.signInUser(key)
+        }
+
+        if (result.isSuccess) {
+//            getSignInUserCoupleInfoByAccessToken()
+        } else {
+            _moveToInitialUserInfoFragment.call()
+        }
+    }
+
+//    private fun getSignInUserCoupleInfoByAccessToken() {
+//        // TODO: access token으로 요청했을 때 user, couple 정보 받아오기
+//    }
 
     fun setUserGender(gender: Gender) {
         this.gender = gender
@@ -117,36 +137,6 @@ class InitialViewModel @Inject constructor(
             this.id = id
             initialRepository.saveSignInUserId(id)
             _moveToConnectCoupleFragment.call()
-        }
-    }
-
-    suspend fun checkInitialProgress() {
-        val coupleId = withContext(viewModelScope.coroutineContext) {
-            initialRepository.getCoupleId().first()
-        }
-
-        if (coupleId == -1) {
-            val id = withContext(viewModelScope.coroutineContext) {
-                initialRepository.getSignedInUserId().first()
-            }
-
-            if (id != -1) {
-                val result = withContext(viewModelScope.coroutineContext) {
-                    initialRepository.getCodeById(id)
-                }
-                if (result.isSuccess) {
-                    _code = result.getOrNull()!!
-                    println(_code)
-                }
-                this.id = id
-                _moveToConnectCoupleFragment.call()
-            } else {
-                if (AuthApiClient.instance.hasToken()) {
-                    _moveToInitialUserInfoFragment.call()
-                }
-            }
-        } else {
-            _moveToMainActivity.call()
         }
     }
 
