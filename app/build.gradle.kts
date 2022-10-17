@@ -86,6 +86,7 @@ dependencies {
     implementation(Dep.Libraries.NAVER_MAPS)
     implementation(Dep.Libraries.KAKAO_LOGIN)
     implementation(Dep.Libraries.KAKAO_SHARE)
+    implementation(Dep.Libraries.JWT_DECODE)
 
     // Glide
     implementation(Dep.Libraries.Glide.GLIDE)

@@ -25,6 +25,7 @@ object Versions {
     // Libraries
     const val NAVER_MAPS = "3.14.0"
     const val KAKAO = "2.11.0"
+    const val JWT_DECODE = "2.0.1"
 }
 
 object Dep {
@@ -85,6 +86,7 @@ object Dep {
         const val NAVER_MAPS = "com.naver.maps:map-sdk:${Versions.NAVER_MAPS}"
         const val KAKAO_LOGIN = "com.kakao.sdk:v2-user:${Versions.KAKAO}"
         const val KAKAO_SHARE = "com.kakao.sdk:v2-share:${Versions.KAKAO}"
+        const val JWT_DECODE = "com.auth0.android:jwtdecode:${Versions.JWT_DECODE}"
 
         object Glide {
             private const val VERSION = "4.13.2"
