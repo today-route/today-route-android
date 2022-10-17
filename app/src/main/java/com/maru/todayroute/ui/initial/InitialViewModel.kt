@@ -13,7 +13,11 @@ import com.maru.data.model.CoupleInfo
 import com.maru.data.model.Gender
 import com.maru.data.model.User
 import com.maru.data.network.SignUpRequest
+import com.maru.data.network.Token
 import com.maru.data.repository.InitialRepository
+import com.maru.data.repository.TokenRepository
+import com.maru.todayroute.SignInTokenInfo
+import com.maru.todayroute.SignInTokenInfo.token
 import com.maru.todayroute.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.first
@@ -24,7 +28,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class InitialViewModel @Inject constructor(
-    private val initialRepository: InitialRepository
+    private val initialRepository: InitialRepository,
+    private val tokenRepository: TokenRepository
 ) : ViewModel() {
 
     private var id = -1
@@ -132,10 +137,14 @@ class InitialViewModel @Inject constructor(
         }
 
         if (result.isSuccess) {
-            val id = result.getOrNull()!!.user.id
-            _code = result.getOrNull()!!.user.code
-            this.id = id
-            initialRepository.saveSignInUserId(id)
+            val user = result.getOrNull()!!.user
+            val accessToken = result.getOrNull()!!.access
+            val refreshToken = result.getOrNull()!!.refresh
+
+            id = user.id
+            _code = user.code
+            token = Token(accessToken, refreshToken)
+            tokenRepository.saveTokens(token)
             _moveToConnectCoupleFragment.call()
         }
     }

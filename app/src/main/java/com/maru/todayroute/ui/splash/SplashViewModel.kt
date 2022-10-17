@@ -5,8 +5,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.auth0.android.jwt.JWT
 import com.maru.data.model.User
+import com.maru.data.network.Token
 import com.maru.data.repository.TokenRepository
 import com.maru.data.util.Constants.EMPTY_STRING
+import com.maru.todayroute.SignInTokenInfo.token
 import com.maru.todayroute.util.SingleLiveEvent
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
@@ -31,6 +33,9 @@ class SplashViewModel @Inject constructor(
         val accessToken = withContext(viewModelScope.coroutineContext) {
             repository.getAccessToken().first()
         }
+        val refreshToken = withContext(viewModelScope.coroutineContext) {
+            repository.getRefreshToken().first()
+        }
 
         if (accessToken == EMPTY_STRING) {
             _moveToInitialActivity.call()
@@ -38,17 +43,14 @@ class SplashViewModel @Inject constructor(
         }
 
         if (isTokenExpired(JWT(accessToken))) {
-            checkRefreshToken()
+            checkRefreshToken(refreshToken)
         } else {
+            token = Token(accessToken, refreshToken)
 //            getSignInUserCoupleInfoByAccessToken()
         }
     }
 
-    private suspend fun checkRefreshToken() {
-        val refreshToken = withContext(viewModelScope.coroutineContext) {
-            repository.getRefreshToken().first()
-        }
-
+    private suspend fun checkRefreshToken(refreshToken: String) {
         if (isTokenExpired(JWT(refreshToken))) {
             viewModelScope.launch(Dispatchers.IO) {
                 repository.removeTokens()
@@ -61,6 +63,7 @@ class SplashViewModel @Inject constructor(
             viewModelScope.launch(Dispatchers.IO) {
                 repository.saveTokens(newToken)
             }
+            token = newToken
 //            getSignInUserCoupleInfoByAccessToken()
         }
     }
