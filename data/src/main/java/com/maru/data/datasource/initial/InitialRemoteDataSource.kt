@@ -2,6 +2,7 @@ package com.maru.data.datasource.initial
 
 import com.maru.data.model.CoupleInfo
 import com.maru.data.model.User
+import com.maru.data.network.SignInRequest
 import com.maru.data.network.SignUpRequest
 import com.maru.data.network.SignUpResponse
 import com.maru.data.network.Token
@@ -12,38 +13,26 @@ import javax.inject.Inject
 class InitialRemoteDataSource @Inject constructor(
     private val retrofitService: RetrofitService,
     private val firebaseHelper: FirebaseHelper
-) : InitialDataSource.Remote {
+) : InitialDataSource {
 
     override suspend fun registerNewUser(user: SignUpRequest): Result<SignUpResponse> = runCatching {
         retrofitService.registerNewUser(user)
 //          firebaseHelper.registerNewUser(user)
     }
 
-    override suspend fun getCodeById(id: Int): Result<String> = runCatching {
-        firebaseHelper.getCodeById(id)
-    }
-
-    override suspend fun findUserByInviteCode(inviteCode: String): Result<User> = runCatching {
-        firebaseHelper.findUserByInviteCode(inviteCode)
-    }
-
-    override suspend fun registerNewCouple(coupleInfo: CoupleInfo): Result<CoupleInfo> = runCatching {
-        firebaseHelper.registerNewCouple(coupleInfo)
-    }
-
-    override suspend fun findCoupleInfoById(id: Int): Result<CoupleInfo> = runCatching {
-        firebaseHelper.findCoupleInfoById(id)
-    }
-
-    override suspend fun getUserById(id: Int): Result<User> = runCatching {
-        firebaseHelper.getUserById(id)
-    }
-
-    override suspend fun getCoupleInfoById(id: Int): Result<CoupleInfo> = runCatching {
-        firebaseHelper.getCoupleInfoById(id)
-    }
-
     override suspend fun signInUser(key: String): Result<Token> = runCatching {
-        retrofitService.signInUser(key)
+        retrofitService.signInUser(SignInRequest(key))
+    }
+
+    override suspend fun registerNewCouple(code: String, startDate: String): Result<CoupleInfo> = runCatching {
+        retrofitService.createCouple(code, startDate)
+    }
+
+    override suspend fun getMyCoupleData(): Result<CoupleInfo> = runCatching {
+        retrofitService.getMyCoupleData()
+    }
+
+    override suspend fun getMyUserData(): Result<User> = kotlin.runCatching {
+        retrofitService.getMyUserData()
     }
 }

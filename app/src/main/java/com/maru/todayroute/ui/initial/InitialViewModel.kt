@@ -59,10 +59,6 @@ class InitialViewModel @Inject constructor(
     val month = calendar.get(Calendar.MONTH)
     val date = calendar.get(Calendar.DATE)
 
-    private lateinit var coupleUser: User
-    private val _showCoupleNameCheckDialog = SingleLiveEvent<String>()
-    val showCoupleNameCheckDialog: LiveData<String> get() = _showCoupleNameCheckDialog
-
     init {
         if (AuthApiClient.instance.hasToken()) {
             setUserInfoFromKakaoApi()
@@ -82,6 +78,7 @@ class InitialViewModel @Inject constructor(
             accessTokenInfo { tokenInfo, error ->
                 if (error == null && tokenInfo != null) {
                     key = tokenInfo.id.toString()
+                    Log.d("key!!", key)
                     viewModelScope.launch {
                         trySignIn()
                     }
@@ -96,15 +93,24 @@ class InitialViewModel @Inject constructor(
         }
 
         if (result.isSuccess) {
-//            getSignInUserCoupleInfoByAccessToken()
+            token = result.getOrNull()!!
+            getSignInCoupleInfoByAccessToken()
         } else {
             _moveToInitialUserInfoFragment.call()
         }
     }
 
-//    private fun getSignInUserCoupleInfoByAccessToken() {
-//        // TODO: access token으로 요청했을 때 user, couple 정보 받아오기
-//    }
+    private suspend fun getSignInCoupleInfoByAccessToken() {
+        val result = withContext(viewModelScope.coroutineContext) {
+            initialRepository.getMyCoupleData()
+        }
+
+        if (result.isSuccess) {
+            _moveToMainActivity.call()
+        } else {
+            _moveToConnectCoupleFragment.call()
+        }
+    }
 
     fun setUserGender(gender: Gender) {
         this.gender = gender
@@ -159,61 +165,27 @@ class InitialViewModel @Inject constructor(
             buttonTitle = "초대 코드 입력하기"
         )
 
-    suspend fun connectCoupleByCode(code: String) {
-        findUserByInviteCode(code)
-    }
-
-    private suspend fun findUserByInviteCode(code: String) {
-        val result = withContext(viewModelScope.coroutineContext) {
-            initialRepository.findUserByInviteCode(code)
-        }
-
-        if (result.isSuccess) {
-            val user = result.getOrNull()
-            if (user == null || user.id == -1) {
-                // TODO: 실패
-            } else {
-                coupleUser = user
-                _showCoupleNameCheckDialog.value = user.nickname
-            }
-        }
-    }
-
-    suspend fun registerNewCouple() {
-        val result = withContext(viewModelScope.coroutineContext) {
-            initialRepository.registerNewCouple(
-                CoupleInfo(
-                    startDate = startDate,
-                    user1Id = id,
-                    user2Id = coupleUser.id
-                )
-            )
-        }
-
-        if (result.isSuccess) {
-            val coupleInfo = result.getOrNull()!!
-            startTodayRoute(coupleInfo.id)
-        }
-    }
-
     suspend fun tryStart() {
-        // 1. user2ID랑 여기 id랑 같은 게 있는지 확인
         val result = withContext(viewModelScope.coroutineContext) {
-            initialRepository.findCoupleInfoById(id)
+            initialRepository.getMyCoupleData()
         }
 
         if (result.isSuccess) {
-            val coupleInfo = result.getOrNull()
-            if (coupleInfo == null || coupleInfo.id == -1) {
-                // TODO: 연결 실패했다고 메세지 띄우기
-            } else {
-                startTodayRoute(coupleInfo.id)
-            }
+            _moveToMainActivity.call()
+        } else {
+            // TODO: 다시 시도 알림
         }
     }
 
-    private suspend fun startTodayRoute(coupleId: Int) {
-        initialRepository.saveCoupleId(coupleId)
-        _moveToMainActivity.call()
+    suspend fun connectCoupleByCode() {
+        val result = withContext(viewModelScope.coroutineContext) {
+            initialRepository.registerNewCouple(code, startDate)
+        }
+
+        if (result.isSuccess) {
+            _moveToMainActivity.call()
+        } else {
+            // TODO: 다시 시도 알림
+        }
     }
 }

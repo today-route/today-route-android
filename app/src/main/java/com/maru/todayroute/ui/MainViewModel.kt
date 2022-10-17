@@ -28,24 +28,24 @@ class MainViewModel @Inject constructor(
     }
 
     private suspend fun fetchUserData() {
-        val userId = withContext(viewModelScope.coroutineContext) {
-            initialRepository.getSignedInUserId().first()
-        }
-
-        withContext(Dispatchers.IO) {
-            user = initialRepository.getUserById(userId).getOrNull()!!
-            println(user)
-        }
+//        val userId = withContext(viewModelScope.coroutineContext) {
+//            initialRepository.getSignedInUserId().first()
+//        }
+//
+//        withContext(Dispatchers.IO) {
+//            user = initialRepository.getUserById(userId).getOrNull()!!
+//            println(user)
+//        }
     }
 
     private suspend fun fetchCoupleInfo() {
-        val coupleId = withContext(viewModelScope.coroutineContext) {
-            initialRepository.getCoupleId().first()
-        }
-
-        withContext(Dispatchers.IO) {
-            coupleInfo = initialRepository.getCoupleInfoById(coupleId).getOrNull()!!
-            println(coupleInfo)
-        }
+//        val coupleId = withContext(viewModelScope.coroutineContext) {
+//            initialRepository.getCoupleId().first()
+//        }
+//
+//        withContext(Dispatchers.IO) {
+//            coupleInfo = initialRepository.getCoupleInfoById(coupleId).getOrNull()!!
+//            println(coupleInfo)
+//        }
     }
 }

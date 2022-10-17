@@ -1,5 +1,6 @@
 package com.maru.data.di
 
+import com.maru.data.network.server.HeaderInterceptor
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
@@ -28,11 +29,12 @@ class AppModule {
     // Retrofit
     @Singleton
     @Provides
-    fun provideOkHttpClient(): OkHttpClient {
+    fun provideOkHttpClient(dataStore: DataStore<Preferences>): OkHttpClient {
         val httpLoggingInterceptor = HttpLoggingInterceptor()
             .setLevel(HttpLoggingInterceptor.Level.BODY)
         return OkHttpClient.Builder()
             .addInterceptor(httpLoggingInterceptor)
+            .addInterceptor(HeaderInterceptor(dataStore))
             .build()
     }
 

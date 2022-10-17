@@ -35,77 +35,77 @@ class FirebaseHelper @Inject constructor(
 //                continuation.resume(newUser)
 //            }
 //        }
-
-        suspend fun getCodeById(id: Int): String = suspendCoroutine { continuation ->
-            db.collection("users").whereEqualTo("id", id).get().addOnSuccessListener {
-                val user = it.documents[0].toObject<User>()
-                user?.let { continuation.resume(user.code) }
-            }
-        }
-
-    suspend fun findUserByInviteCode(inviteCode: String): User =
-        suspendCoroutine { continuation ->
-            db.collection("users").whereEqualTo("code", inviteCode).get()
-                .addOnSuccessListener {
-                    if (it.documents.isNotEmpty()) {
-                        val user = it.documents[0].toObject<User>()
-                        user?.let { continuation.resume(user) }
-                    } else {
-                        continuation.resume(User())
-                    }
-                }
-        }
-
-    suspend fun registerNewCouple(coupleInfo: CoupleInfo): CoupleInfo = suspendCoroutine { continuation ->
-        db.collection("coupleSequence").get().addOnSuccessListener { result ->
-            val coupleId = result.documents[0].data?.get("number").toString().toInt()
-            val newCouple = CoupleInfo(
-                coupleId,
-                coupleInfo.startDate,
-                user1Id = coupleInfo.user1Id,
-                user2Id = coupleInfo.user2Id
-            )
-
-            db.collection("couples").add(newCouple)
-            db.collection("coupleSequence").document("coupleSequence").update("number", coupleId + 1)
-
-            continuation.resume(newCouple)
-        }
-    }
-
-    suspend fun findCoupleInfoById(id: Int): CoupleInfo = suspendCoroutine { continuation ->
-        db.collection("couples").whereEqualTo("user2Id", id).get()
-            .addOnSuccessListener {
-                if (it.documents.isNotEmpty()) {
-                    val coupleInfo = it.documents[0].toObject<CoupleInfo>()
-                    coupleInfo?.let { continuation.resume(coupleInfo) }
-                } else {
-                    continuation.resume(CoupleInfo())
-                }
-            }
-    }
-
-    suspend fun getUserById(id: Int): User = suspendCoroutine { continuation ->
-        db.collection("users").whereEqualTo("id", id).get()
-            .addOnSuccessListener {
-                if (it.documents.isNotEmpty()) {
-                    val user = it.documents[0].toObject<User>()
-                    user?.let { continuation.resume(user) }
-                } else {
-                    continuation.resume(User())
-                }
-            }
-    }
-
-    suspend fun getCoupleInfoById(id:Int): CoupleInfo = suspendCoroutine { continuation ->
-        db.collection("couples").whereEqualTo("id", id).get()
-            .addOnSuccessListener {
-                if (it.documents.isNotEmpty()) {
-                    val coupleInfo = it.documents[0].toObject<CoupleInfo>()
-                    coupleInfo?.let { continuation.resume(coupleInfo) }
-                } else {
-                    continuation.resume(CoupleInfo())
-                }
-            }
-    }
+//
+//        suspend fun getCodeById(id: Int): String = suspendCoroutine { continuation ->
+//            db.collection("users").whereEqualTo("id", id).get().addOnSuccessListener {
+//                val user = it.documents[0].toObject<User>()
+//                user?.let { continuation.resume(user.code) }
+//            }
+//        }
+//
+//    suspend fun findUserByInviteCode(inviteCode: String): User =
+//        suspendCoroutine { continuation ->
+//            db.collection("users").whereEqualTo("code", inviteCode).get()
+//                .addOnSuccessListener {
+//                    if (it.documents.isNotEmpty()) {
+//                        val user = it.documents[0].toObject<User>()
+//                        user?.let { continuation.resume(user) }
+//                    } else {
+//                        continuation.resume(User())
+//                    }
+//                }
+//        }
+//
+//    suspend fun registerNewCouple(coupleInfo: CoupleInfo): CoupleInfo = suspendCoroutine { continuation ->
+//        db.collection("coupleSequence").get().addOnSuccessListener { result ->
+//            val coupleId = result.documents[0].data?.get("number").toString().toInt()
+//            val newCouple = CoupleInfo(
+//                coupleId,
+//                coupleInfo.startDate,
+//                user1Id = coupleInfo.user1Id,
+//                user2Id = coupleInfo.user2Id
+//            )
+//
+//            db.collection("couples").add(newCouple)
+//            db.collection("coupleSequence").document("coupleSequence").update("number", coupleId + 1)
+//
+//            continuation.resume(newCouple)
+//        }
+//    }
+//
+//    suspend fun findCoupleInfoById(id: Int): CoupleInfo = suspendCoroutine { continuation ->
+//        db.collection("couples").whereEqualTo("user2Id", id).get()
+//            .addOnSuccessListener {
+//                if (it.documents.isNotEmpty()) {
+//                    val coupleInfo = it.documents[0].toObject<CoupleInfo>()
+//                    coupleInfo?.let { continuation.resume(coupleInfo) }
+//                } else {
+//                    continuation.resume(CoupleInfo())
+//                }
+//            }
+//    }
+//
+//    suspend fun getUserById(id: Int): User = suspendCoroutine { continuation ->
+//        db.collection("users").whereEqualTo("id", id).get()
+//            .addOnSuccessListener {
+//                if (it.documents.isNotEmpty()) {
+//                    val user = it.documents[0].toObject<User>()
+//                    user?.let { continuation.resume(user) }
+//                } else {
+//                    continuation.resume(User())
+//                }
+//            }
+//    }
+//
+//    suspend fun getCoupleInfoById(id:Int): CoupleInfo = suspendCoroutine { continuation ->
+//        db.collection("couples").whereEqualTo("id", id).get()
+//            .addOnSuccessListener {
+//                if (it.documents.isNotEmpty()) {
+//                    val coupleInfo = it.documents[0].toObject<CoupleInfo>()
+//                    coupleInfo?.let { continuation.resume(coupleInfo) }
+//                } else {
+//                    continuation.resume(CoupleInfo())
+//                }
+//            }
+//    }
 }
