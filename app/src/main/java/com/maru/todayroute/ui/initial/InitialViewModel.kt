@@ -3,6 +3,7 @@ package com.maru.todayroute.ui.initial
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kakao.sdk.auth.AuthApiClient
@@ -46,7 +47,7 @@ class InitialViewModel @Inject constructor(
     val code get() = _code
     private lateinit var _code: String
     val inviteCode get() = _inviteCode
-    private var _inviteCode: String = ""
+    private var _inviteCode: MutableLiveData<String> = MutableLiveData("")
 
     private val _moveToConnectCoupleFragment = SingleLiveEvent<Unit>()
     val moveToConnectCoupleFragment: LiveData<Unit> get() = _moveToConnectCoupleFragment
@@ -112,7 +113,20 @@ class InitialViewModel @Inject constructor(
         if (result.isSuccess) {
             _moveToMainActivity.call()
         } else {
+            setSignInUser()
             _moveToConnectCoupleFragment.call()
+        }
+    }
+
+    private suspend fun setSignInUser() {
+        val result = withContext(viewModelScope.coroutineContext) {
+            initialRepository.getMyUserData()
+        }
+
+        if (result.isSuccess) {
+            val user = result.getOrNull()!!
+            id = user.id
+            _code = user.code
         }
     }
 
@@ -125,7 +139,7 @@ class InitialViewModel @Inject constructor(
     }
 
     fun setInviteCode(inviteCode: String) {
-        this._inviteCode = inviteCode
+        this._inviteCode.value = inviteCode
     }
 
     fun setStartDate(startDate: String) {
@@ -147,12 +161,10 @@ class InitialViewModel @Inject constructor(
         }
 
         if (result.isSuccess) {
-            val user = result.getOrNull()!!.user
             val accessToken = result.getOrNull()!!.access
             val refreshToken = result.getOrNull()!!.refresh
 
-            id = user.id
-            _code = user.code
+            setSignInUser()
             token = Token(accessToken, refreshToken)
             tokenRepository.saveTokens(token)
             _moveToConnectCoupleFragment.call()
