@@ -22,12 +22,12 @@ interface RetrofitService {
     @POST("user/refresh/")
     suspend fun refresh(@Body refresh: String): Token
 
-    @POST("/couple/")
+    @POST("couple/")
     suspend fun createCouple(@Body code: String, @Body startDate: String): CoupleInfo
 
-    @GET("/couple/")
+    @GET("couple/")
     suspend fun getMyCoupleData(): CoupleInfo
 
-    @GET("/user")
+    @GET("user")
     suspend fun getMyUserData(): User
 }
