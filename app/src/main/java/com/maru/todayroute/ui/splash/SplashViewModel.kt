@@ -41,13 +41,15 @@ class SplashViewModel @Inject constructor(
             tokenRepository.getRefreshToken().first()
         }
 
-        _moveToInitialActivity.call()
-
-        if (isTokenExpired(JWT(accessToken))) {
-            checkRefreshToken(refreshToken)
+        if (accessToken != EMPTY_STRING) {
+            if (isTokenExpired(JWT(accessToken))) {
+                checkRefreshToken(refreshToken)
+            } else {
+                token = Token(accessToken, refreshToken)
+                getSignInCoupleInfoByAccessToken()
+            }
         } else {
-            token = Token(accessToken, refreshToken)
-            getSignInCoupleInfoByAccessToken()
+            _moveToInitialActivity.call()
         }
     }
 
@@ -56,7 +58,7 @@ class SplashViewModel @Inject constructor(
             viewModelScope.launch(Dispatchers.IO) {
                 tokenRepository.removeTokens()
             }
-            _moveToInitialActivity.value = null
+            _moveToInitialActivity.call()
         } else {
             val newToken = withContext(viewModelScope.coroutineContext) {
                 tokenRepository.refresh(refreshToken)

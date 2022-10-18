@@ -20,6 +20,7 @@ import com.maru.todayroute.SignInTokenInfo
 import com.maru.todayroute.SignInTokenInfo.token
 import com.maru.todayroute.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -94,6 +95,9 @@ class InitialViewModel @Inject constructor(
 
         if (result.isSuccess) {
             token = result.getOrNull()!!
+            viewModelScope.launch(Dispatchers.IO) {
+                tokenRepository.saveTokens(token)
+            }
             getSignInCoupleInfoByAccessToken()
         } else {
             _moveToInitialUserInfoFragment.call()
