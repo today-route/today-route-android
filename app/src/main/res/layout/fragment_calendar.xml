@@ -1,14 +1,45 @@
-<?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
-
-    <data>
-
-    </data>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <CalendarView
+            android:id="@+id/cv_calendarView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_dDay"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <TextView
+            android:id="@+id/tv_dDay"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="30dp"
+            app:layout_constraintStart_toStartOf="@+id/cv_calendarView"
+            app:layout_constraintTop_toBottomOf="@+id/cv_calendarView"
+            app:layout_constraintBottom_toTopOf="@+id/rv_title"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:text="♥+"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_title"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
+            app:layout_constraintStart_toStartOf="@+id/cv_calendarView"
+            app:layout_constraintTop_toBottomOf="@+id/tv_dDay"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            tools:listitem="@layout/item_route_diary"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
