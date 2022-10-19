@@ -70,6 +70,8 @@ object Dep {
         const val DYNAMIC_LINK = "com.google.firebase:firebase-dynamic-links-ktx"
         const val ANALYTICS = "com.google.firebase:firebase-analytics-ktx"
         const val FIRESTORE = "com.google.firebase:firebase-firestore-ktx"
+        const val CRASHLYTICS = "com.google.firebase:firebase-crashlytics-ktx"
+        const val CRASHLYTICS_GRADLE = "com.google.firebase:firebase-crashlytics-gradle:2.9.2"
     }
 
     object Kotlin {

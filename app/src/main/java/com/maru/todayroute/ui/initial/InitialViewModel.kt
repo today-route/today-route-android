@@ -163,10 +163,9 @@ class InitialViewModel @Inject constructor(
         if (result.isSuccess) {
             val accessToken = result.getOrNull()!!.access
             val refreshToken = result.getOrNull()!!.refresh
-
-            setSignInUser()
             token = Token(accessToken, refreshToken)
             tokenRepository.saveTokens(token)
+            setSignInUser()
             _moveToConnectCoupleFragment.call()
         }
     }

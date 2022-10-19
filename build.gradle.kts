@@ -8,6 +8,7 @@ buildscript {
         classpath(Dep.AndroidX.Hilt.HILT_PLUGIN)
         classpath(Dep.AndroidX.SECRET_GRADLE_PLUGIN)
         classpath(Dep.AndroidX.GMS)
+        classpath(Dep.Firebase.CRASHLYTICS_GRADLE)
     }
 }
 
