@@ -56,11 +56,6 @@ class InitialViewModel @Inject constructor(
     private val _moveToMainActivity = SingleLiveEvent<Unit>()
     val moveToMainActivity: LiveData<Unit> get() = _moveToMainActivity
 
-    private val calendar: Calendar = GregorianCalendar()
-    val year = calendar.get(Calendar.YEAR)
-    val month = calendar.get(Calendar.MONTH)
-    val date = calendar.get(Calendar.DATE)
-
     init {
         if (AuthApiClient.instance.hasToken()) {
             setUserInfoFromKakaoApi()

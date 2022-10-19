@@ -8,10 +8,16 @@ import androidx.navigation.fragment.findNavController
 import com.maru.todayroute.R
 import com.maru.todayroute.databinding.FragmentInputStartDateBinding
 import com.maru.todayroute.util.BaseFragment
+import java.util.*
 
 class InputStartDateFragment : BaseFragment<FragmentInputStartDateBinding>(R.layout.fragment_input_start_date) {
 
     private val viewModel: InitialViewModel by activityViewModels()
+
+    private val calendar: Calendar = GregorianCalendar()
+    private var year = calendar.get(Calendar.YEAR)
+    private var month = calendar.get(Calendar.MONTH)
+    private var date = calendar.get(Calendar.DATE)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -35,10 +41,13 @@ class InputStartDateFragment : BaseFragment<FragmentInputStartDateBinding>(R.lay
                 { _, year, month, dayOfMonth ->
                     binding.etStartDate.setText("${year}-${month + 1}-${dayOfMonth}")
                     viewModel.setStartDate("${year}년 ${month + 1}월 ${dayOfMonth}일")
+                    this.year = year
+                    this.month = month
+                    date = dayOfMonth
                 },
-                viewModel.year,
-                viewModel.month,
-                viewModel.date
+                year,
+                month,
+                date
             ).show()
         }
     }
