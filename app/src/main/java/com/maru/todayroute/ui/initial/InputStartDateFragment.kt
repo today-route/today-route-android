@@ -8,6 +8,7 @@ import androidx.navigation.fragment.findNavController
 import com.maru.todayroute.R
 import com.maru.todayroute.databinding.FragmentInputStartDateBinding
 import com.maru.todayroute.util.BaseFragment
+import com.maru.todayroute.util.Utils.convertSingleToDoubleDigit
 import java.util.*
 
 class InputStartDateFragment : BaseFragment<FragmentInputStartDateBinding>(R.layout.fragment_input_start_date) {
@@ -38,12 +39,14 @@ class InputStartDateFragment : BaseFragment<FragmentInputStartDateBinding>(R.lay
 
         binding.etStartDate.setOnClickListener {
             DatePickerDialog(requireContext(),
-                { _, year, month, dayOfMonth ->
-                    binding.etStartDate.setText("${year}-${month + 1}-${dayOfMonth}")
-                    viewModel.setStartDate("${year}년 ${month + 1}월 ${dayOfMonth}일")
+                { _, year, m, d ->
+                    val month = (m + 1).toString().convertSingleToDoubleDigit()
+                    val dayOfMonth = d.toString().convertSingleToDoubleDigit()
+                    binding.etStartDate.setText("${year}-${month}-${dayOfMonth}")
+                    viewModel.setStartDate("${year}-${month}-${dayOfMonth}")
                     this.year = year
-                    this.month = month
-                    date = dayOfMonth
+                    this.month = m
+                    date = d
                 },
                 year,
                 month,

@@ -10,6 +10,7 @@ import com.maru.data.model.Gender
 import com.maru.todayroute.R
 import com.maru.todayroute.databinding.FragmentInitialUserInfoBinding
 import com.maru.todayroute.util.BaseFragment
+import com.maru.todayroute.util.Utils.convertSingleToDoubleDigit
 import kotlinx.coroutines.launch
 import java.util.*
 
@@ -38,11 +39,13 @@ class InitialUserInfoFragment :
 
         binding.etUserBirthday.setOnClickListener {
             DatePickerDialog(requireContext(),
-                { _, year, month, dayOfMonth ->
-                    binding.etUserBirthday.setText("${year}-${month + 1}-${dayOfMonth}")
+                { _, year, m, d ->
+                    val month = (m + 1).toString().convertSingleToDoubleDigit()
+                    val dayOfMonth = d.toString().convertSingleToDoubleDigit()
+                    binding.etUserBirthday.setText("${year}-${month}-${dayOfMonth}")
                     this.year = year
-                    this.month = month
-                    date = dayOfMonth
+                    this.month = m
+                    date = d
                 },
                 year,
                 month,
