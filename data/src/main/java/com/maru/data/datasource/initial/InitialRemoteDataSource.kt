@@ -7,6 +7,7 @@ import com.maru.data.network.SignUpRequest
 import com.maru.data.network.SignUpResponse
 import com.maru.data.network.Token
 import com.maru.data.network.firebase.FirebaseHelper
+import com.maru.data.network.CreateCoupleRequest
 import com.maru.data.network.server.RetrofitService
 import javax.inject.Inject
 
@@ -24,8 +25,8 @@ class InitialRemoteDataSource @Inject constructor(
         retrofitService.signInUser(SignInRequest(key))
     }
 
-    override suspend fun registerNewCouple(code: String, startDate: String): Result<CoupleInfo> = runCatching {
-        retrofitService.createCouple(code, startDate)
+    override suspend fun registerNewCouple(code: String, startDate: String): Result<Unit> = runCatching {
+        retrofitService.createCouple(CreateCoupleRequest(code, startDate))
     }
 
     override suspend fun getMyCoupleData(): Result<CoupleInfo> = runCatching {

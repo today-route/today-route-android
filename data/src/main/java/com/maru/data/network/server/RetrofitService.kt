@@ -2,13 +2,9 @@ package com.maru.data.network.server
 
 import com.maru.data.model.CoupleInfo
 import com.maru.data.model.User
-import com.maru.data.network.SignInRequest
-import com.maru.data.network.SignUpRequest
-import com.maru.data.network.SignUpResponse
-import com.maru.data.network.Token
+import com.maru.data.network.*
 import retrofit2.http.Body
 import retrofit2.http.GET
-import retrofit2.http.Headers
 import retrofit2.http.POST
 
 interface RetrofitService {
@@ -22,10 +18,10 @@ interface RetrofitService {
     @POST("user/refresh/")
     suspend fun refresh(@Body refresh: String): Token
 
-    @POST("couple/")
-    suspend fun createCouple(@Body code: String, @Body startDate: String): CoupleInfo
+    @POST("couple")
+    suspend fun createCouple(@Body coupleRequest: CreateCoupleRequest)
 
-    @GET("couple/")
+    @GET("couple")
     suspend fun getMyCoupleData(): CoupleInfo
 
     @GET("user")

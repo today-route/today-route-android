@@ -20,7 +20,7 @@ class InitialRepository @Inject constructor(
     override suspend fun signInUser(key: String): Result<Token> =
         userRemoteDataSource.signInUser(key)
 
-    override suspend fun registerNewCouple(code: String, startDate: String): Result<CoupleInfo> =
+    override suspend fun registerNewCouple(code: String, startDate: String): Result<Unit> =
         userRemoteDataSource.registerNewCouple(code, startDate)
 
     override suspend fun getMyCoupleData(): Result<CoupleInfo> =

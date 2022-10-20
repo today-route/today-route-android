@@ -46,7 +46,7 @@ class InitialViewModel @Inject constructor(
     private var _startDate = ""
     val code get() = _code
     private lateinit var _code: String
-    val inviteCode get() = _inviteCode
+    val inviteCode: LiveData<String> get() = _inviteCode
     private var _inviteCode: MutableLiveData<String> = MutableLiveData("")
 
     private val _moveToConnectCoupleFragment = SingleLiveEvent<Unit>()
@@ -189,7 +189,8 @@ class InitialViewModel @Inject constructor(
 
     suspend fun connectCoupleByCode() {
         val result = withContext(viewModelScope.coroutineContext) {
-            initialRepository.registerNewCouple(code, startDate)
+            val inviteCode = _inviteCode.value ?: ""
+            initialRepository.registerNewCouple(inviteCode, startDate)
         }
 
         if (result.isSuccess) {

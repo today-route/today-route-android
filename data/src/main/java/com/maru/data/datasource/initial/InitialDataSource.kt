@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.Flow
 interface InitialDataSource {
         suspend fun registerNewUser(user: SignUpRequest): Result<SignUpResponse>
         suspend fun signInUser(key: String): Result<Token>
-        suspend fun registerNewCouple(code: String, startDate: String): Result<CoupleInfo>
+        suspend fun registerNewCouple(code: String, startDate: String): Result<Unit>
         suspend fun getMyCoupleData(): Result<CoupleInfo>
         suspend fun getMyUserData(): Result<User>
 }
