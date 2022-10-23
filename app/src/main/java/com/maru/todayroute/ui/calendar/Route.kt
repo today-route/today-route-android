@@ -1,6 +1,6 @@
 package com.maru.todayroute.ui.calendar
 
-import java.util.Date
+import java.util.*
 
 /*
  data 클래스
@@ -9,12 +9,12 @@ import java.util.Date
  */
 
 data class Route(val id:Int,
-            val distance: Int,
-            val movingTime: Int,
-            val userId: Int,
-            val date: Date?,
-            val zoomLevel: Int,
-            val title: String,
-            val content: Char,
-            val location: Char){
+                 val distance: Int,
+                 val movingTime: Int,
+                 val userId: Int,
+                 val date: String,
+                 val zoomLevel: Int,
+                 val title: String,
+                 val content: Char,
+                 val location: Char){
 }

@@ -7,39 +7,44 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <CalendarView
+        <com.prolificinteractive.materialcalendarview.MaterialCalendarView
             android:id="@+id/cv_calendarView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="360dp"
+            android:layout_height="360dp"
             android:layout_marginTop="40dp"
+            android:theme="@style/CalenderViewCustom"
             app:layout_constraintBottom_toTopOf="@+id/tv_dDay"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:mcv_dateTextAppearance="@style/CalenderViewDateCustomText"
+            app:mcv_selectionColor="#E9D9FB"
+            app:mcv_weekDayTextAppearance="@style/CalenderViewWeekCustomText" />
+
 
         <TextView
             android:id="@+id/tv_dDay"
             android:layout_width="0dp"
             android:layout_height="30dp"
-            android:layout_marginTop="10dp"
             android:layout_marginStart="30dp"
-            app:layout_constraintStart_toStartOf="@+id/cv_calendarView"
-            app:layout_constraintTop_toBottomOf="@+id/cv_calendarView"
+            android:layout_marginTop="10dp"
+            android:text="+♥"
             app:layout_constraintBottom_toTopOf="@+id/rv_title"
             app:layout_constraintEnd_toEndOf="parent"
-            android:text="♥+"
-            />
+            app:layout_constraintStart_toStartOf="@+id/cv_calendarView"
+            app:layout_constraintTop_toBottomOf="@+id/cv_calendarView" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_title"
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginTop="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/cv_calendarView"
             app:layout_constraintTop_toBottomOf="@+id/tv_dDay"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            tools:listitem="@layout/item_route_diary"/>
+            tools:listitem="@layout/item_route_diary" />
+
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

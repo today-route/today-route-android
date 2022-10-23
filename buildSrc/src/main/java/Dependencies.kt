@@ -25,6 +25,8 @@ object Versions {
     // Libraries
     const val NAVER_MAPS = "3.14.0"
     const val KAKAO = "2.11.0"
+    const val CALENDAR = "1.4.3"
+    const val CALENDARYEARMONTH = "1.1.1"
 }
 
 object Dep {
@@ -85,7 +87,8 @@ object Dep {
         const val NAVER_MAPS = "com.naver.maps:map-sdk:${Versions.NAVER_MAPS}"
         const val KAKAO_LOGIN = "com.kakao.sdk:v2-user:${Versions.KAKAO}"
         const val KAKAO_SHARE = "com.kakao.sdk:v2-share:${Versions.KAKAO}"
-
+        const val CALENDAR_CUSTOM = "com.github.prolificinteractive:material-calendarview:${Versions.CALENDAR}"
+        const val CALENDAR_YEARMONTH = "com.jakewharton.threetenabp:threetenabp:${Versions.CALENDARYEARMONTH}"
         object Glide {
             private const val VERSION = "4.13.2"
             const val GLIDE = "com.github.bumptech.glide:glide:${VERSION}"
