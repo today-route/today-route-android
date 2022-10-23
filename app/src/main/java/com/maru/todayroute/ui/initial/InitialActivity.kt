@@ -48,14 +48,9 @@ class InitialActivity : BaseActivity<ActivityInitialBinding>(R.layout.activity_i
                 }
                 if (deepLink != null && deepLink.getBooleanQueryParameter("code", false)) {
                     val inviteCode = deepLink.getQueryParameter("code")
-                    val startDate = deepLink.getQueryParameter("date")
 
                     inviteCode?.let { it ->
                         viewModel.setInviteCode(it)
-                    }
-                    startDate?.let { it ->
-                        viewModel.setStartDate(it)
-//                        Toast.makeText(this, "$inviteCode $coupleName $startDate", Toast.LENGTH_SHORT).show()
                     }
                 }
             }

@@ -4,11 +4,13 @@ import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.maru.todayroute.R
 import com.maru.todayroute.databinding.FragmentInputStartDateBinding
 import com.maru.todayroute.util.BaseFragment
 import com.maru.todayroute.util.Utils.convertSingleToDoubleDigit
+import kotlinx.coroutines.launch
 import java.util.*
 
 class InputStartDateFragment : BaseFragment<FragmentInputStartDateBinding>(R.layout.fragment_input_start_date) {
@@ -33,8 +35,10 @@ class InputStartDateFragment : BaseFragment<FragmentInputStartDateBinding>(R.lay
             navController.popBackStack()
         }
 
-        binding.btnInviteCouple.setOnClickListener {
-            navController.navigate(R.id.action_inputStartDateFragment_to_inviteCoupleFragment)
+        binding.btnStart.setOnClickListener {
+            lifecycleScope.launch {
+                viewModel.connectCoupleByCode()
+            }
         }
 
         binding.etStartDate.setOnClickListener {
