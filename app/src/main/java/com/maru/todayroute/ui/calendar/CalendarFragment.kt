@@ -108,25 +108,25 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding>(R.layout.fragment
         }
     }
 
-//    fun showrecycler(routeList: ArrayList<Route>, date: CalendarDay){
-//        var showList: ArrayList<Route> = ArrayList<Route>()
-//
-//        for(i in routeList.indices){
-//            val eventDate = routeList[i].date.split("-")
-//            val year = Integer.parseInt(eventDate[0])
-//            val month = Integer.parseInt(eventDate[1])
-//            val day = Integer.parseInt(eventDate[2])
-//
-//            //Log.d("aaa","${day}${date.day}${month-1}${date.month}${year}${}")
-//            if(day==date.day && month-1==date.month && year==date.year){
-//                showList.add(routeList[i])
-//            }
-//        }
-//        binding.rvTitle.layoutManager =
-//            LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
-//        binding.rvTitle.setHasFixedSize(true)   // 성능개선
-//        binding.rvTitle.adapter = RouteAdapter(showList)
-//    }
+    fun showrecycler(routeList: ArrayList<Route>, date: CalendarDay){
+        var showList: ArrayList<Route> = ArrayList<Route>()
+
+        for(i in routeList.indices){
+            val eventDate = routeList[i].date.split("-")
+            val year = Integer.parseInt(eventDate[0])
+            val month = Integer.parseInt(eventDate[1])
+            val day = Integer.parseInt(eventDate[2])
+
+            //Log.d("aaa","${day}${date.day}${month-1}${date.month}${year}${}")
+            if(day==date.day && month-1==date.month && year==date.year){
+                showList.add(routeList[i])
+            }
+        }
+        binding.rvTitle.layoutManager =
+            LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
+        binding.rvTitle.setHasFixedSize(true)   // 성능개선
+        binding.rvTitle.adapter = RouteAdapter(showList)
+    }
 
 
 
@@ -250,7 +250,7 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding>(R.layout.fragment
 
             // 리사이클러뷰 띄워주기
 
-            //showrecycler(routeList, date)
+            showrecycler(routeList, date)
 //            binding.rvTitle.layoutManager =
 //                LinearLayoutManager(this.context, LinearLayoutManager.VERTICAL, false)
 //            binding.rvTitle.setHasFixedSize(true)   // 성능개선
