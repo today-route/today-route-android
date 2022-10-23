@@ -27,11 +27,17 @@ class InitialActivity : BaseActivity<ActivityInitialBinding>(R.layout.activity_i
             startActivity(intent)
             finish()
         }
+
+        setInviteCodeAndStartDateFromAppLink()
     }
 
     @SuppressLint("MissingSuperCall")
     override fun onNewIntent(intent: Intent?) {
         super.onNewIntent(intent)
+        setInviteCodeAndStartDateFromAppLink()
+    }
+
+    private fun setInviteCodeAndStartDateFromAppLink() {
         Firebase.dynamicLinks
             .getDynamicLink(intent)
             .addOnSuccessListener { pendingDynamicLinkData ->

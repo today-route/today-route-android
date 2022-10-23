@@ -25,6 +25,7 @@ object Versions {
     // Libraries
     const val NAVER_MAPS = "3.14.0"
     const val KAKAO = "2.11.0"
+    const val JWT_DECODE = "2.0.1"
 }
 
 object Dep {
@@ -69,6 +70,8 @@ object Dep {
         const val DYNAMIC_LINK = "com.google.firebase:firebase-dynamic-links-ktx"
         const val ANALYTICS = "com.google.firebase:firebase-analytics-ktx"
         const val FIRESTORE = "com.google.firebase:firebase-firestore-ktx"
+        const val CRASHLYTICS = "com.google.firebase:firebase-crashlytics-ktx"
+        const val CRASHLYTICS_GRADLE = "com.google.firebase:firebase-crashlytics-gradle:2.9.2"
     }
 
     object Kotlin {
@@ -85,6 +88,7 @@ object Dep {
         const val NAVER_MAPS = "com.naver.maps:map-sdk:${Versions.NAVER_MAPS}"
         const val KAKAO_LOGIN = "com.kakao.sdk:v2-user:${Versions.KAKAO}"
         const val KAKAO_SHARE = "com.kakao.sdk:v2-share:${Versions.KAKAO}"
+        const val JWT_DECODE = "com.auth0.android:jwtdecode:${Versions.JWT_DECODE}"
 
         object Glide {
             private const val VERSION = "4.13.2"
