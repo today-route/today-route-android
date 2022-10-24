@@ -45,7 +45,7 @@ class InviteCoupleFragment :
 
     private fun invite() {
         val dynamicLink = FirebaseDynamicLinks.getInstance().createDynamicLink()
-            .setLink(Uri.parse("https://todayroute.page.link/invite?code=${viewModel.code}&date=${viewModel.startDate}"))
+            .setLink(Uri.parse("https://todayroute.page.link/invite?code=${viewModel.code}"))
             .setDomainUriPrefix("https://todayroute.page.link")
             .setAndroidParameters(DynamicLink.AndroidParameters.Builder().build())
             .buildShortDynamicLink()

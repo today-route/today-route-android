@@ -28,10 +28,9 @@ class InputInviteCodeFragment : BaseFragment<FragmentInputInviteCodeBinding>(R.l
             findNavController().popBackStack()
         }
 
-        binding.btnConnect.setOnClickListener {
-            lifecycleScope.launch {
-                viewModel.connectCoupleByCode()
-            }
+        binding.btnNext.setOnClickListener {
+            viewModel.setInviteCode(binding.etInviteCode.text.toString())
+            findNavController().navigate(R.id.action_inputInviteCodeFragment_to_inputStartDateFragment)
         }
     }
 
