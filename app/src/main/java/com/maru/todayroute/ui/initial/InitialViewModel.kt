@@ -91,7 +91,7 @@ class InitialViewModel @Inject constructor(
 
         if (result.isSuccess) {
             token = result.getOrNull()!!
-            viewModelScope.launch(Dispatchers.IO) {
+            withContext(Dispatchers.IO) {
                 tokenRepository.saveTokens(token)
             }
             getSignInCoupleInfoByAccessToken()
