@@ -12,9 +12,12 @@ import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
 import com.google.android.gms.location.*
 import com.maru.todayroute.R
 import com.maru.todayroute.databinding.FragmentHomeBinding
+import com.maru.todayroute.ui.MainViewModel
 import com.maru.todayroute.util.BaseFragment
 import com.maru.todayroute.util.MapViewLifecycleObserver
 import com.naver.maps.geometry.LatLng
@@ -29,6 +32,9 @@ import kotlin.math.roundToInt
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), OnMapReadyCallback {
 
+    private val viewModel: RouteViewModel by viewModels()
+    private val activityViewModel: MainViewModel by activityViewModels()
+
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var naverMap: NaverMap
     private lateinit var currentLocation: Pair<Double, Double>
@@ -42,6 +48,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.viewModel = activityViewModel
         viewLifecycleOwner.lifecycle.addObserver(
             MapViewLifecycleObserver(
                 binding.mvMap,
