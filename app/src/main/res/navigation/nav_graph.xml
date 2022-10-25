@@ -10,7 +10,11 @@
         android:name="com.maru.todayroute.ui.home.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home"
-        />
+        >
+        <action
+            android:id="@+id/action_home_fragment_to_addRouteFragment"
+            app:destination="@id/addRouteFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/calendar_fragment"
@@ -24,4 +28,9 @@
         android:label="MyPage"
         tools:layout="@layout/fragment_my_page"
         />
+    <fragment
+        android:id="@+id/addRouteFragment"
+        android:name="com.maru.todayroute.ui.home.AddRouteFragment"
+        android:label="AddRouteFragment"
+        tools:layout="@layout/fragment_add_route"/>
 </navigation>
