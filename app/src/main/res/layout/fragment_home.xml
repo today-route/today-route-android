@@ -6,8 +6,12 @@
     <data>
 
         <variable
-            name="viewModel"
+            name="activityViewModel"
             type="com.maru.todayroute.ui.MainViewModel" />
+
+        <variable
+            name="viewModel"
+            type="com.maru.todayroute.ui.home.RouteViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -34,7 +38,7 @@
             android:layout_marginBottom="8dp"
             android:elevation="10dp"
             android:textColor="#605A5A"
-            android:text="@{viewModel.DDay}"
+            android:text="@{activityViewModel.DDay}"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@id/iv_boy_profile"
@@ -50,7 +54,7 @@
             android:layout_marginEnd="92dp"
             android:elevation="20dp"
             android:scaleType="centerCrop"
-            app:imageUrl="@{viewModel.coupleInfo.boy.profileUrl}"
+            app:imageUrl="@{activityViewModel.coupleInfo.boy.profileUrl}"
             app:layout_constraintBottom_toBottomOf="@id/view"
             app:layout_constraintEnd_toEndOf="@id/view"
             app:layout_constraintStart_toStartOf="@id/view"
@@ -65,7 +69,7 @@
             android:layout_marginStart="92dp"
             android:elevation="20dp"
             android:scaleType="centerCrop"
-            app:imageUrl="@{viewModel.coupleInfo.girl.profileUrl}"
+            app:imageUrl="@{activityViewModel.coupleInfo.girl.profileUrl}"
             app:layout_constraintBottom_toBottomOf="@id/iv_boy_profile"
             app:layout_constraintEnd_toEndOf="@id/view"
             app:layout_constraintStart_toStartOf="@id/view"
@@ -80,7 +84,7 @@
             android:layout_marginEnd="12dp"
             android:elevation="10dp"
             android:gravity="end"
-            android:text="@{viewModel.coupleInfo.boy.nickname}"
+            android:text="@{activityViewModel.coupleInfo.boy.nickname}"
             android:textColor="#605A5A"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -96,7 +100,7 @@
             android:layout_marginStart="12dp"
             android:elevation="10dp"
             android:gravity="start"
-            android:text="@{viewModel.coupleInfo.girl.nickname}"
+            android:text="@{activityViewModel.coupleInfo.girl.nickname}"
             android:textColor="#605A5A"
             android:textSize="16sp"
             android:textStyle="bold"
@@ -134,7 +138,7 @@
             android:layout_height="64dp"
             android:layout_marginBottom="12dp"
             android:backgroundTint="@color/tmp_coral"
-            android:text="루트 기록 시작"
+            android:text="@{viewModel.isRecording == true ? &quot;루트 기록 종료&quot; : &quot;루트 기록 시작&quot;}"
             android:textColor="#ffffff"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@id/mv_map"

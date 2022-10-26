@@ -7,13 +7,12 @@ import android.graphics.Color
 import android.location.Location
 import android.os.Bundle
 import android.os.Looper
-import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.*
 import com.maru.todayroute.R
 import com.maru.todayroute.databinding.FragmentHomeBinding
@@ -27,7 +26,6 @@ import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.PathOverlay
 import dagger.hilt.android.AndroidEntryPoint
-import kotlin.math.roundToInt
 
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), OnMapReadyCallback {
@@ -37,18 +35,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var naverMap: NaverMap
-    private lateinit var currentLocation: Pair<Double, Double>
-
-    private var isRecording = false
-    private var recordStartTime = -1L
 
     private lateinit var locationCallback: LocationCallback
-    private lateinit var geoCoordList: MutableList<LatLng>
     private lateinit var path: PathOverlay
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.viewModel = activityViewModel
+        binding.activityViewModel = activityViewModel
+        binding.viewModel = viewModel
         viewLifecycleOwner.lifecycle.addObserver(
             MapViewLifecycleObserver(
                 binding.mvMap,
@@ -61,39 +55,45 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
             binding.mvMap.getMapAsync(this)
         }
         setButtonClickListener()
+        setupObserver()
+    }
+
+    private fun setupObserver() {
+        viewModel.showOverlayOnCurrentLocation.observe(viewLifecycleOwner) {
+            showOverlayOnCurrentLocation(it)
+        }
+
+        viewModel.updateUserLocation.observe(viewLifecycleOwner) { update ->
+            if (!update) {
+                stopLocationUpdates()
+            }
+        }
+
+        viewModel.moveToAddRouteFragment.observe(viewLifecycleOwner) {
+            findNavController().navigate(R.id.action_home_fragment_to_addRouteFragment)
+        }
+
+        viewModel.updatePath.observe(viewLifecycleOwner) { geoCoord ->
+            updatePath(geoCoord)
+        }
+
+        viewModel.moveMapCameraToCurrentLocation.observe(viewLifecycleOwner) { currentLocation ->
+            moveMapCameraToCurrentLocation(currentLocation)
+
+        }
     }
 
     private fun initLocationCallback() {
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
                 for (location in locationResult.locations) {
+                    val latitude = location.latitude
+                    val longitude = location.longitude
 
-                    if (!isSameLocation(location.latitude, location.longitude)) {
-                        Log.d("location", "${location.latitude} ${location.longitude}")
-                        if (isRecording) {
-                            geoCoordList.add(LatLng(location.latitude, location.longitude))
-                            if (2 <= geoCoordList.size) {
-                                path.coords = geoCoordList
-                                if (path.map == null) {
-                                    path.map = naverMap
-                                }
-                            }
-                        }
-                        currentLocation = Pair(location.latitude, location.longitude)
-                        showOverlayOnCurrentLocation(currentLocation)
-                    }
+                    viewModel.userMoves(latitude, longitude)
                 }
             }
         }
-    }
-
-    private fun isSameLocation(newLatitude: Double, newLongitude: Double): Boolean {
-        val preLatitude = (currentLocation.first * 10000).roundToInt()
-        val preLongitude = (currentLocation.second * 10000).roundToInt()
-        val targetLatitude = (newLatitude * 10000).roundToInt()
-        val targetLongitude = (newLongitude * 10000).roundToInt()
-
-        return preLatitude == targetLatitude && preLongitude == targetLongitude
     }
 
     private fun initPathOverlay() {
@@ -103,10 +103,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
             outlineColor = Color.rgb(114, 149, 185)
             width = 30
         }
-    }
-
-    private fun initGeoCoordList() {
-        geoCoordList = mutableListOf(LatLng(currentLocation.first, currentLocation.second))
     }
 
     @SuppressLint("MissingPermission")
@@ -126,38 +122,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
     }
 
     private fun setButtonClickListener() {
-        with(binding.btnStartRecordRoute) {
-            setOnClickListener {
-                if (isRecording) {
-                    isRecording = false
-                    this.text = "루트 기록 시작"
-                    if (isValidRecord()) {
-                        stopLocationUpdates()
-//                        TODO: ViewModel에 기록 정보 저장하고 루트 추가 화면으로 넘어가도록 요청
-                    } else {
-                        Toast.makeText(
-                            requireContext(),
-                            "유효하지 않은 기록입니다. 다시 기록해주세요.",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                } else {
-                    isRecording = true
-                    this.text = "루트 기록 종료"
-                    getLastLocation()
-                    initPathOverlay()
-                    initGeoCoordList()
-                    recordStartTime = System.currentTimeMillis()
-                }
-            }
+        binding.btnStartRecordRoute.setOnClickListener {
+            viewModel.startRecording()
+            initPathOverlay()
+            getLastLocation()
         }
 
         binding.btnCurrentLocation.setOnClickListener {
-            moveMapCameraToCurrentLocation(currentLocation)
+            viewModel.moveMapCameraToCurrentLocation()
         }
     }
 
-    private fun isValidRecord(): Boolean = geoCoordList.size >= 2
+    private fun updatePath(geoCoordList: List<LatLng>) {
+        path.coords = geoCoordList
+        if (path.map == null) {
+            path.map = naverMap
+        }
+    }
 
     override fun onMapReady(naverMap: NaverMap) {
         this.naverMap = naverMap
@@ -171,28 +152,23 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
         fusedLocationClient.lastLocation.addOnSuccessListener { location: Location? ->
             if (location != null) {
-                currentLocation = Pair(location.latitude, location.longitude)
-
-                showOverlayOnCurrentLocation(currentLocation)
+                val currentLocation = LatLng(location.latitude, location.longitude)
                 setMapCameraZoom(16.0)
-                moveMapCameraToCurrentLocation(currentLocation)
+                viewModel.initCurrentLocation(currentLocation)
             }
         }
     }
 
-    private fun showOverlayOnCurrentLocation(currentLocation: Pair<Double, Double>) {
+    private fun showOverlayOnCurrentLocation(currentLocation: LatLng) {
         naverMap.locationOverlay.apply {
             isVisible = true
-            position = LatLng(currentLocation.first, currentLocation.second)
+            position = currentLocation
         }
     }
 
-    private fun moveMapCameraToCurrentLocation(currentLocation: Pair<Double, Double>) {
+    private fun moveMapCameraToCurrentLocation(currentLocation: LatLng) {
         val cameraUpdate = CameraUpdate.scrollTo(
-            LatLng(
-                currentLocation.first,
-                currentLocation.second
-            )
+            currentLocation
         ).animate(CameraAnimation.Easing)
         naverMap.moveCamera(cameraUpdate)
     }
