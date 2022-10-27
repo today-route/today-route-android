@@ -13,7 +13,9 @@
         >
         <action
             android:id="@+id/action_home_fragment_to_addRouteFragment"
-            app:destination="@id/addRouteFragment" />
+            app:destination="@id/addRouteFragment"
+            app:enterAnim="@anim/anim_from_top"
+            app:popExitAnim="@anim/anim_to_top" />
     </fragment>
 
     <fragment
