@@ -52,14 +52,14 @@
             app:layout_constraintTop_toBottomOf="@id/tv_input_invite_code" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_connect"
+            android:id="@+id/btn_next"
             android:layout_width="0dp"
             android:layout_height="54dp"
             android:layout_marginHorizontal="16dp"
             android:layout_marginBottom="16dp"
             android:backgroundTint="@color/tmp_coral"
             android:elevation="10dp"
-            android:text="연결하기"
+            android:text="다음으로"
             android:textColor="@color/white"
             android:textSize="18sp"
             android:textStyle="bold"

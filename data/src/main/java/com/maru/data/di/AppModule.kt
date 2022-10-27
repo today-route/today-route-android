@@ -1,5 +1,6 @@
 package com.maru.data.di
 
+import com.maru.data.network.server.HeaderInterceptor
 import android.content.Context
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.PreferenceDataStoreFactory
@@ -28,11 +29,12 @@ class AppModule {
     // Retrofit
     @Singleton
     @Provides
-    fun provideOkHttpClient(): OkHttpClient {
+    fun provideOkHttpClient(dataStore: DataStore<Preferences>): OkHttpClient {
         val httpLoggingInterceptor = HttpLoggingInterceptor()
             .setLevel(HttpLoggingInterceptor.Level.BODY)
         return OkHttpClient.Builder()
             .addInterceptor(httpLoggingInterceptor)
+            .addInterceptor(HeaderInterceptor(dataStore))
             .build()
     }
 
@@ -42,7 +44,7 @@ class AppModule {
         Retrofit.Builder()
             .addConverterFactory(MoshiConverterFactory.create())
             .client(okHttpClient)
-            .baseUrl("http://localhost:4000/") // TODO: 서버 배포하면 오늘의 길 서버 url 입력
+            .baseUrl("http://15.165.83.166/api/")
             .build()
 
     @Singleton

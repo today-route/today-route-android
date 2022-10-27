@@ -6,6 +6,7 @@ plugins {
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
     id("androidx.navigation.safeargs.kotlin")
+    id("com.google.firebase.crashlytics")
 }
 
 android {
@@ -41,6 +42,7 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+    namespace = "com.maru.todayroute"
     kapt {
         correctErrorTypes = true
     }
@@ -54,9 +56,6 @@ dependencies {
     implementation(Dep.AndroidX.CONSTRAINT_LAYOUT)
     implementation(Dep.AndroidX.LEGACY_SUPPORT)
     implementation(Dep.AndroidX.LOCATION)
-    implementation(platform(Dep.Firebase.BOM))
-    implementation(Dep.Firebase.DYNAMIC_LINK)
-    implementation(Dep.Firebase.ANALYTICS)
     implementation(Dep.AndroidX.ACTIVITY)
     implementation(Dep.AndroidX.FRAGMENT)
 
@@ -88,6 +87,7 @@ dependencies {
     implementation (Dep.Libraries.CALENDAR_CUSTOM)
     implementation (Dep.Libraries.CALENDAR_YEARMONTH)
     //implementation 'com.jakewharton.threetenabp:threetenabp:1.1.1'
+    implementation(Dep.Libraries.JWT_DECODE)
 
     // Glide
     implementation(Dep.Libraries.Glide.GLIDE)
@@ -95,6 +95,10 @@ dependencies {
 
     // Module
     implementation(project(":data"))
+
+    // Firebase
+    implementation(platform(Dep.Firebase.BOM))
+    implementation(Dep.Firebase.DYNAMIC_LINK)
+    implementation(Dep.Firebase.ANALYTICS)
+    implementation(Dep.Firebase.CRASHLYTICS)
 }
-
-

@@ -27,6 +27,7 @@ object Versions {
     const val KAKAO = "2.11.0"
     const val CALENDAR = "1.4.3"
     const val CALENDARYEARMONTH = "1.1.1"
+    const val JWT_DECODE = "2.0.1"
 }
 
 object Dep {
@@ -71,6 +72,8 @@ object Dep {
         const val DYNAMIC_LINK = "com.google.firebase:firebase-dynamic-links-ktx"
         const val ANALYTICS = "com.google.firebase:firebase-analytics-ktx"
         const val FIRESTORE = "com.google.firebase:firebase-firestore-ktx"
+        const val CRASHLYTICS = "com.google.firebase:firebase-crashlytics-ktx"
+        const val CRASHLYTICS_GRADLE = "com.google.firebase:firebase-crashlytics-gradle:2.9.2"
     }
 
     object Kotlin {
@@ -89,6 +92,8 @@ object Dep {
         const val KAKAO_SHARE = "com.kakao.sdk:v2-share:${Versions.KAKAO}"
         const val CALENDAR_CUSTOM = "com.github.prolificinteractive:material-calendarview:${Versions.CALENDAR}"
         const val CALENDAR_YEARMONTH = "com.jakewharton.threetenabp:threetenabp:${Versions.CALENDARYEARMONTH}"
+        const val JWT_DECODE = "com.auth0.android:jwtdecode:${Versions.JWT_DECODE}"
+
         object Glide {
             private const val VERSION = "4.13.2"
             const val GLIDE = "com.github.bumptech.glide:glide:${VERSION}"

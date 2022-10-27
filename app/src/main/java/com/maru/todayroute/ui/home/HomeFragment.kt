@@ -8,16 +8,14 @@ import android.location.Location
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
-import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.*
+import com.maru.todayroute.R
 import com.maru.todayroute.databinding.FragmentHomeBinding
+import com.maru.todayroute.util.BaseFragment
 import com.maru.todayroute.util.MapViewLifecycleObserver
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraAnimation
@@ -25,12 +23,11 @@ import com.naver.maps.map.CameraUpdate
 import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.PathOverlay
+import dagger.hilt.android.AndroidEntryPoint
 import kotlin.math.roundToInt
 
-class HomeFragment : Fragment(), OnMapReadyCallback {
-
-    private var _binding: FragmentHomeBinding? = null
-    private val binding get() = _binding!!
+@AndroidEntryPoint
+class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), OnMapReadyCallback {
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var naverMap: NaverMap
@@ -43,17 +40,14 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     private lateinit var geoCoordList: MutableList<LatLng>
     private lateinit var path: PathOverlay
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewLifecycleOwner.lifecycle.addObserver(MapViewLifecycleObserver(binding.mvMap, savedInstanceState))
+        viewLifecycleOwner.lifecycle.addObserver(
+            MapViewLifecycleObserver(
+                binding.mvMap,
+                savedInstanceState
+            )
+        )
         if (hasNotLocationPermission()) {
             requestLocationPermission()
         } else {
@@ -66,9 +60,9 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         locationCallback = object : LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
                 for (location in locationResult.locations) {
-                    Log.d("location", "${location.latitude} ${location.longitude}")
 
                     if (!isSameLocation(location.latitude, location.longitude)) {
+                        Log.d("location", "${location.latitude} ${location.longitude}")
                         if (isRecording) {
                             geoCoordList.add(LatLng(location.latitude, location.longitude))
                             if (2 <= geoCoordList.size) {
@@ -79,7 +73,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                             }
                         }
                         currentLocation = Pair(location.latitude, location.longitude)
-                        moveMapCameraToCurrentLocation(currentLocation)
                         showOverlayOnCurrentLocation(currentLocation)
                     }
                 }
@@ -113,9 +106,9 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     private fun setLocationChangedListener() {
         initLocationCallback()
         val locationRequest = LocationRequest.create().apply {
-            interval = 5
+            interval = 1000
             priority = Priority.PRIORITY_HIGH_ACCURACY
-            maxWaitTime = 10
+            maxWaitTime = 1000
         }
 
         fusedLocationClient.requestLocationUpdates(
@@ -123,10 +116,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
             locationCallback,
             Looper.getMainLooper()
         )
-    }
-
-    private fun stopLocationUpdates() {
-        fusedLocationClient.removeLocationUpdates(locationCallback)
     }
 
     private fun setButtonClickListener() {
@@ -137,7 +126,7 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
                     this.text = "루트 기록 시작"
                     if (isValidRecord()) {
                         stopLocationUpdates()
-                        moveToAddNewRouteFragment()
+//                        TODO: ViewModel에 기록 정보 저장하고 루트 추가 화면으로 넘어가도록 요청
                     } else {
                         Toast.makeText(
                             requireContext(),
@@ -162,21 +151,6 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun isValidRecord(): Boolean = geoCoordList.size >= 2
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        binding.mvMap.onSaveInstanceState(outState)
-    }
-
-    override fun onLowMemory() {
-        super.onLowMemory()
-        binding.mvMap.onLowMemory()
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 
     override fun onMapReady(naverMap: NaverMap) {
         this.naverMap = naverMap
@@ -255,7 +229,17 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         )
     }
 
-    private fun moveToAddNewRouteFragment() {
-//        findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToAddNewRoute(geoCoordList.toTypedArray()))
+    private fun stopLocationUpdates() {
+        fusedLocationClient.removeLocationUpdates(locationCallback)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        binding.mvMap.onSaveInstanceState(outState)
+    }
+
+    override fun onLowMemory() {
+        super.onLowMemory()
+        binding.mvMap.onLowMemory()
     }
 }

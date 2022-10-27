@@ -22,7 +22,7 @@ class ConnectCoupleFragment : BaseFragment<FragmentConnectCoupleBinding>(R.layou
         val navController = findNavController()
 
         binding.btnInviteCouple.setOnClickListener {
-            navController.navigate(R.id.action_connectCoupleFragment_to_inputStartDateFragment)
+            navController.navigate(R.id.action_connectCoupleFragment_to_inviteCoupleFragment)
         }
 
         binding.btnInputInviteCode.setOnClickListener {

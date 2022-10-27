@@ -1,7 +1,7 @@
 package com.maru.todayroute.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
@@ -9,17 +9,23 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.maru.todayroute.R
 import com.maru.todayroute.databinding.ActivityMainBinding
+import com.maru.todayroute.util.BaseActivity
+import dagger.hilt.android.AndroidEntryPoint
 
-class MainActivity : AppCompatActivity() {
+@AndroidEntryPoint
+class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
-    private val binding: ActivityMainBinding by lazy { ActivityMainBinding.inflate(layoutInflater) }
+    private val viewModel: MainViewModel by viewModels()
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(binding.root)
-
         setBottomNavigation()
+        fetchMainData()
+    }
+
+    private fun fetchMainData() {
+        viewModel.fetchMainData()
     }
 
     private fun setBottomNavigation() {
