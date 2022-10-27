@@ -68,6 +68,7 @@
 
         <activity
             android:name=".ui.MainActivity"
+            android:windowSoftInputMode="adjustPan"
             android:exported="true" />
 
         <activity
