@@ -52,7 +52,7 @@ object Dep {
         }
 
         object Navigation {
-            private const val VERSION = "2.4.2"
+            private const val VERSION = "2.5.3"
             const val NAVIGATION_FRAGMENT = "androidx.navigation:navigation-fragment-ktx:${VERSION}"
             const val NAVIGATION_UI = "androidx.navigation:navigation-ui-ktx:${VERSION}"
             const val NAVIGATION_SAFE_ARGS_PLUGIN = "androidx.navigation:navigation-safe-args-gradle-plugin:${VERSION}"
