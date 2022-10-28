@@ -11,7 +11,7 @@
 
         <variable
             name="viewModel"
-            type="com.maru.todayroute.ui.home.RouteViewModel" />
+            type="com.maru.todayroute.ui.home.HomeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

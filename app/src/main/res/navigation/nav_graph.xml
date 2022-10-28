@@ -32,7 +32,11 @@
         />
     <fragment
         android:id="@+id/addRouteFragment"
-        android:name="com.maru.todayroute.ui.home.AddRouteFragment"
+        android:name="com.maru.todayroute.ui.addroute.AddRouteFragment"
         android:label="AddRouteFragment"
-        tools:layout="@layout/fragment_add_route"/>
+        tools:layout="@layout/fragment_add_route">
+        <argument
+            android:name="geoCoordArray"
+            app:argType="com.naver.maps.geometry.LatLng[]" />
+    </fragment>
 </navigation>

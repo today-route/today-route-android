@@ -30,7 +30,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), OnMapReadyCallback {
 
-    private val viewModel: RouteViewModel by viewModels()
+    private val viewModel: HomeViewModel by viewModels()
     private val activityViewModel: MainViewModel by activityViewModels()
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -69,8 +69,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
             }
         }
 
-        viewModel.moveToAddRouteFragment.observe(viewLifecycleOwner) {
-            findNavController().navigate(R.id.action_home_fragment_to_addRouteFragment)
+        viewModel.moveToAddRouteFragment.observe(viewLifecycleOwner) { geoCoordArray ->
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToAddRouteFragment(geoCoordArray))
         }
 
         viewModel.updatePath.observe(viewLifecycleOwner) { geoCoord ->

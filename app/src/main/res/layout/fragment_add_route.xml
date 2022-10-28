@@ -83,7 +83,7 @@
                     app:layout_constraintStart_toStartOf="@id/mv_map"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <View
+                <com.naver.maps.map.MapView
                     android:id="@+id/mv_map"
                     android:layout_width="match_parent"
                     android:layout_height="240dp"

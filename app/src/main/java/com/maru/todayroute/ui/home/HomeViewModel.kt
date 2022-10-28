@@ -11,7 +11,7 @@ import javax.inject.Inject
 import kotlin.math.roundToInt
 
 @HiltViewModel
-class RouteViewModel @Inject constructor() : ViewModel() {
+class HomeViewModel @Inject constructor() : ViewModel() {
 
     val isRecording: LiveData<Boolean> get() = _isRecording
     private var _isRecording: MutableLiveData<Boolean> = MutableLiveData(false)
@@ -28,15 +28,15 @@ class RouteViewModel @Inject constructor() : ViewModel() {
     val moveMapCameraToCurrentLocation: LiveData<LatLng> get() = _moveMapCameraToCurrentLocation
     private val _moveMapCameraToCurrentLocation: MutableLiveData<LatLng> = MutableLiveData()
 
-    val moveToAddRouteFragment: LiveData<Unit> get() = _moveToAddRouteFragment
-    private val _moveToAddRouteFragment: SingleLiveEvent<Unit> = SingleLiveEvent()
+    val moveToAddRouteFragment: LiveData<Array<LatLng>> get() = _moveToAddRouteFragment
+    private val _moveToAddRouteFragment: SingleLiveEvent<Array<LatLng>> = SingleLiveEvent()
 
     fun startRecording() {
         if (_isRecording.value!!) {
             _isRecording.value = false
             if (isValidRecord()) {
                 _updateUserLocation.value = false
-                _moveToAddRouteFragment.call()
+                _moveToAddRouteFragment.value = geoCoordList.toTypedArray()
 //                        TODO: ViewModel에 기록 정보 저장하고 루트 추가 화면으로 넘어가도록 요청
             } else {
 //                Toast.makeText(
