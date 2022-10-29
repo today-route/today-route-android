@@ -19,7 +19,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 val routeList = arrayListOf(
-    Route(0,0,3,0,"2022-09-03",1, "1.날씨좋은날 화담숲 드라이브", "정말정말 좋았던 오늘 !!\n 1.날씨좋은날 화담숲 드라이브", "경기 광주시 도척면 도웅리"),
+    Route(0,0,3,0,"2022-09-03",1, "1.오늘은 내생일! 홍대,합정 데이트", "정말정말 좋았던 오늘 !!\n 1.오늘은 내생일! 홍대,합정 데이트", "마포구 서교동"),
     Route(1,0,3,1,"2022-09-06",1, "2.정월대보름 축제 ", "정말정말 좋았던 오늘 !!\n 2.정월대보름 축제", "수원시 행궁동"),
     Route(2,0,3,2,"2022-09-08",1, "3.여의도 불꽃 축제", "정말정말 좋았던 오늘 !!\n 3.여의도 불꽃 축제", "서울특별시 영등포구 여의도동"),
     Route(3,0,3,3,"2022-10-03",1, "4.스키대신 눈썰매만 타고온날", "정말정말 좋았던 오늘 !!\n 4.스키대신 눈썰매만 타고온날", "강원도 홍천군 비발디파크"),
@@ -127,16 +127,6 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding>(R.layout.fragment
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // 프래그먼트 생명주기 메소드
-        // 뷰가 다 만들어졌을때 호출되는 함수
-        // 뷰 관련 작업(리스너 등) 다 여기서 이루어짐.
-
-        // binding.cvCalendar 리스너 같은애들 달기
-        // 리사이클러뷰도 여기다가
-        // 어댑터는 캘린더 패키지에 만들기
-
-
-
 
         // [1] 첫화면
         // 1-1 첫화면에서 오늘날짜 표시
@@ -189,34 +179,9 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding>(R.layout.fragment
             //binding.tvDDay.visibility = View.VISIBLE -> 이거 해줘야함..?
 
             // 2-2 해당 날짜에 루트가 존재하면 루트리스트(제목) 바인딩해주기
-            /*
-                if(존재){
-                    리사이클러뷰 어댑터에 넣기
-                }
-             */
             // 리사이클러뷰 띄워주기
             showrecycler(routeList, date)
         }
-
-// [3] 달력 월 변경 (< / >)
-        // if(3-1 달력 넘김 선택 (<))
-        //     (현재-1) 달 기준으로 1-3 번 진행
-//        binding.cvCalendarView.setOnMonthChangedListener { widget, date ->
-//            binding.tvMonthchange.setText("${date.year}년 ${date.month +1}월")
-//
-//        }
-
-        /*
-            cal.setOnMonthChangedListener { widget, date ->  }
-         */
-
-
-        // if(3-2 달력 넘김 선택 (>))
-        //      (현재+1) 달 기준으로 1-3 번 진행
-
-        /*
-            cal.setOnMonthChangedListener { widget, date ->  }
-         */
 
     }
 }
