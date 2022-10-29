@@ -216,11 +216,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         fusedLocationClient.removeLocationUpdates(locationCallback)
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        binding.mvMap.onSaveInstanceState(outState)
-    }
-
     override fun onLowMemory() {
         super.onLowMemory()
         binding.mvMap.onLowMemory()
