@@ -15,6 +15,6 @@ data class Route(val id:Int,
                  val date: String,
                  val zoomLevel: Int,
                  val title: String,
-                 val content: Char,
-                 val location: Char){
+                 val content: String,
+                 val location: String){
 }

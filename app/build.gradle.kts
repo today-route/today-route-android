@@ -7,6 +7,7 @@ plugins {
     id("dagger.hilt.android.plugin")
     id("androidx.navigation.safeargs.kotlin")
     id("com.google.firebase.crashlytics")
+    id ("kotlin-parcelize")
 }
 
 android {
