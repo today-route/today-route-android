@@ -18,6 +18,7 @@ import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -115,6 +116,7 @@ class AddRouteFragment : BaseFragment<FragmentAddRouteBinding>(R.layout.fragment
         binding.mvMap.getMapAsync(this)
         setupButtonClickListener()
         setUpObserver()
+        addTextChangedListener()
         initRecyclerViewAdapter()
     }
 
@@ -126,14 +128,34 @@ class AddRouteFragment : BaseFragment<FragmentAddRouteBinding>(R.layout.fragment
         }
     }
 
+    private fun addTextChangedListener() {
+        binding.etLocation.doAfterTextChanged { input ->
+            if (input != null && input.isEmpty()) {
+                binding.etLocation.hint = "위치 입력"
+            }
+        }
+
+        binding.etTitle.doAfterTextChanged { input ->
+            if (input != null && input.isEmpty()) {
+                binding.etLocation.hint = "제목"
+            }
+        }
+
+        binding.etContents.doAfterTextChanged { input ->
+            if (input != null && input.isEmpty()) {
+                binding.etLocation.hint = "오늘의 길에서 나눈 추억을 기록해보세요!"
+            }
+        }
+    }
+
     private fun setupButtonClickListener() {
         binding.btnBack.setOnClickListener {
             findNavController().popBackStack()
         }
 
-        binding.tvLocation.setOnClickListener {
-            showAddLocationDialog()
-        }
+//        binding.tvLocation.setOnClickListener {
+//            showAddLocationDialog()
+//        }
 
         binding.btnAddPhotos.setOnClickListener {
             val intent = Intent(Intent.ACTION_PICK)
@@ -146,27 +168,27 @@ class AddRouteFragment : BaseFragment<FragmentAddRouteBinding>(R.layout.fragment
         }
     }
 
-    private fun showAddLocationDialog() {
-        val container = FrameLayout(requireContext())
-        val params = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
-        params.leftMargin = resources.getDimensionPixelSize(R.dimen.dialog_margin)
-        params.rightMargin = resources.getDimensionPixelSize(R.dimen.dialog_margin)
-        params.topMargin = resources.getDimensionPixelSize(R.dimen.dialog_margin)
-
-        val editText = EditText(context)
-        editText.layoutParams = params
-        container.addView(editText)
-
-        val alertDialogBuilder = AlertDialog.Builder(requireContext())
-            .setTitle("위치 추가")
-            .setView(container)
-            .setIcon(R.drawable.ic_baseline_location_on_24)
-            .setPositiveButton("확인") { dialog, _ ->
-                binding.tvLocation.text = editText.text.toString()
-                dialog.dismiss()
-            }
-        alertDialogBuilder.show()
-    }
+//    private fun showAddLocationDialog() {
+//        val container = FrameLayout(requireContext())
+//        val params = FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+//        params.leftMargin = resources.getDimensionPixelSize(R.dimen.dialog_margin)
+//        params.rightMargin = resources.getDimensionPixelSize(R.dimen.dialog_margin)
+//        params.topMargin = resources.getDimensionPixelSize(R.dimen.dialog_margin)
+//
+//        val editText = EditText(context)
+//        editText.layoutParams = params
+//        container.addView(editText)
+//
+//        val alertDialogBuilder = AlertDialog.Builder(requireContext())
+//            .setTitle("위치 추가")
+//            .setView(container)
+//            .setIcon(R.drawable.ic_baseline_location_on_24)
+//            .setPositiveButton("확인") { dialog, _ ->
+//                binding.tvLocation.text = editText.text.toString()
+//                dialog.dismiss()
+//            }
+//        alertDialogBuilder.show()
+//    }
 
     private fun setUpObserver() {
         viewModel.drawRoute.observe(viewLifecycleOwner) { geoCoordList ->
