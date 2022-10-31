@@ -22,7 +22,11 @@
         android:id="@+id/calendar_fragment"
         android:name="com.maru.todayroute.ui.calendar.CalendarFragment"
         android:label="CalendarFragment"
-        tools:layout="@layout/fragment_calendar"/>
+        tools:layout="@layout/fragment_calendar">
+        <action
+            android:id="@+id/action_calendar_fragment_to_routeFeragment"
+            app:destination="@id/routeFragment" />
+    </fragment>
 
     <fragment
         android:id="@+id/my_page_fragment"
@@ -30,6 +34,7 @@
         android:label="MyPage"
         tools:layout="@layout/fragment_my_page"
         />
+        
     <fragment
         android:id="@+id/addRouteFragment"
         android:name="com.maru.todayroute.ui.addroute.AddRouteFragment"
@@ -38,5 +43,14 @@
         <argument
             android:name="geoCoordArray"
             app:argType="com.naver.maps.geometry.LatLng[]" />
+            
+    <fragment
+        android:id="@+id/routeFragment"
+        android:name="com.maru.todayroute.ui.Route.RouteFragment"
+        android:label="RouteFragment"
+        tools:layout="@layout/fragment_route">
+        <argument
+            android:name="routeId"
+            app:argType="integer" />
     </fragment>
 </navigation>
