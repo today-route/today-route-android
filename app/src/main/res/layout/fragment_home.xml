@@ -5,6 +5,13 @@
 
     <data>
 
+        <variable
+            name="activityViewModel"
+            type="com.maru.todayroute.ui.MainViewModel" />
+
+        <variable
+            name="viewModel"
+            type="com.maru.todayroute.ui.home.HomeViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -30,22 +37,24 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8dp"
             android:elevation="10dp"
-            android:textColor="@color/tmp_black"
+            android:textColor="#605A5A"
+            android:text="@{activityViewModel.DDay}"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@id/iv_couple_profile"
+            app:layout_constraintBottom_toTopOf="@id/iv_boy_profile"
             app:layout_constraintEnd_toEndOf="@id/view"
             app:layout_constraintStart_toStartOf="@id/view"
             tools:text="❤1650❤" />
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/iv_couple_profile"
+            android:id="@+id/iv_boy_profile"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginTop="36dp"
             android:layout_marginEnd="92dp"
             android:elevation="20dp"
             android:scaleType="centerCrop"
+            app:imageUrl="@{activityViewModel.coupleInfo.boy.profileUrl}"
             app:layout_constraintBottom_toBottomOf="@id/view"
             app:layout_constraintEnd_toEndOf="@id/view"
             app:layout_constraintStart_toStartOf="@id/view"
@@ -54,47 +63,50 @@
             tools:src="@tools:sample/avatars" />
 
         <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/iv_user_profile"
+            android:id="@+id/iv_girl_profile"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginStart="92dp"
             android:elevation="20dp"
             android:scaleType="centerCrop"
-            app:layout_constraintBottom_toBottomOf="@id/iv_couple_profile"
+            app:imageUrl="@{activityViewModel.coupleInfo.girl.profileUrl}"
+            app:layout_constraintBottom_toBottomOf="@id/iv_boy_profile"
             app:layout_constraintEnd_toEndOf="@id/view"
             app:layout_constraintStart_toStartOf="@id/view"
-            app:layout_constraintTop_toTopOf="@id/iv_couple_profile"
+            app:layout_constraintTop_toTopOf="@id/iv_boy_profile"
             app:shapeAppearanceOverlay="@style/CornerSize50Percent"
             tools:src="@tools:sample/avatars" />
 
         <TextView
-            android:id="@+id/tv_couple_nickname"
+            android:id="@+id/tv_boy_nickname"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="12dp"
             android:elevation="10dp"
             android:gravity="end"
-            android:textColor="@color/tmp_black"
+            android:text="@{activityViewModel.coupleInfo.boy.nickname}"
+            android:textColor="#605A5A"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/iv_couple_profile"
-            app:layout_constraintEnd_toStartOf="@id/iv_couple_profile"
-            app:layout_constraintTop_toTopOf="@id/iv_couple_profile"
+            app:layout_constraintBottom_toBottomOf="@id/iv_boy_profile"
+            app:layout_constraintEnd_toStartOf="@id/iv_boy_profile"
+            app:layout_constraintTop_toTopOf="@id/iv_boy_profile"
             tools:text="철수" />
 
         <TextView
-            android:id="@+id/tv_user_nickname"
+            android:id="@+id/tv_girl_nickname"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="12dp"
             android:elevation="10dp"
             android:gravity="start"
-            android:textColor="@color/tmp_black"
+            android:text="@{activityViewModel.coupleInfo.girl.nickname}"
+            android:textColor="#605A5A"
             android:textSize="16sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/iv_user_profile"
-            app:layout_constraintStart_toEndOf="@id/iv_user_profile"
-            app:layout_constraintTop_toTopOf="@id/iv_user_profile"
+            app:layout_constraintBottom_toBottomOf="@id/iv_girl_profile"
+            app:layout_constraintStart_toEndOf="@id/iv_girl_profile"
+            app:layout_constraintTop_toTopOf="@id/iv_girl_profile"
             tools:text="영희" />
 
         <com.naver.maps.map.MapView
@@ -126,7 +138,7 @@
             android:layout_height="64dp"
             android:layout_marginBottom="12dp"
             android:backgroundTint="@color/tmp_coral"
-            android:text="루트 기록 시작"
+            android:text="@{viewModel.isRecording == true ? &quot;루트 기록 종료&quot; : &quot;루트 기록 시작&quot;}"
             android:textColor="#ffffff"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@id/mv_map"

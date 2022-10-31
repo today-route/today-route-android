@@ -7,6 +7,6 @@ data class CoupleInfo(
     val id: Int = -1,
     val startDate: String = "",
     val isEnd: Boolean = false,
-    val user1Id: Int = -1,
-    val user2Id: Int = -1
+    val boy: User = User(),
+    val girl: User = User()
 )
