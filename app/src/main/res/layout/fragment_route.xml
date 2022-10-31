@@ -96,7 +96,7 @@
                     android:id="@+id/iv_route"
                     android:layout_width="match_parent"
                     android:layout_height="280dp"
-                    android:background="#1B000000"
+                    android:background="#FF0000"
                     app:layout_constraintBottom_toTopOf="@+id/tv_location"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="@+id/tv_route_title"
@@ -112,6 +112,16 @@
                 <!--            app:layout_constraintStart_toStartOf="@+id/tv_route_date_post"-->
                 <!--            app:layout_constraintTop_toBottomOf="@+id/tv_route_date_post"/>-->
 
+                <ImageView
+                    android:id="@+id/iv_click_route_image"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:background="#FFFFFF"
+                    app:layout_constraintBottom_toBottomOf="@+id/iv_route"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/tv_route_title"
+                    app:layout_constraintTop_toTopOf="@+id/iv_route"
+                    android:scaleType="centerCrop"/>
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_route_image"
