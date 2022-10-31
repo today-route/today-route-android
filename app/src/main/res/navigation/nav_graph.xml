@@ -43,6 +43,7 @@
         <argument
             android:name="geoCoordArray"
             app:argType="com.naver.maps.geometry.LatLng[]" />
+    </fragment>
             
     <fragment
         android:id="@+id/routeFragment"
