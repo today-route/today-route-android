@@ -24,6 +24,7 @@ class ImageAdapter(val imageList: ArrayList<Images>, val binding: FragmentRouteB
 
                 // 선택한 이미지 띄우기
                 binding.ivClickRouteImage.setImageResource(image.url)
+                binding.ivClickRouteImage.visibility = View.VISIBLE
 
             }
         }

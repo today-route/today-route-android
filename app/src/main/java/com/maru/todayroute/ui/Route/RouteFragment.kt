@@ -69,7 +69,9 @@ class RouteFragment : BaseFragment<FragmentRouteBinding>(R.layout.fragment_route
             if(imageList.get(i).routeId == routeId)
                 matchImageList.add(imageList[i])
         }
-
+        // 사진 리스트 중 첫 아이콘 -> 루트
+        val showRoute = Images(-1, R.drawable.route_image, routeId)
+        matchImageList.add(0, showRoute)
 
         binding.rvRouteImage.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding.rvRouteImage.setHasFixedSize(true)
@@ -86,8 +88,9 @@ class RouteFragment : BaseFragment<FragmentRouteBinding>(R.layout.fragment_route
             binding.tvRouteDateTop.text = "${dates.get(0)}년 ${dates.get(1)}월 ${dates.get(2)}일"  // 루트 작성 날짜
             binding.tvRouteTitle.text = route.title         // 제목
             binding.tvLocation.text = route.location        // 위치
-            binding.ivRoute.visibility = View.VISIBLE
+
             //binding.ivRoute = route.지도                   // 루트
+            binding.ivRoute.setImageResource(R.drawable.route_image)        // 실제로는 mapView
 
             showImage(imageList, route.id)                  // 등록한 사진 리사이클러뷰 나열
 
