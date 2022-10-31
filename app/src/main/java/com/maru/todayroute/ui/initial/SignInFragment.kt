@@ -52,6 +52,9 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
 
     private fun signIn() {
         val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
+            println("dkssudgktpdy")
+            error?.let { println(error.message) }
+            println(token)
             if (error == null && token != null) {
                 viewModel.setUserInfoFromKakaoApi()
 //                findNavController().navigate(R.id.action_signInFragment_to_initialUserInfoFragment)
@@ -62,15 +65,18 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
         if (UserApiClient.instance.isKakaoTalkLoginAvailable(requireContext())) {
             UserApiClient.instance.loginWithKakaoTalk(requireContext()) { token, error ->
                 if (error != null) {
-
+                    println("aaaaaaaaaa")
                     // 로그인 취소
                     if (error is ClientError && error.reason == ClientErrorCause.Cancelled) {
+                        println("dhofrhohdi")
                         return@loginWithKakaoTalk
                     }
 
                     UserApiClient.instance.loginWithKakaoAccount(requireContext(), callback = callback)
                 } else if (token != null) {
+                    println("?")
                     viewModel.setUserInfoFromKakaoApi()
+
 //                    findNavController().navigate(R.id.action_signInFragment_to_initialUserInfoFragment)
                 }
             }

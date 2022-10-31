@@ -1,12 +1,13 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
-    id("androidx.navigation.safeargs.kotlin")
     id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
     id("com.google.gms.google-services")
     kotlin("kapt")
     id("dagger.hilt.android.plugin")
+    id("androidx.navigation.safeargs.kotlin")
     id("com.google.firebase.crashlytics")
+    id ("kotlin-parcelize")
 }
 
 android {
@@ -84,6 +85,9 @@ dependencies {
     implementation(Dep.Libraries.NAVER_MAPS)
     implementation(Dep.Libraries.KAKAO_LOGIN)
     implementation(Dep.Libraries.KAKAO_SHARE)
+    implementation (Dep.Libraries.CALENDAR_CUSTOM)
+    implementation (Dep.Libraries.CALENDAR_YEARMONTH)
+    //implementation 'com.jakewharton.threetenabp:threetenabp:1.1.1'
     implementation(Dep.Libraries.JWT_DECODE)
 
     // Glide
