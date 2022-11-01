@@ -15,8 +15,8 @@ interface RetrofitService {
     @POST("user/signin")
     suspend fun signInUser(@Body key: SignInRequest): Token
 
-    @POST("user/refresh/")
-    suspend fun refresh(@Body refresh: String): Token
+    @POST("user/refresh")
+    suspend fun refresh(@Body refresh: RefreshRequest): Token
 
     @POST("couple")
     suspend fun createCouple(@Body coupleRequest: CreateCoupleRequest)
