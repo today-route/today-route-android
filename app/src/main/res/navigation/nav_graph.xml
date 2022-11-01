@@ -25,7 +25,9 @@
         tools:layout="@layout/fragment_calendar">
         <action
             android:id="@+id/action_calendar_fragment_to_routeFeragment"
-            app:destination="@id/routeFragment" />
+            app:destination="@id/routeFragment"
+            app:enterAnim="@anim/anim_from_top"
+            app:popEnterAnim="@anim/anim_to_top" />
     </fragment>
 
     <fragment

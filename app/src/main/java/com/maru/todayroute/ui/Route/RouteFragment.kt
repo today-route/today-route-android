@@ -3,6 +3,7 @@ package com.maru.todayroute.ui.Route
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.view.menu.MenuView.ItemView
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.maru.todayroute.R
@@ -80,6 +81,7 @@ class RouteFragment : BaseFragment<FragmentRouteBinding>(R.layout.fragment_route
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setupButtonClickListener()
 
         binding.apply{
             val route: Route = routeList[args.routeId]
@@ -97,5 +99,11 @@ class RouteFragment : BaseFragment<FragmentRouteBinding>(R.layout.fragment_route
             binding.etInsertContent.text = route.content    // 본문내용
         }
 
+    }
+
+    private fun setupButtonClickListener() {
+        binding.btnBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
     }
 }
