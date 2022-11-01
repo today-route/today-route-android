@@ -49,7 +49,7 @@
             
     <fragment
         android:id="@+id/routeFragment"
-        android:name="com.maru.todayroute.ui.Route.RouteFragment"
+        android:name="com.maru.todayroute.ui.route.RouteFragment"
         android:label="RouteFragment"
         tools:layout="@layout/fragment_route">
         <argument

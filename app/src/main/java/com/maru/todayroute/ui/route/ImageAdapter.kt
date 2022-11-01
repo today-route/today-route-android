@@ -1,4 +1,4 @@
-package com.maru.todayroute.ui.Route
+package com.maru.todayroute.ui.route
 
 import android.view.LayoutInflater
 import android.view.View
