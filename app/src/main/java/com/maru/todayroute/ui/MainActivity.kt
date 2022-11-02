@@ -35,7 +35,7 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.addRouteFragment -> {
+                R.id.addRouteFragment, R.id.routeFragment -> {
                     binding.bnvMain.isVisible = false
                 }
                 else -> {

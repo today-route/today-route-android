@@ -1,8 +1,8 @@
 package com.maru.todayroute.util
 
 import com.maru.data.model.Route
+import com.maru.data.model.RoutePhoto
 import com.maru.todayroute.R
-import com.maru.todayroute.ui.route.Images
 
 object Dummy {
     val routeList = listOf(
@@ -25,31 +25,31 @@ object Dummy {
         Route(16,16,"2022-10-23",15, "대전 성심당 다 돌기", "정말정말 좋았던 오늘 !!\n 17.대전 성심당 다 돌기", "대전광역시 동구 중앙로 215"),
     )
 
-    val imageList = listOf<Images>(
-        Images(0, R.drawable.hongdae, 0),
-        Images(1, R.drawable.linefriends, 0),
-        Images(2, R.drawable.lamb,0),
-        Images(3, R.drawable.hongdae, 0),
-        Images(4, R.drawable.linefriends, 0),
-        Images(5, R.drawable.lamb,0),
-        Images(6, R.drawable.hongdae, 0),
-        Images(7, R.drawable.linefriends, 0),
-        Images(8, R.drawable.lamb,0),
-        Images(9, R.drawable.hongdae1,9),
-        Images(10, R.drawable.lamb,9),
-        Images(11, R.drawable.linefriends,9),
-        Images(12, R.drawable.lamb,9),
-        Images(13, R.drawable.cafe,9),
-        Images(14, R.drawable.lamb,9),
-        Images(15, R.drawable.linefriends,9),
-        Images(16, R.drawable.hongdae1,9),
-        Images(17, R.drawable.linefriends,10),
-        Images(18, R.drawable.lamb,10),
-        Images(19, R.drawable.linefriends,10),
-        Images(20, R.drawable.lamb,10),
-        Images(21, R.drawable.linefriends,10),
-        Images(22, R.drawable.lamb,10),
-        Images(23, R.drawable.linefriends,10),
-        Images(24, R.drawable.lamb,10),
+    val imageList = listOf<RoutePhoto>(
+        RoutePhoto(0, R.drawable.hongdae, 0),
+        RoutePhoto(1, R.drawable.linefriends, 0),
+        RoutePhoto(2, R.drawable.lamb, 0),
+        RoutePhoto(3, R.drawable.hongdae, 0),
+        RoutePhoto(4, R.drawable.linefriends, 0),
+        RoutePhoto(5, R.drawable.lamb, 0),
+        RoutePhoto(6, R.drawable.hongdae, 0),
+        RoutePhoto(7, R.drawable.linefriends, 0),
+        RoutePhoto(8, R.drawable.lamb, 0),
+        RoutePhoto(9, R.drawable.hongdae1, 9),
+        RoutePhoto(10, R.drawable.lamb, 9),
+        RoutePhoto(11, R.drawable.linefriends, 9),
+        RoutePhoto(12, R.drawable.lamb, 9),
+        RoutePhoto(13, R.drawable.cafe, 9),
+        RoutePhoto(14, R.drawable.lamb, 9),
+        RoutePhoto(15, R.drawable.linefriends, 9),
+        RoutePhoto(16, R.drawable.hongdae1, 9),
+        RoutePhoto(17, R.drawable.linefriends, 10),
+        RoutePhoto(19, R.drawable.linefriends, 10),
+        RoutePhoto(18, R.drawable.lamb, 10),
+        RoutePhoto(20, R.drawable.lamb, 10),
+        RoutePhoto(21, R.drawable.linefriends, 10),
+        RoutePhoto(22, R.drawable.lamb, 10),
+        RoutePhoto(23, R.drawable.linefriends, 10),
+        RoutePhoto(24, R.drawable.lamb, 10),
     )
 }
