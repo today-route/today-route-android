@@ -28,11 +28,12 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:paddingStart="4dp"
+            android:text="♥+"
             android:textColor="@color/tmp_black"
             android:textSize="18sp"
-            android:text="♥+"
             app:layout_constraintBottom_toTopOf="@+id/rv_title"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="@+id/cv_calendarView"
             app:layout_constraintTop_toBottomOf="@+id/cv_calendarView" />
 

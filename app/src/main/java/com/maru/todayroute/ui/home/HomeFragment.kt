@@ -99,8 +99,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
     private fun initPathOverlay() {
         path = PathOverlay()
         with(path) {
-            color = Color.rgb(114, 149, 185)
-            outlineColor = Color.rgb(114, 149, 185)
+            color = requireContext().getColor(R.color.purple)
+            outlineColor = requireContext().getColor(R.color.purple)
             width = 30
         }
     }

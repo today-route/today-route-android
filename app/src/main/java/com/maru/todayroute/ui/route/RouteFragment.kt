@@ -111,11 +111,13 @@ class RouteFragment : BaseFragment<FragmentRouteBinding>(R.layout.fragment_route
 
     private fun drawRoute(geoCoordList: List<LatLng>) {
         val path = PathOverlay()
-        path.color = Color.rgb(114, 149, 185)
-        path.outlineColor = Color.rgb(114, 149, 185)
-        path.width = 20
-        path.coords = geoCoordList
-        path.map = naverMap
+        with (path) {
+            color = requireContext().getColor(R.color.purple)
+            outlineColor = requireContext().getColor(R.color.purple)
+            width = 30
+            coords = geoCoordList
+            map = naverMap
+        }
     }
 
     private fun unableGestures() {

@@ -12,11 +12,11 @@ import java.util.*
 class EventDecorator() : DayViewDecorator {
 
     private var color = 0
-    private lateinit var dates : HashSet<CalendarDay>
+    private lateinit var dates: HashSet<CalendarDay>
 
     constructor(color: Int, dates: Collection<CalendarDay>) : this() {
-        this.color=color
-        this.dates= HashSet(dates)
+        this.color = color
+        this.dates = HashSet(dates)
     }
 
     override fun shouldDecorate(day: CalendarDay?): Boolean {

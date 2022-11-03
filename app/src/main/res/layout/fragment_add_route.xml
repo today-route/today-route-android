@@ -121,7 +121,7 @@
                     android:layout_width="84dp"
                     android:layout_height="84dp"
                     android:layout_marginTop="16dp"
-                    android:background="@drawable/bg_coral_stroke"
+                    android:background="@drawable/bg_violet_stroke"
                     android:gravity="center"
                     android:src="@drawable/ic_baseline_add_photo_24"
                     android:textAlignment="center"

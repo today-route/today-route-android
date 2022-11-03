@@ -84,7 +84,7 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding>(R.layout.fragment
             binding.cvCalendarView
                 .addDecorator(
                     EventDecorator(
-                        Color.parseColor("#FF018786"),
+                        requireContext().getColor(R.color.purple),
                         Collections.singleton(CalendarDay.from(year, month-1, day))))
         }
     }

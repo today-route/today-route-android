@@ -13,7 +13,7 @@ object Utils {
         val simpleDataFormat = SimpleDateFormat("yyyy-MM-dd", Locale.KOREAN)
         val startDateInMillis = simpleDataFormat.parse(startDate)?.time!!
 
-        return "❤️${(currentTimeMillis - startDateInMillis) / (24 * 60 * 60 * 1000) + 1}❤️"
+        return "${(currentTimeMillis - startDateInMillis) / (24 * 60 * 60 * 1000) + 1}"
     }
 }
 

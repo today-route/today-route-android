@@ -2,13 +2,13 @@
     <!-- Base application theme. -->
     <style name="Theme.TodayRoute" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/tmp_coral</item>
-        <item name="colorPrimaryVariant">@color/tmp_coral</item>
+        <item name="colorPrimary">@color/main_violet</item>
+        <item name="colorPrimaryVariant">@color/main_violet</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/tmp_coral</item>
-        <item name="colorSecondaryVariant">@color/tmp_coral</item>
-        <item name="colorOnSecondary">@color/tmp_coral</item>
+        <item name="colorSecondary">@color/main_violet</item>
+        <item name="colorSecondaryVariant">@color/main_violet</item>
+        <item name="colorOnSecondary">@color/main_violet</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
@@ -17,7 +17,7 @@
     </style>
 
     <style name="CustomRadioButton" parent="Theme.AppCompat.Light">
-        <item name="colorAccent">@color/tmp_coral</item>
+        <item name="colorAccent">@color/main_violet</item>
         <item name="colorControlNormal">@color/tmp_light_gray</item>
     </style>
 
@@ -61,7 +61,7 @@
     <!-- 연, 월을 표시하는 헤더에 적용되는 스타일 -->
     <style name="CalendarWidgetHeader">
         <item name="android:textSize">18sp</item>
-        <item name="android:textColor">#000000</item>
+        <item name="android:textColor">@color/tmp_black</item>
     </style>
 
     <style name="CornerSize50Percent">

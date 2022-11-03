@@ -1,10 +1,8 @@
 package com.maru.todayroute.ui.initial
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.kakao.sdk.auth.model.OAuthToken
 import com.kakao.sdk.common.model.ClientError
@@ -12,9 +10,7 @@ import com.kakao.sdk.common.model.ClientErrorCause
 import com.kakao.sdk.user.UserApiClient
 import com.maru.todayroute.R
 import com.maru.todayroute.databinding.FragmentSignInBinding
-import com.maru.todayroute.ui.MainActivity
 import com.maru.todayroute.util.BaseFragment
-import kotlinx.coroutines.launch
 
 class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sign_in) {
 
@@ -25,13 +21,6 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
 
 
         setUpObserver()
-
-        // TODO: 로그인화면 서버와 연동 끝나면 사라질 코드
-        binding.btnTmp.setOnClickListener {
-            val intent = Intent(requireActivity(), MainActivity::class.java)
-            startActivity(intent)
-            activity?.finish()
-        }
 
 //        lifecycleScope.launch {
 //            viewModel.checkInitialProgress()
