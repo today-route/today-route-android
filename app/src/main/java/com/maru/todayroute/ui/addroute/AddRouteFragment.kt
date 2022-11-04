@@ -37,7 +37,7 @@ class AddRouteFragment : BaseFragment<FragmentAddRouteBinding>(R.layout.fragment
     private val viewModel: AddRouteViewModel by viewModels()
     private lateinit var naverMap: NaverMap
 
-    private val photoListAdapter by lazy { PhotoListAdapter() }
+    private val photoListAdapter by lazy { PhotoListAdapter(viewModel::removePhotoAt) }
 
     private val activityResultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->

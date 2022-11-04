@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.maru.todayroute.R
 import com.maru.todayroute.databinding.ItemPhotoInAddRouteBinding
 
-class PhotoListAdapter : ListAdapter<Bitmap, PhotoListAdapter.PhotoViewHolder>(DIFF_CALLBACK) {
+class PhotoListAdapter(private val removePhoto: (Int) -> Unit) : ListAdapter<Bitmap, PhotoListAdapter.PhotoViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
         return PhotoViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_photo_in_add_route, parent, false))
@@ -21,6 +21,12 @@ class PhotoListAdapter : ListAdapter<Bitmap, PhotoListAdapter.PhotoViewHolder>(D
     }
 
     inner class PhotoViewHolder(private val binding: ItemPhotoInAddRouteBinding): RecyclerView.ViewHolder(binding.root) {
+
+        init {
+            binding.btnRemove.setOnClickListener {
+                removePhoto.invoke(adapterPosition)
+            }
+        }
 
         fun bind(bitmap: Bitmap) {
             with (binding.ivPhoto) {

@@ -52,4 +52,10 @@ class AddRouteViewModel @Inject constructor() : ViewModel() {
             _photoBitmapList.value = photoList
         }
     }
+
+    fun removePhotoAt(index: Int) {
+        val photoList = _photoBitmapList.value!!.toMutableList()
+        photoList.removeAt(index)
+        _photoBitmapList.value = photoList
+    }
 }
