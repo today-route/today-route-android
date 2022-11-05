@@ -4,10 +4,9 @@ import com.maru.data.datasource.initial.InitialDataSource
 import com.maru.data.datasource.initial.InitialRemoteDataSource
 import com.maru.data.model.CoupleInfo
 import com.maru.data.model.User
-import com.maru.data.network.SignUpRequest
-import com.maru.data.network.SignUpResponse
+import com.maru.data.network.request.SignUpRequest
+import com.maru.data.network.response.SignUpResponse
 import com.maru.data.network.Token
-import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class InitialRepository @Inject constructor(

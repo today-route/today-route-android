@@ -10,5 +10,7 @@ data class Route(
     val zoomLevel: Int,
     val title: String,
     val content: String,
-    val location: String
+    val location: String,
+    val photoList: List<String> = listOf(),
+    val geoCoordList: List<List<Double>> = listOf()
 )

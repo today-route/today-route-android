@@ -3,6 +3,11 @@ package com.maru.data.network.server
 import com.maru.data.model.CoupleInfo
 import com.maru.data.model.User
 import com.maru.data.network.*
+import com.maru.data.network.request.CreateCoupleRequest
+import com.maru.data.network.request.RefreshRequest
+import com.maru.data.network.request.SignInRequest
+import com.maru.data.network.request.SignUpRequest
+import com.maru.data.network.response.SignUpResponse
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST

@@ -1,6 +1,6 @@
 package com.maru.data.datasource.token
 
-import com.maru.data.network.RefreshRequest
+import com.maru.data.network.request.RefreshRequest
 import com.maru.data.network.Token
 import com.maru.data.network.server.RetrofitService
 import javax.inject.Inject

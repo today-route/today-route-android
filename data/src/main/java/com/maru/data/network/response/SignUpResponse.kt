@@ -1,4 +1,4 @@
-package com.maru.data.network
+package com.maru.data.network.response
 
 import com.squareup.moshi.JsonClass
 

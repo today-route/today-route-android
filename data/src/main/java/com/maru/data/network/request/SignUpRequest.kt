@@ -1,4 +1,4 @@
-package com.maru.data.network
+package com.maru.data.network.request
 
 import com.maru.data.model.Gender
 import com.squareup.moshi.JsonClass

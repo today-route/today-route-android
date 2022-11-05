@@ -10,22 +10,17 @@ import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.template.model.Link
 import com.kakao.sdk.template.model.TextTemplate
 import com.kakao.sdk.user.UserApiClient
-import com.maru.data.model.CoupleInfo
 import com.maru.data.model.Gender
-import com.maru.data.model.User
-import com.maru.data.network.SignUpRequest
+import com.maru.data.network.request.SignUpRequest
 import com.maru.data.network.Token
 import com.maru.data.repository.InitialRepository
 import com.maru.data.repository.TokenRepository
-import com.maru.todayroute.SignInTokenInfo
 import com.maru.todayroute.SignInTokenInfo.token
 import com.maru.todayroute.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
