@@ -8,10 +8,12 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.maru.data.model.Route
+import com.maru.data.model.SimpleRoute
+import com.maru.data.network.response.RouteOfMonthResponse
 import com.maru.todayroute.R
 import com.maru.todayroute.databinding.ItemRouteBinding
 
-class RouteListAdapter: ListAdapter<Route, RouteListAdapter.RouteViewHolder>(DIFF_CALLBACK) {
+class RouteListAdapter: ListAdapter<SimpleRoute, RouteListAdapter.RouteViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RouteViewHolder {
         return RouteViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_route, parent, false))
@@ -31,7 +33,7 @@ class RouteListAdapter: ListAdapter<Route, RouteListAdapter.RouteViewHolder>(DIF
             }
         }
 
-        fun bind(route: Route) {
+        fun bind(route: SimpleRoute) {
             currentRouteId = route.id
             with (binding) {
                 tvLocation.text = route.location
@@ -45,11 +47,11 @@ class RouteListAdapter: ListAdapter<Route, RouteListAdapter.RouteViewHolder>(DIF
     }
 
     companion object {
-        val DIFF_CALLBACK: DiffUtil.ItemCallback<Route> = object : DiffUtil.ItemCallback<Route>() {
-            override fun areItemsTheSame(oldItem: Route, newItem: Route): Boolean =
+        val DIFF_CALLBACK: DiffUtil.ItemCallback<SimpleRoute> = object : DiffUtil.ItemCallback<SimpleRoute>() {
+            override fun areItemsTheSame(oldItem: SimpleRoute, newItem: SimpleRoute): Boolean =
                 oldItem === newItem
 
-            override fun areContentsTheSame(oldItem: Route, newItem: Route): Boolean =
+            override fun areContentsTheSame(oldItem: SimpleRoute, newItem: SimpleRoute): Boolean =
                 oldItem == newItem
         }
     }

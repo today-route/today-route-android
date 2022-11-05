@@ -1,8 +1,10 @@
 package com.maru.data.datasource.route
 
 import com.maru.data.model.Route
+import com.maru.data.network.response.RouteOfMonthResponse
 
 interface RouteDataSource {
 
-    suspend fun getAllRoute(coupleId: Int): Result<List<Route>>
+    suspend fun getRouteOfMonth(year: Int, month: Int): Result<RouteOfMonthResponse>
+    suspend fun getRouteById(routeId: Int): Result<Route>
 }

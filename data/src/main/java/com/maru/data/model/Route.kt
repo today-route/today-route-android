@@ -11,6 +11,6 @@ data class Route(
     val title: String,
     val content: String,
     val location: String,
-    val photoList: List<String> = listOf(),
+    val photoList: List<Int> = listOf(),
     val geoCoordList: List<List<Double>> = listOf()
 )

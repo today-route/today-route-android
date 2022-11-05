@@ -1,12 +1,12 @@
 package com.maru.todayroute.ui.calendar
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.maru.data.model.Route
+import com.maru.data.model.SimpleRoute
+import com.maru.data.network.response.RouteOfMonthResponse
 import com.maru.todayroute.R
 import com.maru.todayroute.databinding.FragmentCalendarBinding
 import com.maru.todayroute.ui.MainViewModel
@@ -31,13 +31,6 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding>(R.layout.fragment
         setupRecyclerView()
         setupObserver()
         setupCalendar()
-        calendarViewModel.getAllRoute(activityViewModel.coupleInfo.value!!.id)
-
-        // [2] 특정 날짜 선택
-        binding.cvCalendarView.setOnDateChangedListener { _, date, _ ->
-            // 리사이클러뷰 띄워주기
-            calendarViewModel.dateSelected(date, activityViewModel.coupleInfo.value!!.startDate)
-        }
     }
 
     private fun setupObserver() {
@@ -49,7 +42,7 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding>(R.layout.fragment
             binding.tvDDay.text = "♥+${dDay}일의 기록"
         }
 
-        calendarViewModel.allRouteList.observe(viewLifecycleOwner) { routeList ->
+        calendarViewModel.routeOfCurrentMonthList.observe(viewLifecycleOwner) { routeList ->
             checkDot(routeList)
         }
     }
@@ -58,25 +51,33 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding>(R.layout.fragment
         // [1] 첫화면
         // 1-1 첫화면에서 오늘날짜 표시
         val today = CalendarDay.today()
-        binding.cvCalendarView.selectedDate = today
+        calendarViewModel.getRouteOfMonth(today.year, today.month - 1)
         calendarViewModel.dateSelected(today, activityViewModel.coupleInfo.value!!.startDate)
 
 
         // 일요일 빨간글씨
-        binding.cvCalendarView.addDecorators(
-            SundayDecorator()
-        )
-        // 월 한글표시
-        binding.cvCalendarView.setTitleFormatter(MonthArrayTitleFormatter(resources.getTextArray(R.array.custom_months)));
-        // 요일 한글표시
-        binding.cvCalendarView.setWeekDayFormatter(ArrayWeekDayFormatter(resources.getTextArray(R.array.custom_weekdays)));
-        // 달력 헤더 스타일
-        binding.cvCalendarView.setHeaderTextAppearance(R.style.CalendarWidgetHeader);
+        with(binding.cvCalendarView) {
+            selectedDate = today
+            addDecorators(
+                SundayDecorator()
+            )
+            setTitleFormatter(MonthArrayTitleFormatter(resources.getTextArray(R.array.custom_months))) // 월 한글 표시
+            setWeekDayFormatter(ArrayWeekDayFormatter(resources.getTextArray(R.array.custom_weekdays))) // 요일 한글 표시
+            setHeaderTextAppearance(R.style.CalendarWidgetHeader) // 달력 헤더 스타일
+            // 달 변경
+            setOnMonthChangedListener { _, date ->
+                calendarViewModel.getRouteOfMonth(date.year, date.month)
+            }
+            // 특정 날짜 선택
+            setOnDateChangedListener { _, date, _ ->
+                calendarViewModel.dateSelected(date, activityViewModel.coupleInfo.value!!.startDate)
+            }
+        }
     }
 
     // 게시물 있는 날 점찍기
-    private fun checkDot(routeList: List<Route>){
-        for (i in routeList.indices){
+    private fun checkDot(routeList: List<SimpleRoute>) {
+        for (i in routeList.indices) {
             val eventDate = routeList[i].date.split("-")
             val year = Integer.parseInt(eventDate[0])
             val month = Integer.parseInt(eventDate[1])
@@ -85,7 +86,9 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding>(R.layout.fragment
                 .addDecorator(
                     EventDecorator(
                         requireContext().getColor(R.color.purple),
-                        Collections.singleton(CalendarDay.from(year, month-1, day))))
+                        Collections.singleton(CalendarDay.from(year, month - 1, day))
+                    )
+                )
         }
     }
 
