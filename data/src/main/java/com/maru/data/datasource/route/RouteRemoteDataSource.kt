@@ -50,14 +50,15 @@ class RouteRemoteDataSource @Inject constructor(
         val photoFiles = mutableListOf<MultipartBody.Part>()
         for (filePath in filePathList) {
             val file = File(filePath)
-            val fileBody: RequestBody = file.asRequestBody("image/jpeg".toMediaTypeOrNull())
-            val fileToUpload = MultipartBody.Part.createFormData("photos", file.name, fileBody)
+            val fileBody: RequestBody = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+            val fileToUpload = MultipartBody.Part.createFormData("photos",file.name, fileBody)
             photoFiles.add(fileToUpload)
         }
 
-        val geoCoords = mutableListOf<List<MultipartBody.Part>>()
-        for (geoCoord in geoCoordList) {
-            geoCoords.add(geoCoord.map { MultipartBody.Part.createFormData("geoCoord", it.toString()) })
+        val geoCoords = mutableListOf<MultipartBody.Part>()
+        for (i in geoCoordList.indices) {
+            geoCoords.add(MultipartBody.Part.createFormData("geoCoord[$i][0]", geoCoordList[i][0].toString()))
+            geoCoords.add(MultipartBody.Part.createFormData("geoCoord[$i][1]", geoCoordList[i][1].toString()))
         }
 
         retrofitService.saveNewRoute(requestMap, photoFiles, geoCoords)

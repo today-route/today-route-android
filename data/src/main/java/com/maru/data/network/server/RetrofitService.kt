@@ -45,9 +45,10 @@ interface RetrofitService {
 
     @Multipart
     @POST("route")
+    @JvmSuppressWildcards
     suspend fun saveNewRoute(
         @PartMap map: Map<String, RequestBody>,
-        @Part photoList: List<MultipartBody.Part>,
-        @Part geoCoordList: List<List<MultipartBody.Part>>
+        @Part photos: List<MultipartBody.Part>,
+        @Part geoCoord: List<MultipartBody.Part>
     )
 }

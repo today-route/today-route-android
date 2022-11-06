@@ -18,8 +18,7 @@ object Utils {
 
     fun getCurrentDate(): String {
         val currentTimeMillis = System.currentTimeMillis()
-        val simpleDataFormat = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ", Locale.KOREAN)
-
+        val simpleDataFormat = SimpleDateFormat("yyyy-MM-dd", Locale.KOREAN)
         return simpleDataFormat.format(currentTimeMillis)
     }
 }

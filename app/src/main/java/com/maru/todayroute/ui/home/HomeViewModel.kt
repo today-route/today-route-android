@@ -38,9 +38,9 @@ class HomeViewModel @Inject constructor() : ViewModel() {
         if (_isRecording.value!!) {
             _isRecording.value = false
             if (isValidRecord()) {
-                date = ""
                 _updateUserLocation.value = false
                 _moveToAddRouteFragment.value = Pair(geoCoordList.toTypedArray(), date)
+                date = ""
 //                        TODO: ViewModel에 기록 정보 저장하고 루트 추가 화면으로 넘어가도록 요청
             } else {
 //                Toast.makeText(
