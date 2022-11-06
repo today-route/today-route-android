@@ -69,8 +69,8 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
             }
         }
 
-        viewModel.moveToAddRouteFragment.observe(viewLifecycleOwner) { geoCoordArray ->
-            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToAddRouteFragment(geoCoordArray))
+        viewModel.moveToAddRouteFragment.observe(viewLifecycleOwner) { pair ->
+            findNavController().navigate(HomeFragmentDirections.actionHomeFragmentToAddRouteFragment(pair.first, pair.second))
         }
 
         viewModel.updatePath.observe(viewLifecycleOwner) { geoCoord ->

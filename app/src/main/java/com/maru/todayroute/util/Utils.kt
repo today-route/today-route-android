@@ -15,6 +15,13 @@ object Utils {
 
         return "${(currentTimeMillis - startDateInMillis) / (24 * 60 * 60 * 1000) + 1}"
     }
+
+    fun getCurrentDate(): String {
+        val currentTimeMillis = System.currentTimeMillis()
+        val simpleDataFormat = SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss.SSSZ", Locale.KOREAN)
+
+        return simpleDataFormat.format(currentTimeMillis)
+    }
 }
 
 object RouteUtils {

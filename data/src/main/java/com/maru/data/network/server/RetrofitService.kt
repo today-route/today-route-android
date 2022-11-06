@@ -10,11 +10,9 @@ import com.maru.data.network.request.SignInRequest
 import com.maru.data.network.request.SignUpRequest
 import com.maru.data.network.response.RouteOfMonthResponse
 import com.maru.data.network.response.SignUpResponse
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
-import retrofit2.http.Query
+import okhttp3.RequestBody
+import okhttp3.MultipartBody
+import retrofit2.http.*
 
 interface RetrofitService {
 
@@ -37,8 +35,19 @@ interface RetrofitService {
     suspend fun getMyUserData(): User
 
     @GET("route")
-    suspend fun getRouteOfMonth(@Query("year") year: String, @Query("month") month: String): RouteOfMonthResponse
+    suspend fun getRouteOfMonth(
+        @Query("year") year: String,
+        @Query("month") month: String
+    ): RouteOfMonthResponse
 
     @GET("route/{routeId}")
     suspend fun getRouteById(@Path("routeId") routeId: Int): Route
+
+    @Multipart
+    @POST("route")
+    suspend fun saveNewRoute(
+        @PartMap map: Map<String, RequestBody>,
+        @Part photoList: List<MultipartBody.Part>,
+        @Part geoCoordList: List<List<MultipartBody.Part>>
+    )
 }

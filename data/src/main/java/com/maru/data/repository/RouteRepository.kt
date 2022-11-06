@@ -1,5 +1,6 @@
 package com.maru.data.repository
 
+import com.google.type.LatLng
 import com.maru.data.datasource.route.RouteDataSource
 import com.maru.data.datasource.route.RouteRemoteDataSource
 import com.maru.data.model.Route
@@ -14,4 +15,15 @@ class RouteRepository @Inject constructor(
 
     override suspend fun getRouteById(routeId: Int): Result<Route> =
         remoteDataSource.getRouteById(routeId)
+
+    override suspend fun saveNewRoute(
+        date: String,
+        zoomLevel: Double,
+        title: String,
+        contents: String,
+        location: String,
+        filePathList: List<String>,
+        geoCoordList: List<List<Double>>
+    ): Result<Unit> =
+        remoteDataSource.saveNewRoute(date, zoomLevel, title, contents, location, filePathList, geoCoordList)
 }

@@ -1,6 +1,6 @@
 package com.maru.todayroute.ui.addroute
 
-import android.graphics.Bitmap
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.maru.todayroute.R
 import com.maru.todayroute.databinding.ItemPhotoInAddRouteBinding
 
-class PhotoListAdapter(private val removePhoto: (Int) -> Unit) : ListAdapter<Bitmap, PhotoListAdapter.PhotoViewHolder>(DIFF_CALLBACK) {
+class PhotoListAdapter(private val removePhoto: (Int) -> Unit) : ListAdapter<Uri, PhotoListAdapter.PhotoViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoViewHolder {
         return PhotoViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_photo_in_add_route, parent, false))
@@ -28,20 +28,20 @@ class PhotoListAdapter(private val removePhoto: (Int) -> Unit) : ListAdapter<Bit
             }
         }
 
-        fun bind(bitmap: Bitmap) {
+        fun bind(uri: Uri) {
             with (binding.ivPhoto) {
-                setImageBitmap(bitmap)
+                setImageURI(uri)
             }
         }
     }
 
     companion object {
-        val DIFF_CALLBACK: DiffUtil.ItemCallback<Bitmap> = object : DiffUtil.ItemCallback<Bitmap>() {
-            override fun areItemsTheSame(oldItem: Bitmap, newItem: Bitmap): Boolean =
+        val DIFF_CALLBACK: DiffUtil.ItemCallback<Uri> = object : DiffUtil.ItemCallback<Uri>() {
+            override fun areItemsTheSame(oldItem: Uri, newItem: Uri): Boolean =
                 oldItem === newItem
 
-            override fun areContentsTheSame(oldItem: Bitmap, newItem: Bitmap): Boolean =
-                oldItem.sameAs(newItem)
+            override fun areContentsTheSame(oldItem: Uri, newItem: Uri): Boolean =
+                oldItem == newItem
         }
     }
 }

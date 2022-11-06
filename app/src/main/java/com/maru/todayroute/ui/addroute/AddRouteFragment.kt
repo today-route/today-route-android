@@ -1,17 +1,17 @@
 package com.maru.todayroute.ui.addroute
 
+import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.ImageDecoder
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
+import android.provider.DocumentsContract
 import android.provider.MediaStore
+import android.provider.MediaStore.Audio.Media
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.widget.doAfterTextChanged
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -27,6 +27,7 @@ import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.PathOverlay
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.File
 
 @AndroidEntryPoint
 class AddRouteFragment : BaseFragment<FragmentAddRouteBinding>(R.layout.fragment_add_route),
@@ -42,20 +43,20 @@ class AddRouteFragment : BaseFragment<FragmentAddRouteBinding>(R.layout.fragment
     private val activityResultLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
-                val photoList = mutableListOf<Bitmap>()
+                val photoList = mutableListOf<Uri>()
 
                 if (result.data?.clipData != null) {
                     val data = result.data?.clipData
                     data?.let { clipData ->
                         for (i in 0 until clipData.itemCount) {
                             val uri = clipData.getItemAt(i).uri
-                            photoList.add(getBitmapFromUri(uri))
+                            photoList.add(uri)
                         }
                     }
                 } else {
                     // 이미지를 한 장만 선택한 경우
                     result.data?.data?.let { uri ->
-                        photoList.add(getBitmapFromUri(uri))
+                        photoList.add(uri)
                     }
                 }
                 viewModel.addPhotos(photoList)
@@ -64,6 +65,7 @@ class AddRouteFragment : BaseFragment<FragmentAddRouteBinding>(R.layout.fragment
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.viewModel = viewModel
 
         viewLifecycleOwner.lifecycle.addObserver(
             MapViewLifecycleObserver(
@@ -72,24 +74,28 @@ class AddRouteFragment : BaseFragment<FragmentAddRouteBinding>(R.layout.fragment
             )
         )
         viewModel.setGeoCoordList(args.geoCoordArray.toList())
+        viewModel.setDate(args.date)
         binding.mvMap.getMapAsync(this)
         setupButtonClickListener()
         setUpObserver()
-        addTextChangedListener()
         initRecyclerViewAdapter()
     }
 
-    private fun getBitmapFromUri(uri: Uri): Bitmap {
-        return if (28 <= Build.VERSION.SDK_INT) {
-            val source =
-                ImageDecoder.createSource(requireActivity().contentResolver, uri)
-            ImageDecoder.decodeBitmap(source)
-        } else {
-            MediaStore.Images.Media.getBitmap(
-                requireActivity().contentResolver,
-                uri
-            )
+    @SuppressLint("Range")
+    private fun getRealPathFromUriList(uriList: List<Uri>): List<String> {
+        val realPathList = mutableListOf<String>()
+
+        for (uri in uriList) {
+            val proj = arrayOf(MediaStore.Images.Media.DATA)
+
+            val cursor = requireActivity().contentResolver.query(uri, proj, null, null, null)
+            cursor!!.moveToNext()
+            val path = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DATA))
+            cursor.close()
+            realPathList.add(path)
         }
+
+        return realPathList
     }
 
     private fun initRecyclerViewAdapter() {
@@ -97,26 +103,6 @@ class AddRouteFragment : BaseFragment<FragmentAddRouteBinding>(R.layout.fragment
             layoutManager =
                 LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             adapter = photoListAdapter
-        }
-    }
-
-    private fun addTextChangedListener() {
-        binding.etLocation.doAfterTextChanged { input ->
-            if (input != null && input.isEmpty()) {
-                binding.etLocation.hint = "위치 입력"
-            }
-        }
-
-        binding.etTitle.doAfterTextChanged { input ->
-            if (input != null && input.isEmpty()) {
-                binding.etLocation.hint = "제목"
-            }
-        }
-
-        binding.etContents.doAfterTextChanged { input ->
-            if (input != null && input.isEmpty()) {
-                binding.etLocation.hint = "오늘의 길에서 나눈 추억을 기록해보세요!"
-            }
         }
     }
 
@@ -134,6 +120,10 @@ class AddRouteFragment : BaseFragment<FragmentAddRouteBinding>(R.layout.fragment
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
             activityResultLauncher.launch(intent)
         }
+
+        binding.btnSave.setOnClickListener {
+            viewModel.saveNewRoute(naverMap.cameraPosition.zoom)
+        }
     }
 
     private fun setUpObserver() {
@@ -144,8 +134,9 @@ class AddRouteFragment : BaseFragment<FragmentAddRouteBinding>(R.layout.fragment
             centerCoord.observe(viewLifecycleOwner) { center ->
                 moveCameraToCenterCoordinate(center)
             }
-            photoBitmapList.observe(viewLifecycleOwner) { photoBitmapList ->
-                photoListAdapter.submitList(photoBitmapList)
+            photoUriList.observe(viewLifecycleOwner) { photoUriList ->
+                photoListAdapter.submitList(photoUriList)
+                viewModel.setPhotoRealPathList(getRealPathFromUriList(photoUriList))
             }
             showToastMessage.observe(viewLifecycleOwner) {
                 Toast.makeText(

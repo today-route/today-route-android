@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.maru.todayroute.util.SingleLiveEvent
+import com.maru.todayroute.util.Utils.getCurrentDate
 import com.naver.maps.geometry.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -28,15 +29,18 @@ class HomeViewModel @Inject constructor() : ViewModel() {
     val moveMapCameraToCurrentLocation: LiveData<LatLng> get() = _moveMapCameraToCurrentLocation
     private val _moveMapCameraToCurrentLocation: MutableLiveData<LatLng> = MutableLiveData()
 
-    val moveToAddRouteFragment: LiveData<Array<LatLng>> get() = _moveToAddRouteFragment
-    private val _moveToAddRouteFragment: SingleLiveEvent<Array<LatLng>> = SingleLiveEvent()
+    val moveToAddRouteFragment: LiveData<Pair<Array<LatLng>, String>> get() = _moveToAddRouteFragment
+    private val _moveToAddRouteFragment: SingleLiveEvent<Pair<Array<LatLng>, String>> = SingleLiveEvent()
+
+    var date = ""
 
     fun startRecording() {
         if (_isRecording.value!!) {
             _isRecording.value = false
             if (isValidRecord()) {
+                date = ""
                 _updateUserLocation.value = false
-                _moveToAddRouteFragment.value = geoCoordList.toTypedArray()
+                _moveToAddRouteFragment.value = Pair(geoCoordList.toTypedArray(), date)
 //                        TODO: ViewModel에 기록 정보 저장하고 루트 추가 화면으로 넘어가도록 요청
             } else {
 //                Toast.makeText(
@@ -47,6 +51,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
             }
         } else {
             _isRecording.value = true
+            date = getCurrentDate()
             initGeoCoordList()
         }
     }

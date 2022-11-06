@@ -1,17 +1,23 @@
 package com.maru.todayroute.ui.addroute
 
-import android.graphics.Bitmap
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.maru.data.repository.RouteRepository
 import com.maru.todayroute.util.RouteUtils
 import com.maru.todayroute.util.SingleLiveEvent
 import com.naver.maps.geometry.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AddRouteViewModel @Inject constructor() : ViewModel() {
+class AddRouteViewModel @Inject constructor(
+    private val repository: RouteRepository
+) : ViewModel() {
 
     private lateinit var geoCoordList: List<LatLng>
 
@@ -19,10 +25,20 @@ class AddRouteViewModel @Inject constructor() : ViewModel() {
     private val _drawRoute: MutableLiveData<List<LatLng>> = MutableLiveData()
     val centerCoord: LiveData<LatLng> get() = _centerCoord
     private val _centerCoord: MutableLiveData<LatLng> = MutableLiveData()
-    val photoBitmapList: LiveData<List<Bitmap>> get() = _photoBitmapList
-    private val _photoBitmapList: MutableLiveData<List<Bitmap>> = MutableLiveData(listOf())
+    val photoUriList: LiveData<List<Uri>> get() = _photoUriList
+    private val _photoUriList: MutableLiveData<List<Uri>> = MutableLiveData(listOf())
     val showToastMessage: LiveData<Unit> get() = _showToastMessage
     private val _showToastMessage: SingleLiveEvent<Unit> = SingleLiveEvent()
+    private lateinit var photoRealPathList: List<String>
+    private lateinit var date: String
+
+    val location = MutableLiveData("")
+    val title = MutableLiveData("")
+    val contents = MutableLiveData("")
+
+    fun setDate(date: String) {
+        this.date = date
+    }
 
     fun setGeoCoordList(geoCoordList: List<LatLng>) {
         this.geoCoordList = geoCoordList
@@ -39,23 +55,41 @@ class AddRouteViewModel @Inject constructor() : ViewModel() {
         _centerCoord.value = RouteUtils.calculateCenterCoordinate(latitudeList, longitudeList)
     }
 
-    fun addPhotos(newPhotoList: List<Bitmap>) {
-        val photoList = mutableListOf<Bitmap>()
-        val oldPhotoList = _photoBitmapList.value!!
+    fun addPhotos(newPhotoList: List<Uri>) {
+        val photoList = mutableListOf<Uri>()
+        val oldPhotoList = _photoUriList.value!!
 
         if (10 < oldPhotoList.size + newPhotoList.size) {
             _showToastMessage.call()
         } else {
-            photoList.addAll(_photoBitmapList.value!!)
+            photoList.addAll(_photoUriList.value!!)
             photoList.addAll(newPhotoList)
 
-            _photoBitmapList.value = photoList
+            _photoUriList.value = photoList
         }
     }
 
+    fun setPhotoRealPathList(photoRealPathList: List<String>) {
+        this.photoRealPathList = photoRealPathList
+    }
+
     fun removePhotoAt(index: Int) {
-        val photoList = _photoBitmapList.value!!.toMutableList()
+        val photoList = _photoUriList.value!!.toMutableList()
         photoList.removeAt(index)
-        _photoBitmapList.value = photoList
+        _photoUriList.value = photoList
+    }
+
+    fun saveNewRoute(zoomLevel: Double) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.saveNewRoute(
+                date,
+                zoomLevel,
+                title.value!!,
+                contents.value!!,
+                location.value!!,
+                photoRealPathList,
+                geoCoordList.map { listOf(it.latitude, it.longitude) }
+            )
+        }
     }
 }

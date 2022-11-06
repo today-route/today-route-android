@@ -45,6 +45,9 @@
         <argument
             android:name="geoCoordArray"
             app:argType="com.naver.maps.geometry.LatLng[]" />
+        <argument
+            android:name="date"
+            app:argType="string" />
     </fragment>
             
     <fragment

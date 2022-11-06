@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-
+        <variable
+            name="viewModel"
+            type="com.maru.todayroute.ui.addroute.AddRouteViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -79,6 +81,7 @@
                     android:background="@null"
                     android:drawableStart="@drawable/ic_baseline_location_on_24"
                     android:hint="위치 입력"
+                    android:text="@={viewModel.location}"
                     android:textSize="16sp"
                     app:layout_constraintStart_toStartOf="@id/mv_map"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -101,6 +104,7 @@
                     android:minHeight="40dp"
                     android:background="@null"
                     android:hint="제목"
+                    android:text="@={viewModel.title}"
                     android:textSize="20sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -151,6 +155,7 @@
                     android:background="@null"
                     android:gravity="top"
                     android:hint="오늘의 길에서 나눈 추억을 기록해보세요!"
+                    android:text="@={viewModel.contents}"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
