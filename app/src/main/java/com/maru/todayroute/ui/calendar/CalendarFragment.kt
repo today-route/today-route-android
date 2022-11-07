@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.maru.data.model.SimpleRoute
-import com.maru.data.network.response.RouteOfMonthResponse
 import com.maru.todayroute.R
 import com.maru.todayroute.databinding.FragmentCalendarBinding
 import com.maru.todayroute.ui.MainViewModel
@@ -15,6 +15,8 @@ import com.prolificinteractive.materialcalendarview.CalendarDay
 import com.prolificinteractive.materialcalendarview.format.ArrayWeekDayFormatter
 import com.prolificinteractive.materialcalendarview.format.MonthArrayTitleFormatter
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.util.*
 
 @AndroidEntryPoint
@@ -51,7 +53,9 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding>(R.layout.fragment
         // [1] 첫화면
         // 1-1 첫화면에서 오늘날짜 표시
         val today = CalendarDay.today()
-        calendarViewModel.getRouteOfMonth(today.year, today.month - 1)
+        lifecycleScope.launch(Dispatchers.IO) {
+            calendarViewModel.getRouteOfMonth(today.year, today.month + 1)
+        }
         calendarViewModel.dateSelected(today, activityViewModel.coupleInfo.value!!.startDate)
 
 
@@ -66,7 +70,9 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding>(R.layout.fragment
             setHeaderTextAppearance(R.style.CalendarWidgetHeader) // 달력 헤더 스타일
             // 달 변경
             setOnMonthChangedListener { _, date ->
-                calendarViewModel.getRouteOfMonth(date.year, date.month)
+                lifecycleScope.launch(Dispatchers.IO) {
+                    calendarViewModel.getRouteOfMonth(date.year, date.month + 1)
+                }
             }
             // 특정 날짜 선택
             setOnDateChangedListener { _, date, _ ->
@@ -81,7 +87,7 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding>(R.layout.fragment
             val eventDate = routeList[i].date.split("-")
             val year = Integer.parseInt(eventDate[0])
             val month = Integer.parseInt(eventDate[1])
-            val day = Integer.parseInt(eventDate[2])
+            val day = Integer.parseInt(eventDate[2].substring(0..1))
             binding.cvCalendarView
                 .addDecorator(
                     EventDecorator(

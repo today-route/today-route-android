@@ -1,16 +1,15 @@
 package com.maru.data.repository
 
-import com.google.type.LatLng
 import com.maru.data.datasource.route.RouteDataSource
 import com.maru.data.datasource.route.RouteRemoteDataSource
 import com.maru.data.model.Route
-import com.maru.data.network.response.RouteOfMonthResponse
+import com.maru.data.model.SimpleRoute
 import javax.inject.Inject
 
 class RouteRepository @Inject constructor(
     private val remoteDataSource: RouteRemoteDataSource
 ) : RouteDataSource {
-    override suspend fun getRouteOfMonth(year: Int, month: Int): Result<RouteOfMonthResponse> =
+    override suspend fun getRouteOfMonth(year: Int, month: Int): Result<List<SimpleRoute>> =
         remoteDataSource.getRouteOfMonth(year, month)
 
     override suspend fun getRouteById(routeId: Int): Result<Route> =

@@ -2,13 +2,13 @@ package com.maru.data.network.server
 
 import com.maru.data.model.CoupleInfo
 import com.maru.data.model.Route
+import com.maru.data.model.SimpleRoute
 import com.maru.data.model.User
 import com.maru.data.network.*
 import com.maru.data.network.request.CreateCoupleRequest
 import com.maru.data.network.request.RefreshRequest
 import com.maru.data.network.request.SignInRequest
 import com.maru.data.network.request.SignUpRequest
-import com.maru.data.network.response.RouteOfMonthResponse
 import com.maru.data.network.response.SignUpResponse
 import okhttp3.RequestBody
 import okhttp3.MultipartBody
@@ -38,7 +38,7 @@ interface RetrofitService {
     suspend fun getRouteOfMonth(
         @Query("year") year: String,
         @Query("month") month: String
-    ): RouteOfMonthResponse
+    ): List<SimpleRoute>
 
     @GET("route/{routeId}")
     suspend fun getRouteById(@Path("routeId") routeId: Int): Route

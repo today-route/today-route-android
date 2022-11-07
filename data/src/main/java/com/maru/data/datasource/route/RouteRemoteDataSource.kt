@@ -4,7 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Environment
 import com.maru.data.model.Route
-import com.maru.data.network.response.RouteOfMonthResponse
+import com.maru.data.model.SimpleRoute
 import com.maru.data.network.server.RetrofitService
 import com.maru.data.util.ImageResizer
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -21,7 +21,7 @@ class RouteRemoteDataSource @Inject constructor(
     private val retrofitService: RetrofitService
 ) : RouteDataSource {
 
-    override suspend fun getRouteOfMonth(year: Int, month: Int): Result<RouteOfMonthResponse> =
+    override suspend fun getRouteOfMonth(year: Int, month: Int): Result<List<SimpleRoute>> =
         runCatching {
             retrofitService.getRouteOfMonth(year.toString(), month.toString())
         }

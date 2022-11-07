@@ -1,16 +1,24 @@
 package com.maru.data.model
 
+import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
 data class Route(
-    val id: Int,
-    val userId: Int,
-    val date: String,
-    val zoomLevel: Int,
-    val title: String,
+    @Json(name = "content")
     val content: String,
+    @Json(name = "date")
+    val date: String,
+    @Json(name = "geoCoord")
+    val geoCoord: List<List<Double>>,
+    @Json(name = "id")
+    val id: Int,
+    @Json(name = "location")
     val location: String,
-    val photoList: List<Int> = listOf(),
-    val geoCoordList: List<List<Double>> = listOf()
+    @Json(name = "routePhoto")
+    val routePhoto: List<RoutePhoto>,
+    @Json(name = "title")
+    val title: String,
+    @Json(name = "zoomLevel")
+    val zoomLevel: Double
 )

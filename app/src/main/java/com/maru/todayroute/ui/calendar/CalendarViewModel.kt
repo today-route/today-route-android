@@ -3,14 +3,13 @@ package com.maru.todayroute.ui.calendar
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.maru.data.model.SimpleRoute
-import com.maru.data.network.response.RouteOfMonthResponse
 import com.maru.data.repository.RouteRepository
-import com.maru.todayroute.util.Dummy.routeList
-import com.maru.todayroute.util.Dummy.simpleRouteList
 import com.maru.todayroute.util.Utils.convertSingleToDoubleDigit
 import com.prolificinteractive.materialcalendarview.CalendarDay
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.withContext
 import java.text.SimpleDateFormat
 import javax.inject.Inject
 
@@ -26,25 +25,14 @@ class CalendarViewModel @Inject constructor(
     val dDay: LiveData<String> get() = _dDay
     private val _dDay: MutableLiveData<String> = MutableLiveData()
 
-    fun getRouteOfMonth(year: Int, month: Int) {
-
-        val showList = mutableListOf<SimpleRoute>()
-
-        for(route in simpleRouteList){
-            val dateInList = route.date.split("-")
-
-            if(year == dateInList[0].toInt() && month == dateInList[1].toInt()){
-                showList.add(route)
-            }
+    suspend fun getRouteOfMonth(year: Int, month: Int) {
+        val result = withContext(viewModelScope.coroutineContext) {
+            routeRepository.getRouteOfMonth(year, month)
         }
-        _routeOfCurrentMonthList.value = simpleRouteList
-//        viewModelScope.launch(Dispatchers.IO) {
-//            val result = routeRepository.getRouteOfMonth(year, month)
-//
-//            if (result.isSuccess) {
-//                _routeOfCurrentMonthList.postValue(result.getOrNull()!!)
-//            }
-//        }
+
+        if (result.isSuccess) {
+            _routeOfCurrentMonthList.postValue(result.getOrNull()!!)
+        }
     }
 
     fun dateSelected(date: CalendarDay, startDate: String) {
@@ -55,14 +43,16 @@ class CalendarViewModel @Inject constructor(
     private fun setRouteListOfSelectedDate(date: CalendarDay) {
         val showList: MutableList<SimpleRoute> = mutableListOf()
 
-        for(i in simpleRouteList.indices){
-            val eventDate = routeList[i].date.split("-")
-            val year = Integer.parseInt(eventDate[0])
-            val month = Integer.parseInt(eventDate[1])
-            val day = Integer.parseInt(eventDate[2])
+        if (routeOfCurrentMonthList.value != null) {
+            for(route in routeOfCurrentMonthList.value!!){
+                val eventDate = route.date.split("-")
+                val year = Integer.parseInt(eventDate[0])
+                val month = Integer.parseInt(eventDate[1])
+                val day = Integer.parseInt(eventDate[2].substring(0..1))
 
-            if(day==date.day && month-1==date.month && year==date.year){
-                showList.add(simpleRouteList[i])
+                if(day==date.day && month-1==date.month && year==date.year){
+                    showList.add(route)
+                }
             }
         }
 

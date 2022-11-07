@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,6 +19,7 @@ import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.PathOverlay
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class RouteFragment : BaseFragment<FragmentRouteBinding>(R.layout.fragment_route), OnMapReadyCallback {
@@ -50,7 +52,9 @@ class RouteFragment : BaseFragment<FragmentRouteBinding>(R.layout.fragment_route
     }
 
     private fun setRouteDiaryData() {
-        viewModel.setRouteDiaryData(args.routeId)
+        lifecycleScope.launch {
+            viewModel.setRouteDiaryData(args.routeId)
+        }
     }
 
     private fun setupObserver() {
@@ -102,10 +106,6 @@ class RouteFragment : BaseFragment<FragmentRouteBinding>(R.layout.fragment_route
     override fun onMapReady(naverMap: NaverMap) {
         this.naverMap = naverMap
         setupMapObserver()
-        viewModel.setGeoCoordsOnMap()
-        with(viewModel) {
-            getCenterCoordinate()
-        }
         unableGestures()
     }
 

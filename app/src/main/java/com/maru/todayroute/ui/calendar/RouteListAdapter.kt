@@ -7,9 +7,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.maru.data.model.Route
 import com.maru.data.model.SimpleRoute
-import com.maru.data.network.response.RouteOfMonthResponse
 import com.maru.todayroute.R
 import com.maru.todayroute.databinding.ItemRouteBinding
 

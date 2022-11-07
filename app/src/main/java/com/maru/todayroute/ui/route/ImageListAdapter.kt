@@ -7,11 +7,12 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil.ItemCallback
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.maru.todayroute.R
 import com.maru.todayroute.databinding.FragmentRouteBinding
 import com.maru.todayroute.databinding.ItemRouteImageBinding
 
-class ImageListAdapter(private val fragmentBinding: FragmentRouteBinding) : ListAdapter<Int, ImageListAdapter.RoutePhotoViewHolder>(DIFF_CALLBACK) {
+class ImageListAdapter(private val fragmentBinding: FragmentRouteBinding) : ListAdapter<String, ImageListAdapter.RoutePhotoViewHolder>(DIFF_CALLBACK) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RoutePhotoViewHolder =
         RoutePhotoViewHolder(DataBindingUtil.inflate(LayoutInflater.from(parent.context), R.layout.item_route_image, parent, false))
@@ -37,16 +38,18 @@ class ImageListAdapter(private val fragmentBinding: FragmentRouteBinding) : List
             }
         }
 
-        fun bind(url: Int, isImage: Boolean) { // TODO: server와 연결했을 때 url을 String으로 변경하기
-            binding.ivRouteImage.setImageResource(url)
+        fun bind(url: String, isImage: Boolean) {
+
             if (isImage) {
+                Glide.with(binding.ivRouteImage).load(url).into(binding.ivRouteImage)
                 clickListener = {
                     with (fragmentBinding.ivClickRouteImage) {
                         isVisible = true
-                        setImageResource(url)
+                        Glide.with(this).load(url).into(this)
                     }
                 }
             } else {
+                binding.ivRouteImage.setImageResource(url.toInt())
                 clickListener = {
                     fragmentBinding.ivClickRouteImage.isVisible = false
                 }
@@ -55,11 +58,11 @@ class ImageListAdapter(private val fragmentBinding: FragmentRouteBinding) : List
     }
 
     companion object {
-        val DIFF_CALLBACK = object : ItemCallback<Int>() {
-            override fun areItemsTheSame(oldItem: Int, newItem: Int): Boolean =
+        val DIFF_CALLBACK = object : ItemCallback<String>() {
+            override fun areItemsTheSame(oldItem: String, newItem: String): Boolean =
                 oldItem == newItem
 
-            override fun areContentsTheSame(oldItem: Int, newItem: Int): Boolean =
+            override fun areContentsTheSame(oldItem: String, newItem: String): Boolean =
                 oldItem == newItem
         }
     }
