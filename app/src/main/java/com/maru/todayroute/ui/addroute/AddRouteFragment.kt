@@ -1,17 +1,17 @@
 package com.maru.todayroute.ui.addroute
 
+import android.Manifest
 import android.annotation.SuppressLint
 import android.app.Activity.RESULT_OK
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
-import android.provider.DocumentsContract
 import android.provider.MediaStore
-import android.provider.MediaStore.Audio.Media
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContentProviderCompat.requireContext
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -27,7 +27,6 @@ import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.PathOverlay
 import dagger.hilt.android.AndroidEntryPoint
-import java.io.File
 
 @AndroidEntryPoint
 class AddRouteFragment : BaseFragment<FragmentAddRouteBinding>(R.layout.fragment_add_route),
@@ -40,7 +39,7 @@ class AddRouteFragment : BaseFragment<FragmentAddRouteBinding>(R.layout.fragment
 
     private val photoListAdapter by lazy { PhotoListAdapter(viewModel::removePhotoAt) }
 
-    private val activityResultLauncher =
+    private val selectMultipleImagesFromGalleryLauncher =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
             if (result.resultCode == RESULT_OK) {
                 val photoList = mutableListOf<Uri>()
@@ -62,6 +61,18 @@ class AddRouteFragment : BaseFragment<FragmentAddRouteBinding>(R.layout.fragment
                 viewModel.addPhotos(photoList)
             }
         }
+
+    private val storagePermissionRequest = registerForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        when {
+            permissions[Manifest.permission.READ_EXTERNAL_STORAGE] ?: false
+                    || permissions[Manifest.permission.WRITE_EXTERNAL_STORAGE] ?: false
+            -> {
+                selectMultipleImagesFromGallery()
+            }
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -112,18 +123,41 @@ class AddRouteFragment : BaseFragment<FragmentAddRouteBinding>(R.layout.fragment
         }
 
         binding.btnAddPhotos.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK)
-            intent.setDataAndType(
-                MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                MediaStore.Images.Media.CONTENT_TYPE
-            )
-            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-            activityResultLauncher.launch(intent)
+            if (hasExternalStorageAccessPermission()) {
+                selectMultipleImagesFromGallery()
+            } else {
+                storagePermissionRequest.launch(
+                    arrayOf(
+                        Manifest.permission.READ_EXTERNAL_STORAGE,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE
+                    )
+                )
+            }
         }
 
         binding.btnSave.setOnClickListener {
             viewModel.saveNewRoute(naverMap.cameraPosition.zoom)
         }
+    }
+
+    private fun hasExternalStorageAccessPermission(): Boolean =
+        ContextCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.READ_EXTERNAL_STORAGE
+        ) == PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(
+                    requireContext(),
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE
+                ) == PackageManager.PERMISSION_GRANTED
+
+    private fun selectMultipleImagesFromGallery() {
+        val intent = Intent(Intent.ACTION_PICK)
+        intent.setDataAndType(
+            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+            MediaStore.Images.Media.CONTENT_TYPE
+        )
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+        selectMultipleImagesFromGalleryLauncher.launch(intent)
     }
 
     private fun setUpObserver() {
