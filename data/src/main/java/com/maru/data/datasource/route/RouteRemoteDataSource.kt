@@ -1,14 +1,20 @@
 package com.maru.data.datasource.route
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.os.Environment
 import com.maru.data.model.Route
 import com.maru.data.network.response.RouteOfMonthResponse
 import com.maru.data.network.server.RetrofitService
+import com.maru.data.util.ImageResizer
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.ByteArrayOutputStream
 import java.io.File
+import java.io.FileOutputStream
 import javax.inject.Inject
 
 class RouteRemoteDataSource @Inject constructor(
@@ -49,7 +55,10 @@ class RouteRemoteDataSource @Inject constructor(
 
         val photoFiles = mutableListOf<MultipartBody.Part>()
         for (filePath in filePathList) {
-            val file = File(filePath)
+            val fullSizeBitmap = BitmapFactory.decodeFile(filePath)
+            val reducedBitmap = ImageResizer().resizeBitmap(fullSizeBitmap, 360000)
+            val file = getBitmapFile(reducedBitmap)
+
             val fileBody: RequestBody = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
             val fileToUpload = MultipartBody.Part.createFormData("photos",file.name, fileBody)
             photoFiles.add(fileToUpload)
@@ -67,6 +76,25 @@ class RouteRemoteDataSource @Inject constructor(
     companion object {
         val stringToPlainTextRequestBody: (String) -> RequestBody = { s: String ->
             s.toRequestBody("text/plain".toMediaTypeOrNull())
+        }
+
+        val getBitmapFile: (Bitmap) -> File = { reducedBitmap ->
+            val file = File(Environment.getExternalStorageDirectory().absolutePath + File.separator + "DCIM/Camera/" + System.currentTimeMillis() + ".jpg")
+            val byteArrayOutputStream = ByteArrayOutputStream()
+            reducedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream)
+            val bitmapData = byteArrayOutputStream.toByteArray()
+
+            try {
+                file.createNewFile()
+                val fileOutputStream = FileOutputStream(file)
+                fileOutputStream.write(bitmapData)
+                fileOutputStream.flush()
+                fileOutputStream.close()
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
+            file
         }
     }
 }
