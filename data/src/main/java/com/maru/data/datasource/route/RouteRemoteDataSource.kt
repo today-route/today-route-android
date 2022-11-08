@@ -79,12 +79,16 @@ class RouteRemoteDataSource @Inject constructor(
         }
 
         val getBitmapFile: (Bitmap) -> File = { reducedBitmap ->
-            val file = File(Environment.getExternalStorageDirectory().absolutePath + File.separator + "DCIM/Camera/" + System.currentTimeMillis() + ".jpg")
+            val file = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "TodayRoute/" + System.currentTimeMillis() + ".jpg")
             val byteArrayOutputStream = ByteArrayOutputStream()
             reducedBitmap.compress(Bitmap.CompressFormat.JPEG, 80, byteArrayOutputStream)
             val bitmapData = byteArrayOutputStream.toByteArray()
 
             try {
+                val directory = File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS), "TodayRoute")
+                if (!directory.exists()) {
+                    directory.mkdir()
+                }
                 file.createNewFile()
                 val fileOutputStream = FileOutputStream(file)
                 fileOutputStream.write(bitmapData)
