@@ -14,10 +14,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.maru.todayroute.R
 import com.maru.todayroute.databinding.FragmentAddRouteBinding
-import com.maru.todayroute.util.BaseFragment
-import com.maru.todayroute.util.MapViewLifecycleObserver
-import com.maru.todayroute.util.AccessGalleryUtils
-import com.maru.todayroute.util.RequestPermissionsUtils
+import com.maru.todayroute.util.*
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraAnimation
 import com.naver.maps.map.CameraUpdate
@@ -25,6 +22,7 @@ import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.PathOverlay
 import dagger.hilt.android.AndroidEntryPoint
+import java.io.File
 
 @AndroidEntryPoint
 class AddRouteFragment :
@@ -113,7 +111,7 @@ class AddRouteFragment :
         }
 
         binding.btnSave.setOnClickListener {
-            viewModel.saveNewRoute(naverMap.cameraPosition.zoom)
+            viewModel.trySaveNewRoute()
         }
     }
 
@@ -139,7 +137,6 @@ class AddRouteFragment :
             }
             photoUriList.observe(viewLifecycleOwner) { photoUriList ->
                 photoListAdapter.submitList(photoUriList)
-                viewModel.setPhotoRealPathList(getRealPathFromUriList(photoUriList))
             }
             showToastMessage.observe(viewLifecycleOwner) {
                 Toast.makeText(
@@ -147,6 +144,14 @@ class AddRouteFragment :
                     "사진은 최대 10장까지 선택 가능합니다.",
                     Toast.LENGTH_SHORT
                 ).show()
+            }
+            selectedPhotoUriList.observe(viewLifecycleOwner) { uriList ->
+                val pathList = getRealPathFromUriList(uriList)
+                val fileList = mutableListOf<File>()
+                for (path in pathList) {
+                    ImageHandler.optimizeImage(requireContext(), path)?.let { fileList.add(it) }
+                }
+                saveNewRoute(fileList, naverMap.cameraPosition.zoom)
             }
         }
     }

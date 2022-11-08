@@ -12,6 +12,7 @@ import com.naver.maps.geometry.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,8 +30,8 @@ class AddRouteViewModel @Inject constructor(
     private val _photoUriList: MutableLiveData<List<Uri>> = MutableLiveData(listOf())
     val showToastMessage: LiveData<Unit> get() = _showToastMessage
     private val _showToastMessage: SingleLiveEvent<Unit> = SingleLiveEvent()
-    private lateinit var photoRealPathList: List<String>
     private lateinit var date: String
+    val selectedPhotoUriList: MutableLiveData<List<Uri>> = MutableLiveData()
 
     val location = MutableLiveData("")
     val title = MutableLiveData("")
@@ -69,17 +70,17 @@ class AddRouteViewModel @Inject constructor(
         }
     }
 
-    fun setPhotoRealPathList(photoRealPathList: List<String>) {
-        this.photoRealPathList = photoRealPathList
-    }
-
     fun removePhotoAt(index: Int) {
         val photoList = _photoUriList.value!!.toMutableList()
         photoList.removeAt(index)
         _photoUriList.value = photoList
     }
 
-    fun saveNewRoute(zoomLevel: Double) {
+    fun trySaveNewRoute() {
+        selectedPhotoUriList.value = photoUriList.value
+    }
+
+    fun saveNewRoute(fileList: List<File>, zoomLevel: Double) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.saveNewRoute(
                 date,
@@ -87,7 +88,7 @@ class AddRouteViewModel @Inject constructor(
                 title.value!!,
                 contents.value!!,
                 location.value!!,
-                photoRealPathList,
+                fileList,
                 geoCoordList.map { listOf(it.latitude, it.longitude) }
             )
         }

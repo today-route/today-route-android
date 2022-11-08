@@ -89,7 +89,7 @@
                 <com.naver.maps.map.MapView
                     android:id="@+id/mv_map"
                     android:layout_width="match_parent"
-                    android:layout_height="240dp"
+                    android:layout_height="300dp"
                     android:layout_marginTop="8dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

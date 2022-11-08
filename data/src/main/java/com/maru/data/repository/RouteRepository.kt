@@ -4,6 +4,7 @@ import com.maru.data.datasource.route.RouteDataSource
 import com.maru.data.datasource.route.RouteRemoteDataSource
 import com.maru.data.model.Route
 import com.maru.data.model.SimpleRoute
+import java.io.File
 import javax.inject.Inject
 
 class RouteRepository @Inject constructor(
@@ -21,8 +22,8 @@ class RouteRepository @Inject constructor(
         title: String,
         contents: String,
         location: String,
-        filePathList: List<String>,
+        fileList: List<File>,
         geoCoordList: List<List<Double>>
     ): Result<Unit> =
-        remoteDataSource.saveNewRoute(date, zoomLevel, title, contents, location, filePathList, geoCoordList)
+        remoteDataSource.saveNewRoute(date, zoomLevel, title, contents, location, fileList, geoCoordList)
 }
