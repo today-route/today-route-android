@@ -33,6 +33,7 @@ class RouteFragment : BaseFragment<FragmentRouteBinding>(R.layout.fragment_route
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.viewModel = viewModel
 
         setRouteDiaryData()
         setupMap(savedInstanceState)
@@ -61,12 +62,6 @@ class RouteFragment : BaseFragment<FragmentRouteBinding>(R.layout.fragment_route
         with (viewModel) {
             date.observe(viewLifecycleOwner) { date ->
                 binding.tvRouteDateTop.text = date
-            }
-            title.observe(viewLifecycleOwner) { title ->
-                binding.tvRouteTitle.text = title
-            }
-            contents.observe(viewLifecycleOwner) { contents ->
-                binding.tvContents.text = contents
             }
             photoUrlList.observe(viewLifecycleOwner) { photoUrlList ->
                 imageListAdapter.submitList(photoUrlList)

@@ -27,12 +27,11 @@ class RouteViewModel @Inject constructor(
     val geoCoordList: LiveData<List<LatLng>> get() = _geoCoordList
     private val _geoCoordList: MutableLiveData<List<LatLng>> = MutableLiveData()
 
-    val date: LiveData<String> get() = _date
-    private val _date: MutableLiveData<String> = MutableLiveData()
-    val title: LiveData<String> get() = _title
-    private val _title: MutableLiveData<String> = MutableLiveData()
-    val contents: LiveData<String> get() = _contents
-    private val _contents: MutableLiveData<String> = MutableLiveData()
+    val date: MutableLiveData<String> = MutableLiveData()
+    val title: MutableLiveData<String> = MutableLiveData()
+    val contents: MutableLiveData<String> = MutableLiveData()
+    val location: MutableLiveData<String> = MutableLiveData()
+
     val mapZoomLevel: LiveData<Double> get() = _mapZoomLevel
     private val _mapZoomLevel: MutableLiveData<Double> = MutableLiveData()
 
@@ -43,7 +42,7 @@ class RouteViewModel @Inject constructor(
         getRoute(routeId)
     }
 
-    fun setGeoCoordsOnMap() {
+    private fun setGeoCoordsOnMap() {
         getGeoCoordList()
     }
 
@@ -54,9 +53,10 @@ class RouteViewModel @Inject constructor(
 
         if (result.isSuccess) {
             route = result.getOrNull()!!
-            _date.value = koreanDateFormat(route.date)
-            _title.value = route.title
-            _contents.value = route.content
+            date.value = koreanDateFormat(route.date)
+            title.value = route.title
+            contents.value = route.content
+            location.value = route.location
             _mapZoomLevel.value = route.zoomLevel
 
             val photoList = mutableListOf(R.drawable.route_image.toString())
