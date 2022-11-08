@@ -27,7 +27,7 @@
             android:id="@+id/action_calendar_fragment_to_routeFeragment"
             app:destination="@id/routeFragment"
             app:enterAnim="@anim/anim_from_top"
-            app:popEnterAnim="@anim/anim_to_top" />
+            app:popExitAnim="@anim/anim_to_top" />
     </fragment>
 
     <fragment
@@ -39,7 +39,7 @@
         
     <fragment
         android:id="@+id/addRouteFragment"
-        android:name="com.maru.todayroute.ui.addroute.AddRouteFragment"
+        android:name="com.maru.todayroute.ui.addeditroute.AddRouteFragment"
         android:label="AddRouteFragment"
         tools:layout="@layout/fragment_add_route">
         <argument
@@ -55,6 +55,18 @@
         android:name="com.maru.todayroute.ui.route.RouteFragment"
         android:label="RouteFragment"
         tools:layout="@layout/fragment_route">
+        <argument
+            android:name="routeId"
+            app:argType="integer" />
+        <action
+            android:id="@+id/action_routeFragment_to_editRouteFragment"
+            app:destination="@id/editRouteFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editRouteFragment"
+        android:name="com.maru.todayroute.ui.addeditroute.EditRouteFragment"
+        android:label="EditRouteFragment"
+        tools:layout="@layout/fragment_edit_route">
         <argument
             android:name="routeId"
             app:argType="integer" />

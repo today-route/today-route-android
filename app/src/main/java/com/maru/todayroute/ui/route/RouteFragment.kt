@@ -88,7 +88,6 @@ class RouteFragment : BaseFragment<FragmentRouteBinding>(R.layout.fragment_route
         }
     }
 
-
     private fun setupRecyclerView() {
         with (binding.rvRouteImage) {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
@@ -100,6 +99,10 @@ class RouteFragment : BaseFragment<FragmentRouteBinding>(R.layout.fragment_route
     private fun setupButtonClickListener() {
         binding.btnBack.setOnClickListener {
             findNavController().popBackStack()
+        }
+
+        binding.btnEdit.setOnClickListener {
+            findNavController().navigate(RouteFragmentDirections.actionRouteFragmentToEditRouteFragment(args.routeId))
         }
     }
 

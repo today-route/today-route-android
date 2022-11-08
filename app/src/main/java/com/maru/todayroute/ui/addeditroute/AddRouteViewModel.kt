@@ -1,4 +1,4 @@
-package com.maru.todayroute.ui.addroute
+package com.maru.todayroute.ui.addeditroute
 
 import android.net.Uri
 import androidx.lifecycle.LiveData

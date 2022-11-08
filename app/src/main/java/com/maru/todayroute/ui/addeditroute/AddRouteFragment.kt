@@ -1,17 +1,13 @@
-package com.maru.todayroute.ui.addroute
+package com.maru.todayroute.ui.addeditroute
 
 import android.Manifest
 import android.annotation.SuppressLint
-import android.app.Activity.RESULT_OK
-import android.content.Intent
-import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -20,6 +16,8 @@ import com.maru.todayroute.R
 import com.maru.todayroute.databinding.FragmentAddRouteBinding
 import com.maru.todayroute.util.BaseFragment
 import com.maru.todayroute.util.MapViewLifecycleObserver
+import com.maru.todayroute.util.AccessGalleryUtils
+import com.maru.todayroute.util.RequestPermissionsUtils
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraAnimation
 import com.naver.maps.map.CameraUpdate
@@ -29,7 +27,8 @@ import com.naver.maps.map.overlay.PathOverlay
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AddRouteFragment : BaseFragment<FragmentAddRouteBinding>(R.layout.fragment_add_route),
+class AddRouteFragment :
+    BaseFragment<FragmentAddRouteBinding>(R.layout.fragment_add_route),
     OnMapReadyCallback {
 
     private val args by navArgs<AddRouteFragmentArgs>()
@@ -40,39 +39,17 @@ class AddRouteFragment : BaseFragment<FragmentAddRouteBinding>(R.layout.fragment
     private val photoListAdapter by lazy { PhotoListAdapter(viewModel::removePhotoAt) }
 
     private val selectMultipleImagesFromGalleryLauncher =
-        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-            if (result.resultCode == RESULT_OK) {
-                val photoList = mutableListOf<Uri>()
+        AccessGalleryUtils.selectMultipleImagesFromGalleryLauncher(
+            this,
+            this::addPhotos
+        )
 
-                if (result.data?.clipData != null) {
-                    val data = result.data?.clipData
-                    data?.let { clipData ->
-                        for (i in 0 until clipData.itemCount) {
-                            val uri = clipData.getItemAt(i).uri
-                            photoList.add(uri)
-                        }
-                    }
-                } else {
-                    // 이미지를 한 장만 선택한 경우
-                    result.data?.data?.let { uri ->
-                        photoList.add(uri)
-                    }
-                }
-                viewModel.addPhotos(photoList)
-            }
-        }
+    private val storagePermissionRequest =
+        RequestPermissionsUtils.externalStoragePermissionRequest(
+            this,
+            this::selectMultipleImagesFromGallery
+        )
 
-    private val storagePermissionRequest = registerForActivityResult(
-        ActivityResultContracts.RequestMultiplePermissions()
-    ) { permissions ->
-        when {
-            permissions[Manifest.permission.READ_EXTERNAL_STORAGE] ?: false
-                    || permissions[Manifest.permission.WRITE_EXTERNAL_STORAGE] ?: false
-            -> {
-                selectMultipleImagesFromGallery()
-            }
-        }
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -140,24 +117,16 @@ class AddRouteFragment : BaseFragment<FragmentAddRouteBinding>(R.layout.fragment
         }
     }
 
-    private fun hasExternalStorageAccessPermission(): Boolean =
-        ContextCompat.checkSelfPermission(
-            requireContext(),
-            Manifest.permission.READ_EXTERNAL_STORAGE
-        ) == PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(
-                    requireContext(),
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE
-                ) == PackageManager.PERMISSION_GRANTED
+    private fun hasExternalStorageAccessPermission() = RequestPermissionsUtils.hasPermission(
+        requireContext(),
+        listOf(
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
+        )
+    )
 
     private fun selectMultipleImagesFromGallery() {
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.setDataAndType(
-            MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-            MediaStore.Images.Media.CONTENT_TYPE
-        )
-        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-        selectMultipleImagesFromGalleryLauncher.launch(intent)
+        AccessGalleryUtils.selectMultipleImagesFromGallery(selectMultipleImagesFromGalleryLauncher)
     }
 
     private fun setUpObserver() {
@@ -215,6 +184,10 @@ class AddRouteFragment : BaseFragment<FragmentAddRouteBinding>(R.layout.fragment
             isTiltGesturesEnabled = false
             isRotateGesturesEnabled = false
         }
+    }
+
+    private fun addPhotos(photos: List<Uri>) {
+        viewModel.addPhotos(photos)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
