@@ -28,7 +28,6 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:paddingStart="4dp"
-            android:text="♥+"
             android:textColor="@color/tmp_black"
             android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@+id/rv_title"

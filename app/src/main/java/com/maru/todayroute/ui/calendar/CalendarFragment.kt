@@ -2,6 +2,7 @@ package com.maru.todayroute.ui.calendar
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -56,14 +57,13 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding>(R.layout.fragment
         lifecycleScope.launch(Dispatchers.IO) {
             calendarViewModel.getRouteOfMonth(today.year, today.month + 1)
         }
-        calendarViewModel.dateSelected(today, activityViewModel.coupleInfo.value!!.startDate)
 
 
         // 일요일 빨간글씨
         with(binding.cvCalendarView) {
-            selectedDate = today
             addDecorators(
-                SundayDecorator()
+                SundayDecorator(),
+                TodayDecorator()
             )
             setTitleFormatter(MonthArrayTitleFormatter(resources.getTextArray(R.array.custom_months))) // 월 한글 표시
             setWeekDayFormatter(ArrayWeekDayFormatter(resources.getTextArray(R.array.custom_weekdays))) // 요일 한글 표시
@@ -76,6 +76,7 @@ class CalendarFragment : BaseFragment<FragmentCalendarBinding>(R.layout.fragment
             }
             // 특정 날짜 선택
             setOnDateChangedListener { _, date, _ ->
+                binding.tvDDay.isVisible = true
                 calendarViewModel.dateSelected(date, activityViewModel.coupleInfo.value!!.startDate)
             }
         }

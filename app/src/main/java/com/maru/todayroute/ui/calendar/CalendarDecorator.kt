@@ -41,3 +41,21 @@ class SundayDecorator : DayViewDecorator {
         view.addSpan(ForegroundColorSpan(Color.RED))
     }
 }
+
+// 오늘 보라글씨
+class TodayDecorator : DayViewDecorator {
+
+    override fun shouldDecorate(day: CalendarDay): Boolean {
+        val cal1 = day.calendar
+        val cal2 = Calendar.getInstance()
+
+        return cal1[Calendar.ERA] == cal2[Calendar.ERA]
+                && cal1[Calendar.YEAR] == cal2[Calendar.YEAR]
+                && cal1[Calendar.DAY_OF_YEAR] == cal2[Calendar.DAY_OF_YEAR]
+    }
+
+    override fun decorate(view: DayViewFacade) {
+        view.addSpan(ForegroundColorSpan(Color.parseColor("#B496D3")))
+    }
+
+}
