@@ -149,7 +149,7 @@ class AddRouteFragment :
                 val pathList = getRealPathFromUriList(uriList)
                 val fileList = mutableListOf<File>()
                 for (path in pathList) {
-                    ImageHandler.optimizeImage(requireContext(), path)?.let { fileList.add(it) }
+                    ImageHandler.optimizeImage(path)?.let { fileList.add(it) }
                 }
                 saveNewRoute(fileList, naverMap.cameraPosition.zoom)
             }

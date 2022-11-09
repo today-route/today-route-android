@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.maru.todayroute.R
 import com.maru.todayroute.databinding.ItemPhotoInAddRouteBinding
 
@@ -29,8 +30,9 @@ class PhotoListAdapter(private val removePhoto: (Int) -> Unit) : ListAdapter<Uri
         }
 
         fun bind(uri: Uri) {
+            println(uri)
             with (binding.ivPhoto) {
-                setImageURI(uri)
+                Glide.with(context).load(uri).into(this)
             }
         }
     }

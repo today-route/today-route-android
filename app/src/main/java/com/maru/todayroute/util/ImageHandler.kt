@@ -1,25 +1,27 @@
 package com.maru.todayroute.util
 
-import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.media.ExifInterface
-import android.net.Uri
 import android.os.Environment
 import android.util.Log
-import android.util.TypedValue
-import java.io.BufferedInputStream
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import kotlin.math.round
-import kotlin.math.roundToInt
 import kotlin.math.sqrt
 
 object ImageHandler {
 
-    fun optimizeImage(context: Context, path: String): File? {
+    fun optimizeImage(path: String): File? {
+        val directory = File(
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),
+            "TodayRoute"
+        )
+        if (!directory.exists()) {
+            directory.mkdir()
+        }
         val file = File(
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),
             "TodayRoute/" + System.currentTimeMillis() + ".jpg"
@@ -33,13 +35,6 @@ object ImageHandler {
         val bitmapData = byteArrayOutputStream.toByteArray()
 
         try {
-            val directory = File(
-                Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),
-                "TodayRoute"
-            )
-            if (!directory.exists()) {
-                directory.mkdir()
-            }
             file.createNewFile()
             fileOutputStream.write(bitmapData)
             fileOutputStream.flush()
