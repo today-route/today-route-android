@@ -10,8 +10,7 @@ import com.maru.todayroute.util.RouteUtils
 import com.maru.todayroute.util.SingleLiveEvent
 import com.naver.maps.geometry.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.io.File
 import javax.inject.Inject
 
@@ -30,8 +29,11 @@ class AddRouteViewModel @Inject constructor(
     private val _photoUriList: MutableLiveData<List<Uri>> = MutableLiveData(listOf())
     val showToastMessage: LiveData<Unit> get() = _showToastMessage
     private val _showToastMessage: SingleLiveEvent<Unit> = SingleLiveEvent()
+    val moveToRouteFragment: LiveData<Int> get() = _moveToRouteFragment
+    private val _moveToRouteFragment: SingleLiveEvent<Int> = SingleLiveEvent()
     private lateinit var date: String
     val selectedPhotoUriList: MutableLiveData<List<Uri>> = MutableLiveData()
+
 
     val location = MutableLiveData("")
     val title = MutableLiveData("")
@@ -80,8 +82,8 @@ class AddRouteViewModel @Inject constructor(
         selectedPhotoUriList.value = photoUriList.value
     }
 
-    fun saveNewRoute(fileList: List<File>, zoomLevel: Double) {
-        viewModelScope.launch(Dispatchers.IO) {
+    suspend fun saveNewRoute(fileList: List<File>, zoomLevel: Double) {
+        val result = withContext(viewModelScope.coroutineContext) {
             repository.saveNewRoute(
                 date,
                 zoomLevel,
@@ -91,6 +93,11 @@ class AddRouteViewModel @Inject constructor(
                 fileList,
                 geoCoordList.map { listOf(it.latitude, it.longitude) }
             )
+        }
+
+        if (result.isSuccess) {
+            val routeId = result.getOrNull()!!.id
+            _moveToRouteFragment.value = routeId
         }
     }
 }

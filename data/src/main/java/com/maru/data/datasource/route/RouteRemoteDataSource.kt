@@ -2,6 +2,7 @@ package com.maru.data.datasource.route
 
 import com.maru.data.model.Route
 import com.maru.data.model.SimpleRoute
+import com.maru.data.network.response.SaveNewRouteResponse
 import com.maru.data.network.server.RetrofitService
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -32,7 +33,7 @@ class RouteRemoteDataSource @Inject constructor(
         location: String,
         fileList: List<File>,
         geoCoordList: List<List<Double>>
-    ): Result<Unit> = runCatching {
+    ): Result<SaveNewRouteResponse> = runCatching {
         val dateBody = stringToPlainTextRequestBody(date)
         val zoomLevelBody = stringToPlainTextRequestBody(zoomLevel.toString())
         val titleBody = stringToPlainTextRequestBody(title)

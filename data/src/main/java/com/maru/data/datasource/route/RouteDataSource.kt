@@ -2,6 +2,7 @@ package com.maru.data.datasource.route
 
 import com.maru.data.model.Route
 import com.maru.data.model.SimpleRoute
+import com.maru.data.network.response.SaveNewRouteResponse
 import java.io.File
 
 interface RouteDataSource {
@@ -16,5 +17,5 @@ interface RouteDataSource {
         location: String,
         fileList: List<File>,
         geoCoordList: List<List<Double>>
-    ): Result<Unit>
+    ): Result<SaveNewRouteResponse>
 }

@@ -9,6 +9,7 @@ import com.maru.data.network.request.CreateCoupleRequest
 import com.maru.data.network.request.RefreshRequest
 import com.maru.data.network.request.SignInRequest
 import com.maru.data.network.request.SignUpRequest
+import com.maru.data.network.response.SaveNewRouteResponse
 import com.maru.data.network.response.SignUpResponse
 import okhttp3.RequestBody
 import okhttp3.MultipartBody
@@ -50,5 +51,5 @@ interface RetrofitService {
         @PartMap map: Map<String, RequestBody>,
         @Part photos: List<MultipartBody.Part>,
         @Part geoCoord: List<MultipartBody.Part>
-    )
+    ): SaveNewRouteResponse
 }

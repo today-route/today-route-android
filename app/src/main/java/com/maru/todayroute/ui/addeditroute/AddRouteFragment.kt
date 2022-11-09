@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,6 +23,7 @@ import com.naver.maps.map.NaverMap
 import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.PathOverlay
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import java.io.File
 
 @AndroidEntryPoint
@@ -151,7 +153,12 @@ class AddRouteFragment :
                 for (path in pathList) {
                     ImageHandler.optimizeImage(path)?.let { fileList.add(it) }
                 }
-                saveNewRoute(fileList, naverMap.cameraPosition.zoom)
+                lifecycleScope.launch {
+                    saveNewRoute(fileList, naverMap.cameraPosition.zoom)
+                }
+            }
+            moveToRouteFragment.observe(viewLifecycleOwner) { routeId ->
+                findNavController().navigate(AddRouteFragmentDirections.actionAddRouteFragmentToRouteFragment(routeId))
             }
         }
     }
