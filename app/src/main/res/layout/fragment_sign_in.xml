@@ -12,11 +12,36 @@
         android:layout_height="match_parent"
         tools:context=".ui.initial.SignInFragment">
 
+        <ImageView
+            android:id="@+id/iv_today_route"
+            android:layout_width="240dp"
+            android:layout_height="240dp"
+            android:layout_marginTop="160dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/bg_today_route"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_introduction"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center_horizontal"
+            android:text="연인과의 추억을\n오늘의 길에 남겨보세요!"
+            android:textColor="@color/tmp_black"
+            android:textSize="20dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_today_route" />
+
         <ImageButton
             android:id="@+id/btn_kakao_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="80dp"
+            android:layout_marginBottom="120dp"
             android:background="@android:color/transparent"
             android:src="@drawable/kakao_login_medium_wide"
             app:layout_constraintBottom_toBottomOf="parent"
