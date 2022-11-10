@@ -16,14 +16,14 @@ object ImageHandler {
 
     fun optimizeImage(path: String): File? {
         val directory = File(
-            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),
             "TodayRoute"
         )
         if (!directory.exists()) {
             directory.mkdir()
         }
         val file = File(
-            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS),
+            Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),
             "TodayRoute/" + System.currentTimeMillis() + ".jpg"
         )
         val fileOutputStream = FileOutputStream(file)
