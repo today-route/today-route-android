@@ -1,6 +1,219 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F9F5FE"
+        android:padding="16dp">
+
+        <View
+            android:id="@+id/v_purple_heart"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginBottom="-20dp"
+            android:background="@drawable/ic_baseline_favorite_24"
+            android:elevation="10dp"
+            app:layout_constraintBottom_toTopOf="@id/iv_boy_profile"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <TextView
+            android:id="@+id/tv_d_day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:elevation="10dp"
+            android:textColor="@color/tmp_black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/v_purple_heart"
+            app:layout_constraintEnd_toEndOf="@id/v_purple_heart"
+            app:layout_constraintStart_toStartOf="@id/v_purple_heart"
+            app:layout_constraintTop_toTopOf="@id/v_purple_heart"
+            tools:text="500" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_boy_profile"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="56dp"
+            android:layout_marginEnd="92dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:shapeAppearanceOverlay="@style/CornerSize50Percent"
+            tools:src="@tools:sample/avatars" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_girl_profile"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="92dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintBottom_toBottomOf="@id/iv_boy_profile"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/iv_boy_profile"
+            app:shapeAppearanceOverlay="@style/CornerSize50Percent"
+            tools:src="@tools:sample/avatars" />
+
+        <View
+            android:id="@+id/v_start_date"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@drawable/ic_ring"
+            app:layout_constraintBottom_toBottomOf="@id/tv_start_date"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_start_date" />
+
+        <TextView
+            android:id="@+id/tv_start_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="28dp"
+            android:gravity="center_vertical"
+            android:text="처음 만난 날"
+            android:textColor="@color/tmp_black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/v_start_date"
+            app:layout_constraintTop_toBottomOf="@id/iv_girl_profile" />
+
+        <TextView
+            android:id="@+id/tv_start_date_value"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="24dp"
+            android:text="2022-03-01"
+            android:textColor="@color/tmp_black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/tv_start_date"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_start_date" />
+
+        <View
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginEnd="-16dp"
+            android:background="@drawable/ic_baseline_keyboard_arrow_right_24"
+            app:layout_constraintBottom_toBottomOf="@id/tv_start_date_value"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/tv_start_date_value"
+            app:layout_constraintTop_toTopOf="@id/tv_start_date_value" />
+
+        <View
+            android:id="@+id/v_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="20dp"
+            android:background="#DCDCDC"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_start_date" />
+
+        <View
+            android:id="@+id/v_boy"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@drawable/ic_boy"
+            app:layout_constraintBottom_toBottomOf="@id/tv_boy_birthday"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_boy_nickname" />
+
+        <TextView
+            android:id="@+id/tv_boy_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="18dp"
+            android:text="브라운"
+            android:textColor="@color/tmp_black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/v_boy"
+            app:layout_constraintTop_toBottomOf="@id/v_line" />
+
+        <TextView
+            android:id="@+id/tv_boy_birthday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="1999.01.29"
+            android:textColor="#6C6767"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/tv_boy_nickname"
+            app:layout_constraintTop_toBottomOf="@id/tv_boy_nickname" />
+
+        <View
+            android:id="@+id/v_girl"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@drawable/ic_girl"
+            app:layout_constraintBottom_toBottomOf="@id/tv_girl_birthday"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_girl_nickname" />
+
+        <TextView
+            android:id="@+id/tv_girl_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="30dp"
+            android:text="코니"
+            android:textColor="@color/tmp_black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/v_boy"
+            app:layout_constraintTop_toBottomOf="@id/tv_boy_birthday" />
+
+        <TextView
+            android:id="@+id/tv_girl_birthday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="1998.11.21"
+            android:textColor="#6C6767"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/tv_girl_nickname"
+            app:layout_constraintTop_toBottomOf="@id/tv_girl_nickname" />
+
+        <ImageButton
+            android:id="@+id/btn_boy_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:padding="10dp"
+            android:src="@drawable/ic_baseline_mode_edit_24"
+            android:visibility="invisible"
+            app:layout_constraintBottom_toBottomOf="@id/tv_boy_birthday"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_boy_nickname" />
+
+        <ImageButton
+            android:id="@+id/btn_girl_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:background="@null"
+            android:padding="10dp"
+            android:src="@drawable/ic_baseline_mode_edit_24"
+            app:layout_constraintBottom_toBottomOf="@id/tv_girl_birthday"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/tv_girl_nickname" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
