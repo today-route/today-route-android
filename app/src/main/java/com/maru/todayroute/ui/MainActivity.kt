@@ -29,13 +29,14 @@ class MainActivity : BaseActivity<ActivityMainBinding>(R.layout.activity_main) {
     }
 
     private fun setBottomNavigation() {
-        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navHostFragment =
+            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.findNavController()
         binding.bnvMain.setupWithNavController(navController)
 
         navController.addOnDestinationChangedListener { _, destination, _ ->
             when (destination.id) {
-                R.id.addRouteFragment, R.id.routeFragment, R.id.editUserFragment -> {
+                R.id.addRouteFragment, R.id.routeFragment, R.id.editUserFragment, R.id.editCoupleStartDateFragment -> {
                     binding.bnvMain.isVisible = false
                 }
                 else -> {

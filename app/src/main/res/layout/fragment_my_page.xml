@@ -113,6 +113,7 @@
             app:layout_constraintTop_toTopOf="@id/tv_start_date" />
 
         <View
+            android:id="@+id/v_edit_start_date"
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginTop="2dp"

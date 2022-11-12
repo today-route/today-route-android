@@ -35,12 +35,23 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
     }
 
     private fun setupButtonClickListener() {
-        val editButton = listOf(binding.btnBoyEdit, binding.btnGirlEdit)
-        editButton.forEach { button ->
+        val editUserButton = listOf(binding.btnBoyEdit, binding.btnGirlEdit)
+        editUserButton.forEach { button ->
             button.setOnClickListener {
                 findNavController().navigate(
                     MyPageFragmentDirections.actionMyPageFragmentToEditUserFragment(
                         activityViewModel.user.value!!
+                    )
+                )
+            }
+        }
+
+        val editStartDateButton = listOf(binding.tvStartDate, binding.vEditStartDate)
+        editStartDateButton.forEach { button ->
+            button.setOnClickListener {
+                findNavController().navigate(
+                    MyPageFragmentDirections.actionMyPageFragmentToEditCoupleStartDateFragment(
+                        activityViewModel.coupleInfo.value!!.startDate
                     )
                 )
             }
