@@ -3,6 +3,7 @@ package com.maru.todayroute.ui.mypage
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.findNavController
 import com.maru.todayroute.R
 import com.maru.todayroute.databinding.FragmentMyPageBinding
 import com.maru.todayroute.ui.MainViewModel
@@ -20,6 +21,7 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         binding.activityViewModel = activityViewModel
         fetchMainData()
         setupObserver()
+        setupButtonClickListener()
     }
 
     private fun fetchMainData() {
@@ -29,6 +31,19 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
     private fun setupObserver() {
         activityViewModel.coupleInfo.observe(viewLifecycleOwner) { coupleInfo ->
             binding.tvDDay.text = Utils.calculateDDay(coupleInfo.startDate)
+        }
+    }
+
+    private fun setupButtonClickListener() {
+        val editButton = listOf(binding.btnBoyEdit, binding.btnGirlEdit)
+        editButton.forEach { button ->
+            button.setOnClickListener {
+                findNavController().navigate(
+                    MyPageFragmentDirections.actionMyPageFragmentToEditUserFragment(
+                        activityViewModel.user.value!!
+                    )
+                )
+            }
         }
     }
 }

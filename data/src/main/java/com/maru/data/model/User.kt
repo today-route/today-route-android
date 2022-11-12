@@ -14,7 +14,7 @@ data class User(
     val birthday: String = "",
     val createdAt: String = "",
     val deletedAt: String? = null
-)
+): java.io.Serializable
 
 enum class Gender {
     M, F

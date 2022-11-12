@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.maru.todayroute.ui.mypage.EditUserViewModel" />
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#F9F5FE">
+
+        <ImageButton
+            android:id="@+id/btn_back"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@null"
+            android:src="@drawable/ic_baseline_arrow_back_ios_24"
+            app:layout_constraintBottom_toTopOf="@id/v_toolbar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="프로필 수정"
+            android:textColor="@color/tmp_black"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/v_toolbar"
+            app:layout_constraintEnd_toStartOf="@id/btn_save"
+            app:layout_constraintStart_toEndOf="@id/btn_back"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageButton
+            android:id="@+id/btn_save"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_gravity="end"
+            android:background="@null"
+            android:src="@drawable/ic_baseline_check_24"
+            app:layout_constraintBottom_toTopOf="@id/v_toolbar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/v_toolbar"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="?attr/actionBarSize"
+            android:background="#DCDCDC"
+            android:elevation="1dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/iv_user_profile"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginTop="36dp"
+            android:elevation="5dp"
+            android:scaleType="centerCrop"
+            app:imageUrl="@{viewModel.user.profileUrl}"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/v_toolbar"
+            app:shapeAppearanceOverlay="@style/CornerSize50Percent"
+            tools:src="@tools:sample/avatars" />
+
+        <ImageButton
+            android:id="@+id/btn_edit_profile"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="-30dp"
+            android:elevation="10dp"
+            android:background="@drawable/bg_white_circle"
+            android:src="@drawable/ic_baseline_add_photo_24"
+            app:layout_constraintBottom_toBottomOf="@id/iv_user_profile"
+            app:layout_constraintStart_toEndOf="@id/iv_user_profile" />
+
+        <TextView
+            android:id="@+id/tv_user_nickname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
+            android:text="이름"
+            android:textColor="@color/tmp_light_gray"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/iv_user_profile" />
+
+        <EditText
+            android:id="@+id/et_user_nickname"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:text="@{viewModel.user.nickname}"
+            android:textColor="@color/tmp_black"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_user_nickname" />
+
+        <TextView
+            android:id="@+id/tv_user_birthday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:text="생년월일"
+            android:textColor="@color/tmp_light_gray"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/et_user_nickname" />
+
+        <EditText
+            android:id="@+id/et_user_birthday"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="16dp"
+            android:layout_marginTop="16dp"
+            android:cursorVisible="false"
+            android:drawableEnd="@drawable/ic_baseline_calendar_month_24"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:hint="여기를 클릭하세요"
+            android:inputType="none"
+            android:text="@{viewModel.user.birthday.substring(0, 10)}"
+            android:textColor="@color/tmp_black"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_user_birthday" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
