@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.maru.todayroute.R
@@ -11,6 +12,7 @@ import com.maru.todayroute.databinding.FragmentEditCoupleStartDateBinding
 import com.maru.todayroute.util.BaseFragment
 import com.maru.todayroute.util.Utils.convertSingleToDoubleDigit
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class EditCoupleStartDateFragment :
@@ -28,6 +30,13 @@ class EditCoupleStartDateFragment :
         viewModel.setStartDate(args.startDate)
         startDate[1] -= 1
         setupButtonClickListener()
+        setupObserver()
+    }
+
+    private fun setupObserver() {
+        viewModel.moveToPreviousFragment.observe(viewLifecycleOwner) {
+            findNavController().popBackStack()
+        }
     }
 
     private fun setupButtonClickListener() {
@@ -50,6 +59,11 @@ class EditCoupleStartDateFragment :
                     startDate[1],
                     startDate[2]
                 ).show()
+            }
+            btnSave.setOnClickListener {
+                lifecycleScope.launch {
+                    this@EditCoupleStartDateFragment.viewModel.editCoupleStartDate(binding.etStartDate.text.toString())
+                }
             }
         }
     }

@@ -3,6 +3,7 @@ package com.maru.data.repository
 import com.maru.data.datasource.initial.InitialDataSource
 import com.maru.data.datasource.initial.InitialRemoteDataSource
 import com.maru.data.model.CoupleInfo
+import com.maru.data.model.SimpleCoupleInfo
 import com.maru.data.model.User
 import com.maru.data.network.request.SignUpRequest
 import com.maru.data.network.response.SignUpResponse
@@ -27,4 +28,7 @@ class InitialRepository @Inject constructor(
 
     override suspend fun getMyUserData(): Result<User> =
         userRemoteDataSource.getMyUserData()
+
+    override suspend fun editCoupleStartDate(startDate: String): Result<SimpleCoupleInfo> =
+        userRemoteDataSource.editCoupleStartDate(startDate)
 }

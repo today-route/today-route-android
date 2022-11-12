@@ -1,6 +1,7 @@
 package com.maru.data.datasource.initial
 
 import com.maru.data.model.CoupleInfo
+import com.maru.data.model.SimpleCoupleInfo
 import com.maru.data.model.User
 import com.maru.data.network.request.SignInRequest
 import com.maru.data.network.request.SignUpRequest
@@ -8,6 +9,7 @@ import com.maru.data.network.response.SignUpResponse
 import com.maru.data.network.Token
 import com.maru.data.network.firebase.FirebaseHelper
 import com.maru.data.network.request.CreateCoupleRequest
+import com.maru.data.network.request.EditCoupleStartDateRequest
 import com.maru.data.network.server.RetrofitService
 import javax.inject.Inject
 
@@ -33,7 +35,11 @@ class InitialRemoteDataSource @Inject constructor(
         retrofitService.getMyCoupleData()
     }
 
-    override suspend fun getMyUserData(): Result<User> = kotlin.runCatching {
+    override suspend fun getMyUserData(): Result<User> = runCatching {
         retrofitService.getMyUserData()
+    }
+
+    override suspend fun editCoupleStartDate(startDate: String): Result<SimpleCoupleInfo> = runCatching {
+        retrofitService.editCoupleStartDate(EditCoupleStartDateRequest(startDate))
     }
 }

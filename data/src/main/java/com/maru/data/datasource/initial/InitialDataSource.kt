@@ -1,6 +1,7 @@
 package com.maru.data.datasource.initial
 
 import com.maru.data.model.CoupleInfo
+import com.maru.data.model.SimpleCoupleInfo
 import com.maru.data.model.User
 import com.maru.data.network.request.SignUpRequest
 import com.maru.data.network.response.SignUpResponse
@@ -12,4 +13,5 @@ interface InitialDataSource {
         suspend fun registerNewCouple(code: String, startDate: String): Result<Unit>
         suspend fun getMyCoupleData(): Result<CoupleInfo>
         suspend fun getMyUserData(): Result<User>
+        suspend fun editCoupleStartDate(startDate: String): Result<SimpleCoupleInfo>
 }
