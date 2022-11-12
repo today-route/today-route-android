@@ -51,4 +51,13 @@ interface RetrofitService {
     suspend fun editCoupleStartDate(
         @Body startDate: EditCoupleStartDateRequest
     ): SimpleCoupleInfo
+
+    @Multipart
+    @PATCH("user")
+    @JvmSuppressWildcards
+    suspend fun editUser(
+        @Part profile: MultipartBody.Part,
+        @Part("nickname") nickname: RequestBody,
+        @Part("birthday") birthday: RequestBody
+    ): User
 }

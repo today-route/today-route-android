@@ -11,6 +11,12 @@ import com.maru.data.network.firebase.FirebaseHelper
 import com.maru.data.network.request.CreateCoupleRequest
 import com.maru.data.network.request.EditCoupleStartDateRequest
 import com.maru.data.network.server.RetrofitService
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.asRequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
+import java.io.File
 import javax.inject.Inject
 
 class InitialRemoteDataSource @Inject constructor(
@@ -41,5 +47,20 @@ class InitialRemoteDataSource @Inject constructor(
 
     override suspend fun editCoupleStartDate(startDate: String): Result<SimpleCoupleInfo> = runCatching {
         retrofitService.editCoupleStartDate(EditCoupleStartDateRequest(startDate))
+    }
+
+    override suspend fun editUser(profile: File, nickname: String, birthday: String): Result<User> = runCatching {
+            val nicknameBody = stringToPlainTextRequestBody(nickname)
+            val birthdayBody = stringToPlainTextRequestBody(birthday)
+            val profileBody = profile.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+            val profileToUpload = MultipartBody.Part.createFormData("profile",profile.name, profileBody)
+
+            retrofitService.editUser(profileToUpload, nicknameBody, birthdayBody)
+    }
+
+    companion object {
+        val stringToPlainTextRequestBody: (String) -> RequestBody = { s: String ->
+            s.toRequestBody("text/plain".toMediaTypeOrNull())
+        }
     }
 }

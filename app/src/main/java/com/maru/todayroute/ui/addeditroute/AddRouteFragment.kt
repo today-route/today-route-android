@@ -2,6 +2,7 @@ package com.maru.todayroute.ui.addeditroute
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.media.Image
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -69,23 +70,6 @@ class AddRouteFragment :
         initRecyclerViewAdapter()
     }
 
-    @SuppressLint("Range")
-    private fun getRealPathFromUriList(uriList: List<Uri>): List<String> {
-        val realPathList = mutableListOf<String>()
-
-        for (uri in uriList) {
-            val proj = arrayOf(MediaStore.Images.Media.DATA)
-
-            val cursor = requireActivity().contentResolver.query(uri, proj, null, null, null)
-            cursor!!.moveToNext()
-            val path = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DATA))
-            cursor.close()
-            realPathList.add(path)
-        }
-
-        return realPathList
-    }
-
     private fun initRecyclerViewAdapter() {
         binding.rvPhotoList.apply {
             layoutManager =
@@ -148,17 +132,25 @@ class AddRouteFragment :
                 ).show()
             }
             selectedPhotoUriList.observe(viewLifecycleOwner) { uriList ->
-                val pathList = getRealPathFromUriList(uriList)
                 val fileList = mutableListOf<File>()
-                for (path in pathList) {
-                    ImageHandler.optimizeImage(path)?.let { fileList.add(it) }
+
+                for (uri in uriList) {
+                    val path = ImageHandler.getRealPathFromUriList(requireActivity(), uri)
+                    ImageHandler.decodeBitmapFromUri(path)?.let { bitmap ->
+                        ImageHandler.optimizeImage(bitmap, 70)?.let { fileList.add(it) }
+                    }
                 }
+
                 lifecycleScope.launch {
                     saveNewRoute(fileList, naverMap.cameraPosition.zoom)
                 }
             }
             moveToRouteFragment.observe(viewLifecycleOwner) { routeId ->
-                findNavController().navigate(AddRouteFragmentDirections.actionAddRouteFragmentToRouteFragment(routeId))
+                findNavController().navigate(
+                    AddRouteFragmentDirections.actionAddRouteFragmentToRouteFragment(
+                        routeId
+                    )
+                )
             }
         }
     }

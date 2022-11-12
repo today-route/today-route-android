@@ -1,10 +1,15 @@
 package com.maru.todayroute.util
 
+import android.annotation.SuppressLint
+import android.app.Activity
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.media.ExifInterface
+import android.net.Uri
 import android.os.Environment
+import android.provider.MediaStore
 import android.util.Log
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -14,7 +19,7 @@ import kotlin.math.sqrt
 
 object ImageHandler {
 
-    fun optimizeImage(path: String): File? {
+    fun optimizeImage(bitmap: Bitmap, quality: Int): File? {
         val directory = File(
             Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM),
             "TodayRoute"
@@ -28,9 +33,11 @@ object ImageHandler {
         )
         val fileOutputStream = FileOutputStream(file)
         val byteArrayOutputStream = ByteArrayOutputStream()
-        decodeBitmapFromUri(path)?.apply {
-            compress(Bitmap.CompressFormat.JPEG, 70, byteArrayOutputStream)
-            recycle()
+        bitmap.apply {
+            compress(Bitmap.CompressFormat.JPEG, quality, byteArrayOutputStream)
+            if (!this.isRecycled) {
+                recycle()
+            }
         }
         val bitmapData = byteArrayOutputStream.toByteArray()
 
@@ -48,7 +55,7 @@ object ImageHandler {
         return null
     }
 
-    private fun decodeBitmapFromUri(path: String): Bitmap? {
+    fun decodeBitmapFromUri(path: String): Bitmap? {
         return BitmapFactory.Options().run {
             inJustDecodeBounds = true
             inJustDecodeBounds = false
@@ -75,7 +82,10 @@ object ImageHandler {
     private fun rotateImageIfRequired(bitmap: Bitmap, path: String): Bitmap? {
         val exif = ExifInterface(path)
 
-        return when (exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_NORMAL)) {
+        return when (exif.getAttributeInt(
+            ExifInterface.TAG_ORIENTATION,
+            ExifInterface.ORIENTATION_NORMAL
+        )) {
             ExifInterface.ORIENTATION_ROTATE_90 -> rotateImage(bitmap, 90)
             ExifInterface.ORIENTATION_ROTATE_180 -> rotateImage(bitmap, 180)
             ExifInterface.ORIENTATION_ROTATE_270 -> rotateImage(bitmap, 270)
@@ -87,5 +97,17 @@ object ImageHandler {
         val matrix = Matrix()
         matrix.postRotate(degree.toFloat())
         return Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+    }
+
+    @SuppressLint("Range")
+    fun getRealPathFromUriList(context: Context, uri: Uri): String {
+        val proj = arrayOf(MediaStore.Images.Media.DATA)
+
+        val cursor = context.contentResolver.query(uri, proj, null, null, null)
+        cursor!!.moveToNext()
+        val path = cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.DATA))
+        cursor.close()
+
+        return path
     }
 }

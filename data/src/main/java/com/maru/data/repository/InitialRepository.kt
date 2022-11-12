@@ -8,6 +8,7 @@ import com.maru.data.model.User
 import com.maru.data.network.request.SignUpRequest
 import com.maru.data.network.response.SignUpResponse
 import com.maru.data.network.Token
+import java.io.File
 import javax.inject.Inject
 
 class InitialRepository @Inject constructor(
@@ -31,4 +32,7 @@ class InitialRepository @Inject constructor(
 
     override suspend fun editCoupleStartDate(startDate: String): Result<SimpleCoupleInfo> =
         userRemoteDataSource.editCoupleStartDate(startDate)
+
+    override suspend fun editUser(profile: File, nickname: String, birthday: String): Result<User> =
+        userRemoteDataSource.editUser(profile, nickname, birthday)
 }

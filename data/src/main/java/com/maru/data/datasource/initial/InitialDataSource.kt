@@ -6,6 +6,7 @@ import com.maru.data.model.User
 import com.maru.data.network.request.SignUpRequest
 import com.maru.data.network.response.SignUpResponse
 import com.maru.data.network.Token
+import java.io.File
 
 interface InitialDataSource {
         suspend fun registerNewUser(user: SignUpRequest): Result<SignUpResponse>
@@ -14,4 +15,5 @@ interface InitialDataSource {
         suspend fun getMyCoupleData(): Result<CoupleInfo>
         suspend fun getMyUserData(): Result<User>
         suspend fun editCoupleStartDate(startDate: String): Result<SimpleCoupleInfo>
+        suspend fun editUser(profile: File, nickname: String, birthday: String): Result<User>
 }

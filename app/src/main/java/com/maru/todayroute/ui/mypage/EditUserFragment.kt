@@ -4,21 +4,28 @@ import android.Manifest
 import android.app.Activity.RESULT_OK
 import android.app.DatePickerDialog
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.maru.todayroute.R
 import com.maru.todayroute.databinding.FragmentEditUserBinding
 import com.maru.todayroute.util.BaseFragment
+import com.maru.todayroute.util.ImageHandler
 import com.maru.todayroute.util.RequestPermissionsUtils
 import com.maru.todayroute.util.Utils.convertSingleToDoubleDigit
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class EditUserFragment : BaseFragment<FragmentEditUserBinding>(R.layout.fragment_edit_user) {
@@ -48,7 +55,6 @@ class EditUserFragment : BaseFragment<FragmentEditUserBinding>(R.layout.fragment
         }
     }
 
-
     private val birthday by lazy {
         args.user.birthday.substring(0 until 10).split("-").map { it.toInt() }
             .toMutableList()
@@ -61,6 +67,7 @@ class EditUserFragment : BaseFragment<FragmentEditUserBinding>(R.layout.fragment
         viewModel.setUserData(args.user)
         birthday[1] -= 1
         setupButtonClickListener()
+        setupObserver()
     }
 
     private fun setupButtonClickListener() {
@@ -99,6 +106,31 @@ class EditUserFragment : BaseFragment<FragmentEditUserBinding>(R.layout.fragment
                     }
                 }
             }
+            btnSave.setOnClickListener {
+                lifecycleScope.launch {
+                    this@EditUserFragment.viewModel.editUser(
+                        binding.etUserNickname.text.toString(),
+                        binding.etUserBirthday.text.toString()
+                    )
+                }
+            }
+        }
+    }
+
+    private fun setupObserver() {
+        viewModel.user.observe(viewLifecycleOwner) { user ->
+            Glide.with(this).asBitmap().load(user.profileUrl).into(object : CustomTarget<Bitmap>() {
+                override fun onResourceReady(bitmap: Bitmap, transition: Transition<in Bitmap>?) {
+                    binding.ivUserProfile.setImageBitmap(bitmap)
+                    viewModel.setProfileImageBitmap(bitmap)
+                }
+
+                override fun onLoadCleared(placeholder: Drawable?) {
+                }
+            })
+        }
+        viewModel.moveToPreviousFragment.observe(viewLifecycleOwner) {
+            findNavController().popBackStack()
         }
     }
 
@@ -118,6 +150,12 @@ class EditUserFragment : BaseFragment<FragmentEditUserBinding>(R.layout.fragment
     }
 
     private fun setNewProfileImage(uri: Uri) {
-        Glide.with(binding.ivUserProfile).load(uri).into(binding.ivUserProfile)
+        val path = ImageHandler.getRealPathFromUriList(requireContext(), uri)
+        val bitmap = ImageHandler.decodeBitmapFromUri(path)
+        bitmap?.let {
+            binding.ivUserProfile.setImageBitmap(bitmap)
+            viewModel.setProfileImageBitmap(bitmap)
+            viewModel.isFromGallery()
+        }
     }
 }
