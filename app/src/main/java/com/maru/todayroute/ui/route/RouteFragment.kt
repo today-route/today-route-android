@@ -3,6 +3,7 @@ package com.maru.todayroute.ui.route
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -25,7 +26,7 @@ import kotlinx.coroutines.launch
 class RouteFragment : BaseFragment<FragmentRouteBinding>(R.layout.fragment_route), OnMapReadyCallback {
 
     private val viewModel: RouteViewModel by viewModels()
-    private val imageListAdapter by lazy { ImageListAdapter(binding) }
+    private lateinit var imageListAdapter: ImageListAdapter
 
     private lateinit var naverMap: NaverMap
 
@@ -84,6 +85,7 @@ class RouteFragment : BaseFragment<FragmentRouteBinding>(R.layout.fragment_route
     }
 
     private fun setupRecyclerView() {
+        imageListAdapter = ImageListAdapter(binding)
         with (binding.rvRouteImage) {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             setHasFixedSize(true)
