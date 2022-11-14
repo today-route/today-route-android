@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.kakao.sdk.user.UserApiClient
+import com.maru.data.repository.InitialRepository
 import com.maru.data.repository.TokenRepository
 import com.maru.todayroute.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +16,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SettingsViewModel @Inject constructor(
-    private val tokenRepository: TokenRepository
+    private val tokenRepository: TokenRepository,
+    private val userRepository: InitialRepository
 ) : ViewModel() {
 
     val moveToInitialActivity: LiveData<Unit> get() = _moveToInitialActivity
@@ -32,6 +34,17 @@ class SettingsViewModel @Inject constructor(
                     _moveToInitialActivity.call()
                 }
             }
+        }
+    }
+
+    suspend fun breakUp() {
+        val result = withContext(viewModelScope.coroutineContext) {
+            userRepository.breakUpCouple(true)
+        }
+
+        if (result.isSuccess) {
+            _showToastMessage.value = "커플 연결을 끊었습니다."
+            _moveToInitialActivity.call()
         }
     }
 }

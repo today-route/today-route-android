@@ -60,4 +60,9 @@ interface RetrofitService {
         @Part("nickname") nickname: RequestBody,
         @Part("birthday") birthday: RequestBody
     ): User
+
+    @PATCH("couple")
+    suspend fun breakUpCouple(
+        @Body idEnd: BreakUpCoupleRequest
+    ): SimpleCoupleInfo
 }

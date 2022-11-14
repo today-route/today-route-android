@@ -3,13 +3,10 @@ package com.maru.data.datasource.initial
 import com.maru.data.model.CoupleInfo
 import com.maru.data.model.SimpleCoupleInfo
 import com.maru.data.model.User
-import com.maru.data.network.request.SignInRequest
-import com.maru.data.network.request.SignUpRequest
 import com.maru.data.network.response.SignUpResponse
 import com.maru.data.network.Token
 import com.maru.data.network.firebase.FirebaseHelper
-import com.maru.data.network.request.CreateCoupleRequest
-import com.maru.data.network.request.EditCoupleStartDateRequest
+import com.maru.data.network.request.*
 import com.maru.data.network.server.RetrofitService
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -56,6 +53,10 @@ class InitialRemoteDataSource @Inject constructor(
             val profileToUpload = MultipartBody.Part.createFormData("profile",profile.name, profileBody)
 
             retrofitService.editUser(profileToUpload, nicknameBody, birthdayBody)
+    }
+
+    override suspend fun breakUpCouple(isEnd: Boolean): Result<SimpleCoupleInfo> = runCatching {
+        retrofitService.breakUpCouple(BreakUpCoupleRequest(isEnd))
     }
 
     companion object {

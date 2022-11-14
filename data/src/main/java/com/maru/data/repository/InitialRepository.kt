@@ -35,4 +35,7 @@ class InitialRepository @Inject constructor(
 
     override suspend fun editUser(profile: File, nickname: String, birthday: String): Result<User> =
         userRemoteDataSource.editUser(profile, nickname, birthday)
+
+    override suspend fun breakUpCouple(isEnd: Boolean): Result<SimpleCoupleInfo> =
+        userRemoteDataSource.breakUpCouple(isEnd)
 }

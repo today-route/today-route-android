@@ -5,13 +5,16 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.maru.todayroute.R
 import com.maru.todayroute.databinding.FragmentSettingsBinding
 import com.maru.todayroute.ui.initial.InitialActivity
 import com.maru.todayroute.util.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class SettingsFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment_settings) {
@@ -29,19 +32,27 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment
             btnBack.setOnClickListener {
                 findNavController().popBackStack()
             }
-
+            btnBreakUp.setOnClickListener {
+                showAlertDialog("커플 연결 끊기", "정말로 커플 연결을 끊으시겠어요?", "끊기") {
+                    lifecycleScope.launch {
+                        viewModel.breakUp()
+                    }
+                }
+            }
             btnSignOut.setOnClickListener {
-                showAlertDialog()
+                showAlertDialog("로그아웃", "정말로 로그아웃 하시겠어요?", "로그아웃") {
+                    viewModel.signOut()
+                }
             }
         }
     }
 
-    private fun showAlertDialog() {
+    private fun showAlertDialog(title: String, message: String, positive: String, positiveButtonClicked: () -> Unit) {
         val alertDialogBuilder = AlertDialog.Builder(requireActivity())
-            .setTitle("로그아웃")
-            .setMessage("정말로 로그아웃 하시겠어요?")
-            .setPositiveButton("로그아웃") { _, _ ->
-                viewModel.signOut()
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton(positive) { _, _ ->
+                positiveButtonClicked.invoke()
             }
             .setNegativeButton("아니요") { dialog, _ ->
                 dialog.dismiss()
