@@ -56,5 +56,9 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
                 )
             }
         }
+
+        binding.btnSettings.setOnClickListener {
+            findNavController().navigate(R.id.action_my_page_fragment_to_settingsFragment)
+        }
     }
 }

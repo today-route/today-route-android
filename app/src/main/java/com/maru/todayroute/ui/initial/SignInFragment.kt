@@ -41,7 +41,6 @@ class SignInFragment : BaseFragment<FragmentSignInBinding>(R.layout.fragment_sig
 
     private fun signIn() {
         val callback: (OAuthToken?, Throwable?) -> Unit = { token, error ->
-            println("dkssudgktpdy")
             error?.let { println(error.message) }
             println(token)
             if (error == null && token != null) {
