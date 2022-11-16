@@ -35,9 +35,6 @@ object ImageHandler {
         val byteArrayOutputStream = ByteArrayOutputStream()
         bitmap.apply {
             compress(Bitmap.CompressFormat.JPEG, quality, byteArrayOutputStream)
-            if (!this.isRecycled) {
-                recycle()
-            }
         }
         val bitmapData = byteArrayOutputStream.toByteArray()
 

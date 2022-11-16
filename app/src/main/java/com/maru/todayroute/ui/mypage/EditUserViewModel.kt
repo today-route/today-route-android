@@ -1,24 +1,21 @@
 package com.maru.todayroute.ui.mypage
 
 import android.graphics.Bitmap
-import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.maru.data.model.User
-import com.maru.data.repository.InitialRepository
+import com.maru.data.repository.UserRepository
 import com.maru.todayroute.util.ImageHandler
 import com.maru.todayroute.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.withContext
-import java.io.File
 import javax.inject.Inject
-import kotlin.coroutines.coroutineContext
 
 @HiltViewModel
 class EditUserViewModel @Inject constructor(
-    private val userRepository: InitialRepository
+    private val userRepository: UserRepository
 ) : ViewModel() {
 
     val user: LiveData<User> get() = _user

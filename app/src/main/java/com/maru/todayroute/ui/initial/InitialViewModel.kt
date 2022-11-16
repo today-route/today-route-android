@@ -13,7 +13,7 @@ import com.kakao.sdk.user.UserApiClient
 import com.maru.data.model.Gender
 import com.maru.data.network.request.SignUpRequest
 import com.maru.data.network.Token
-import com.maru.data.repository.InitialRepository
+import com.maru.data.repository.UserRepository
 import com.maru.data.repository.TokenRepository
 import com.maru.todayroute.SignInTokenInfo.token
 import com.maru.todayroute.util.SingleLiveEvent
@@ -25,7 +25,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class InitialViewModel @Inject constructor(
-    private val initialRepository: InitialRepository,
+    private val userRepository: UserRepository,
     private val tokenRepository: TokenRepository
 ) : ViewModel() {
 
@@ -81,7 +81,7 @@ class InitialViewModel @Inject constructor(
 
     private suspend fun trySignIn() {
         val result = withContext(viewModelScope.coroutineContext) {
-            initialRepository.signInUser(key)
+            userRepository.signInUser(key)
         }
 
         if (result.isSuccess) {
@@ -97,7 +97,7 @@ class InitialViewModel @Inject constructor(
 
     private suspend fun getSignInCoupleInfoByAccessToken() {
         val result = withContext(viewModelScope.coroutineContext) {
-            initialRepository.getMyCoupleData()
+            userRepository.getMyCoupleData()
         }
 
         if (result.isSuccess) {
@@ -110,7 +110,7 @@ class InitialViewModel @Inject constructor(
 
     private suspend fun setSignInUser() {
         val result = withContext(viewModelScope.coroutineContext) {
-            initialRepository.getMyUserData()
+            userRepository.getMyUserData()
         }
 
         if (result.isSuccess) {
@@ -138,7 +138,7 @@ class InitialViewModel @Inject constructor(
 
     suspend fun registerNewUser() {
         val result = withContext(viewModelScope.coroutineContext) {
-            initialRepository.registerNewUser(
+            userRepository.registerNewUser(
                 SignUpRequest(
                     key,
                     gender,
@@ -172,7 +172,7 @@ class InitialViewModel @Inject constructor(
 
     suspend fun tryStart() {
         val result = withContext(viewModelScope.coroutineContext) {
-            initialRepository.getMyCoupleData()
+            userRepository.getMyCoupleData()
         }
 
         if (result.isSuccess) {
@@ -185,7 +185,7 @@ class InitialViewModel @Inject constructor(
     suspend fun connectCoupleByCode() {
         val result = withContext(viewModelScope.coroutineContext) {
             val inviteCode = _inviteCode.value ?: ""
-            initialRepository.registerNewCouple(inviteCode, startDate)
+            userRepository.registerNewCouple(inviteCode, startDate)
         }
 
         if (result.isSuccess) {

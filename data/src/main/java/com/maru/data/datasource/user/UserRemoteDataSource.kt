@@ -1,4 +1,4 @@
-package com.maru.data.datasource.initial
+package com.maru.data.datasource.user
 
 import com.maru.data.model.CoupleInfo
 import com.maru.data.model.SimpleCoupleInfo
@@ -16,10 +16,10 @@ import okhttp3.RequestBody.Companion.toRequestBody
 import java.io.File
 import javax.inject.Inject
 
-class InitialRemoteDataSource @Inject constructor(
+class UserRemoteDataSource @Inject constructor(
     private val retrofitService: RetrofitService,
     private val firebaseHelper: FirebaseHelper
-) : InitialDataSource {
+) : UserDataSource {
 
     override suspend fun registerNewUser(user: SignUpRequest): Result<SignUpResponse> = runCatching {
         retrofitService.registerNewUser(user)

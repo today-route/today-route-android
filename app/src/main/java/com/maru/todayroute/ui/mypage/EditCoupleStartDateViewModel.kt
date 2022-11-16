@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.maru.data.repository.InitialRepository
+import com.maru.data.repository.UserRepository
 import com.maru.todayroute.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.withContext
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EditCoupleStartDateViewModel @Inject constructor(
-    private val userRepository: InitialRepository
+    private val userRepository: UserRepository
 ) : ViewModel() {
 
     val startDate: LiveData<String> get() = _startDate

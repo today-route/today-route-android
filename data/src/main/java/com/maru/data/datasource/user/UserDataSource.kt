@@ -1,4 +1,4 @@
-package com.maru.data.datasource.initial
+package com.maru.data.datasource.user
 
 import com.maru.data.model.CoupleInfo
 import com.maru.data.model.SimpleCoupleInfo
@@ -8,7 +8,7 @@ import com.maru.data.network.response.SignUpResponse
 import com.maru.data.network.Token
 import java.io.File
 
-interface InitialDataSource {
+interface UserDataSource {
         suspend fun registerNewUser(user: SignUpRequest): Result<SignUpResponse>
         suspend fun signInUser(key: String): Result<Token>
         suspend fun registerNewCouple(code: String, startDate: String): Result<Unit>

@@ -3,18 +3,16 @@ package com.maru.todayroute.ui
 import androidx.lifecycle.*
 import com.maru.data.model.CoupleInfo
 import com.maru.data.model.User
-import com.maru.data.repository.InitialRepository
+import com.maru.data.repository.UserRepository
 import com.maru.todayroute.util.Utils.calculateDDay
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val initialRepository: InitialRepository
+    private val userRepository: UserRepository
 ) : ViewModel() {
 
     val user: LiveData<User> get() = _user
@@ -33,7 +31,7 @@ class MainViewModel @Inject constructor(
 
     private suspend fun fetchUserData() {
         viewModelScope.launch(Dispatchers.IO) {
-            val result = initialRepository.getMyUserData()
+            val result = userRepository.getMyUserData()
 
             if (result.isSuccess) {
                 _user.postValue(result.getOrNull())
@@ -43,7 +41,7 @@ class MainViewModel @Inject constructor(
 
     private suspend fun fetchCoupleInfo() {
         viewModelScope.launch(Dispatchers.IO) {
-            val result = initialRepository.getMyCoupleData()
+            val result = userRepository.getMyCoupleData()
 
             if (result.isSuccess) {
                 _coupleInfo.postValue(result.getOrNull())

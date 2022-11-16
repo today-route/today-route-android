@@ -4,9 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.auth0.android.jwt.JWT
-import com.maru.data.model.User
 import com.maru.data.network.Token
-import com.maru.data.repository.InitialRepository
+import com.maru.data.repository.UserRepository
 import com.maru.data.repository.TokenRepository
 import com.maru.data.util.Constants.EMPTY_STRING
 import com.maru.todayroute.SignInTokenInfo.token
@@ -20,7 +19,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor(
-    private val initialRepository: InitialRepository,
+    private val userRepository: UserRepository,
     private val tokenRepository: TokenRepository
 ) : ViewModel() {
 
@@ -76,7 +75,7 @@ class SplashViewModel @Inject constructor(
 
     private suspend fun getSignInCoupleInfoByAccessToken() {
         val result = withContext(viewModelScope.coroutineContext) {
-            initialRepository.getMyCoupleData()
+            userRepository.getMyCoupleData()
         }
 
         if (result.isSuccess) {

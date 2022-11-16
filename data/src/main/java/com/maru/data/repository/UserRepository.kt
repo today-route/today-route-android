@@ -1,7 +1,7 @@
 package com.maru.data.repository
 
-import com.maru.data.datasource.initial.InitialDataSource
-import com.maru.data.datasource.initial.InitialRemoteDataSource
+import com.maru.data.datasource.user.UserDataSource
+import com.maru.data.datasource.user.UserRemoteDataSource
 import com.maru.data.model.CoupleInfo
 import com.maru.data.model.SimpleCoupleInfo
 import com.maru.data.model.User
@@ -11,9 +11,9 @@ import com.maru.data.network.Token
 import java.io.File
 import javax.inject.Inject
 
-class InitialRepository @Inject constructor(
-    private val userRemoteDataSource: InitialRemoteDataSource
-) : InitialDataSource {
+class UserRepository @Inject constructor(
+    private val userRemoteDataSource: UserRemoteDataSource
+) : UserDataSource {
 
     override suspend fun registerNewUser(user: SignUpRequest): Result<SignUpResponse> =
         userRemoteDataSource.registerNewUser(user)
