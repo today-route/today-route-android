@@ -1,6 +1,8 @@
 package com.maru.todayroute.ui.addeditroute
 
 import android.Manifest
+import android.graphics.Bitmap
+import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -11,12 +13,12 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.maru.todayroute.R
 import com.maru.todayroute.databinding.FragmentEditRouteBinding
-import com.maru.todayroute.util.AccessGalleryUtils
-import com.maru.todayroute.util.BaseFragment
-import com.maru.todayroute.util.MapViewLifecycleObserver
-import com.maru.todayroute.util.RequestPermissionsUtils
+import com.maru.todayroute.util.*
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.CameraAnimation
 import com.naver.maps.map.CameraUpdate
@@ -25,6 +27,7 @@ import com.naver.maps.map.OnMapReadyCallback
 import com.naver.maps.map.overlay.PathOverlay
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
+import java.io.File
 
 @AndroidEntryPoint
 class EditRouteFragment :
@@ -74,6 +77,34 @@ class EditRouteFragment :
                     Toast.LENGTH_SHORT
                 ).show()
             }
+            selectedPhotoUriList.observe(viewLifecycleOwner) { photoUriList ->
+                val fileList = mutableListOf<File>()
+                photoUriList.forEach { uri ->
+                    if (uri.toString().startsWith("https://")) {
+                        Glide.with(requireContext()).asBitmap().load(uri).into(object : CustomTarget<Bitmap>() {
+                            override fun onResourceReady(bitmap: Bitmap, transition: Transition<in Bitmap>?) {
+                                val file = ImageHandler.optimizeImage(bitmap, 100)
+                                file?.let { fileList.add(it) }
+                            }
+
+                            override fun onLoadCleared(placeholder: Drawable?) {
+                            }
+                        })
+                    } else {
+                        val path = ImageHandler.getRealPathFromUriList(requireActivity(), uri)
+                        ImageHandler.decodeBitmapFromUri(path)?.let { bitmap ->
+                            ImageHandler.optimizeImage(bitmap, 70)?.let { fileList.add(it) }
+                        }
+                    }
+                }
+
+                lifecycleScope.launch {
+                    viewModel.editRoute(naverMap.cameraPosition.zoom, fileList)
+                }
+            }
+            moveToPreviousFragment.observe(viewLifecycleOwner) {
+                findNavController().popBackStack()
+            }
         }
     }
 
@@ -104,6 +135,10 @@ class EditRouteFragment :
                     )
                 )
             }
+        }
+
+        binding.btnSave.setOnClickListener {
+            viewModel.tryEditRoute()
         }
     }
 

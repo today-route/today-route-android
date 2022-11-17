@@ -12,6 +12,7 @@ import com.maru.todayroute.util.SingleLiveEvent
 import com.naver.maps.geometry.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.withContext
+import java.io.File
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,11 +27,15 @@ class EditRouteViewModel @Inject constructor(private val repository: RouteReposi
     private val _geoCoordList: MutableLiveData<List<LatLng>> = MutableLiveData()
     val photoUriList: LiveData<List<Uri>> get() = _photoUriList
     private val _photoUriList: MutableLiveData<List<Uri>> = MutableLiveData()
+    val selectedPhotoUriList: LiveData<List<Uri>> get() = _selectedPhotoUriList
+    private val _selectedPhotoUriList: MutableLiveData<List<Uri>> = MutableLiveData()
 
     val mapSettings: LiveData<Pair<LatLng, Double>> get() = _mapSettings
     private val _mapSettings: MutableLiveData<Pair<LatLng, Double>> = MutableLiveData()
     val showToastMessage: LiveData<Unit> get() = _showToastMessage
     private val _showToastMessage: SingleLiveEvent<Unit> = SingleLiveEvent()
+    val moveToPreviousFragment: LiveData<Unit> get() = _moveToPreviousFragment
+    private val _moveToPreviousFragment: SingleLiveEvent<Unit> = SingleLiveEvent()
 
     fun addPhotos(newPhotoList: List<Uri>) {
         val photoList = mutableListOf<Uri>()
@@ -84,5 +89,25 @@ class EditRouteViewModel @Inject constructor(private val repository: RouteReposi
 
     private fun getGeoCoordList() {
         _geoCoordList.value = route.geoCoord.map { LatLng(it[0], it[1]) }
+    }
+
+    fun tryEditRoute() {
+        _selectedPhotoUriList.value = photoUriList.value
+    }
+
+    suspend fun editRoute(zoomLevel: Double, fileList: List<File>) {
+        val result = withContext(viewModelScope.coroutineContext) {
+            repository.editRoute(
+                route.id,
+                title.value!!,
+                zoomLevel,
+                content.value!!,
+                location.value!!,
+                fileList
+            )
+        }
+        if (result.isSuccess) {
+            _moveToPreviousFragment.call()
+        }
     }
 }

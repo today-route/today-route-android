@@ -3,6 +3,7 @@ package com.maru.data.network.server
 import com.maru.data.model.*
 import com.maru.data.network.*
 import com.maru.data.network.request.*
+import com.maru.data.network.response.EditRouteResponse
 import com.maru.data.network.response.SaveNewRouteResponse
 import com.maru.data.network.response.SignUpResponse
 import okhttp3.RequestBody
@@ -65,4 +66,13 @@ interface RetrofitService {
     suspend fun breakUpCouple(
         @Body idEnd: BreakUpCoupleRequest
     ): SimpleCoupleInfo
+
+    @Multipart
+    @PATCH("route/{routeId}")
+    @JvmSuppressWildcards
+    suspend fun editRoute(
+        @Path("routeId") routeId: Int,
+        @PartMap map: Map<String, RequestBody>,
+        @Part photos: List<MultipartBody.Part>,
+    ): EditRouteResponse
 }

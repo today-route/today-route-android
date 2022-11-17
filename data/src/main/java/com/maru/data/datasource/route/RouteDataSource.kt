@@ -2,6 +2,7 @@ package com.maru.data.datasource.route
 
 import com.maru.data.model.Route
 import com.maru.data.model.SimpleRoute
+import com.maru.data.network.response.EditRouteResponse
 import com.maru.data.network.response.SaveNewRouteResponse
 import java.io.File
 
@@ -18,4 +19,13 @@ interface RouteDataSource {
         fileList: List<File>,
         geoCoordList: List<List<Double>>
     ): Result<SaveNewRouteResponse>
+
+    suspend fun editRoute(
+        routeId: Int,
+        title: String,
+        zoomLevel: Double,
+        content: String,
+        location: String,
+        photos: List<File>
+    ): Result<EditRouteResponse>
 }

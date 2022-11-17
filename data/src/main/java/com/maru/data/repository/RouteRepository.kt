@@ -4,6 +4,7 @@ import com.maru.data.datasource.route.RouteDataSource
 import com.maru.data.datasource.route.RouteRemoteDataSource
 import com.maru.data.model.Route
 import com.maru.data.model.SimpleRoute
+import com.maru.data.network.response.EditRouteResponse
 import com.maru.data.network.response.SaveNewRouteResponse
 import java.io.File
 import javax.inject.Inject
@@ -27,4 +28,14 @@ class RouteRepository @Inject constructor(
         geoCoordList: List<List<Double>>
     ): Result<SaveNewRouteResponse> =
         remoteDataSource.saveNewRoute(date, zoomLevel, title, contents, location, fileList, geoCoordList)
+
+    override suspend fun editRoute(
+        routeId: Int,
+        title: String,
+        zoomLevel: Double,
+        content: String,
+        location: String,
+        photos: List<File>
+    ): Result<EditRouteResponse> =
+        remoteDataSource.editRoute(routeId, title, zoomLevel, content, location, photos)
 }

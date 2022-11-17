@@ -2,6 +2,7 @@ package com.maru.data.datasource.route
 
 import com.maru.data.model.Route
 import com.maru.data.model.SimpleRoute
+import com.maru.data.network.response.EditRouteResponse
 import com.maru.data.network.response.SaveNewRouteResponse
 import com.maru.data.network.server.RetrofitService
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -62,6 +63,38 @@ class RouteRemoteDataSource @Inject constructor(
         }
 
         retrofitService.saveNewRoute(requestMap, photoFiles, geoCoords)
+    }
+
+    override suspend fun editRoute(
+        routeId: Int,
+        title: String,
+        zoomLevel: Double,
+        content: String,
+        location: String,
+        photos: List<File>
+    ): Result<EditRouteResponse> = runCatching {
+        val routeIdBody = stringToPlainTextRequestBody(routeId.toString())
+        val zoomLevelBody = stringToPlainTextRequestBody(zoomLevel.toString())
+        val titleBody = stringToPlainTextRequestBody(title)
+        val contentsBody = stringToPlainTextRequestBody(content)
+        val locationBody = stringToPlainTextRequestBody(location)
+
+        val requestMap = mapOf(
+            "id" to routeIdBody,
+            "zoomLevel" to zoomLevelBody,
+            "title" to titleBody,
+            "content" to contentsBody,
+            "location" to locationBody
+        )
+
+        val photoFiles = mutableListOf<MultipartBody.Part>()
+        for (file in photos) {
+            val fileBody: RequestBody = file.asRequestBody("multipart/form-data".toMediaTypeOrNull())
+            val fileToUpload = MultipartBody.Part.createFormData("photos",file.name, fileBody)
+            photoFiles.add(fileToUpload)
+        }
+
+        retrofitService.editRoute(routeId, requestMap, photoFiles)
     }
 
     companion object {
