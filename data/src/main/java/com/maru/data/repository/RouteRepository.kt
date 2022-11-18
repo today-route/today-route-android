@@ -38,4 +38,7 @@ class RouteRepository @Inject constructor(
         photos: List<File>
     ): Result<EditRouteResponse> =
         remoteDataSource.editRoute(routeId, title, zoomLevel, content, location, photos)
+
+    override suspend fun deleteRoute(routeId: Int) =
+        remoteDataSource.deleteRoute(routeId)
 }

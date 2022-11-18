@@ -78,4 +78,9 @@ interface RetrofitService {
 
     @DELETE("user")
     suspend fun deleteUser()
+
+    @DELETE("route/{routeId}")
+    suspend fun deleteRoute(
+        @Path("routeId") routeId: Int
+    )
 }

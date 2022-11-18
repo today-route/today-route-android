@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -23,7 +25,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class RouteFragment : BaseFragment<FragmentRouteBinding>(R.layout.fragment_route), OnMapReadyCallback {
+class RouteFragment : BaseFragment<FragmentRouteBinding>(R.layout.fragment_route),
+    OnMapReadyCallback {
 
     private val viewModel: RouteViewModel by viewModels()
     private lateinit var imageListAdapter: ImageListAdapter
@@ -60,18 +63,21 @@ class RouteFragment : BaseFragment<FragmentRouteBinding>(R.layout.fragment_route
     }
 
     private fun setupObserver() {
-        with (viewModel) {
+        with(viewModel) {
             date.observe(viewLifecycleOwner) { date ->
                 binding.tvRouteDateTop.text = date
             }
             photoUrlList.observe(viewLifecycleOwner) { photoUrlList ->
                 imageListAdapter.submitList(photoUrlList)
             }
+            moveToPreviousFragment.observe(viewLifecycleOwner) {
+                findNavController().popBackStack()
+            }
         }
     }
 
     private fun setupMapObserver() {
-        with (viewModel) {
+        with(viewModel) {
             mapZoomLevel.observe(viewLifecycleOwner) { zoomLevel ->
                 naverMap.moveCamera(CameraUpdate.zoomTo(zoomLevel.toDouble()))
             }
@@ -86,7 +92,7 @@ class RouteFragment : BaseFragment<FragmentRouteBinding>(R.layout.fragment_route
 
     private fun setupRecyclerView() {
         imageListAdapter = ImageListAdapter(binding)
-        with (binding.rvRouteImage) {
+        with(binding.rvRouteImage) {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             setHasFixedSize(true)
             adapter = imageListAdapter
@@ -99,7 +105,24 @@ class RouteFragment : BaseFragment<FragmentRouteBinding>(R.layout.fragment_route
         }
 
         binding.btnMore.setOnClickListener {
-//            findNavController().navigate(RouteFragmentDirections.actionRouteFragmentToEditRouteFragment(args.routeId))
+            val navBackStackEntry = findNavController().getBackStackEntry(R.id.routeFragment)
+            val observer = LifecycleEventObserver { _, event ->
+                if (event == Lifecycle.Event.ON_RESUME && navBackStackEntry.savedStateHandle.contains("DELETE")) {
+                    val result = navBackStackEntry.savedStateHandle.get<Boolean>("DELETE")
+                    if (result == true) {
+                        lifecycleScope.launch {
+                            viewModel.deleteRoute(args.routeId)
+                        }
+                    }
+                }
+            }
+            navBackStackEntry.lifecycle.addObserver(observer)
+
+            viewLifecycleOwner.lifecycle.addObserver(LifecycleEventObserver() { _, event ->
+                if (event == Lifecycle.Event.ON_DESTROY) {
+                    navBackStackEntry.lifecycle.removeObserver(observer)
+                }
+            })
             findNavController().navigate(RouteFragmentDirections.actionRouteFragmentToRouteBottomSheet(args.routeId))
         }
     }
@@ -112,7 +135,7 @@ class RouteFragment : BaseFragment<FragmentRouteBinding>(R.layout.fragment_route
 
     private fun drawRoute(geoCoordList: List<LatLng>) {
         val path = PathOverlay()
-        with (path) {
+        with(path) {
             color = requireContext().getColor(R.color.purple)
             outlineColor = requireContext().getColor(R.color.purple)
             width = 30

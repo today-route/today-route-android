@@ -1,5 +1,6 @@
 package com.maru.data.datasource.route
 
+import com.maru.data.datasource.user.UserRemoteDataSource.Companion.stringToPlainTextRequestBody
 import com.maru.data.model.Route
 import com.maru.data.model.SimpleRoute
 import com.maru.data.network.response.EditRouteResponse
@@ -95,6 +96,10 @@ class RouteRemoteDataSource @Inject constructor(
         }
 
         retrofitService.editRoute(routeId, requestMap, photoFiles)
+    }
+
+    override suspend fun deleteRoute(routeId: Int) = runCatching {
+        retrofitService.deleteRoute(routeId)
     }
 
     companion object {

@@ -28,4 +28,6 @@ interface RouteDataSource {
         location: String,
         photos: List<File>
     ): Result<EditRouteResponse>
+
+    suspend fun deleteRoute(routeId: Int): Result<Unit>
 }

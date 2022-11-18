@@ -4,15 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.maru.todayroute.R
 import com.maru.todayroute.databinding.DialogRouteBottomSheetBinding
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class RouteBottomSheetFragment : BottomSheetDialogFragment() {
 
     private val args: RouteBottomSheetFragmentArgs by navArgs()
@@ -44,6 +43,28 @@ class RouteBottomSheetFragment : BottomSheetDialogFragment() {
                 )
             )
         }
+        binding.btnDeleteRoute.setOnClickListener {
+            showAlertDialog("루트 삭제", "정말로 루트를 삭제하시겠습니까?", "삭제") {
+                findNavController().previousBackStackEntry?.savedStateHandle?.set(
+                    "DELETE",
+                    true
+                )
+                findNavController().popBackStack()
+            }
+        }
+    }
+
+    private fun showAlertDialog(title: String, message: String, positive: String, positiveButtonClicked: () -> Unit) {
+        val alertDialogBuilder = AlertDialog.Builder(requireActivity())
+            .setTitle(title)
+            .setMessage(message)
+            .setPositiveButton(positive) { _, _ ->
+                positiveButtonClicked.invoke()
+            }
+            .setNegativeButton("아니요") { dialog, _ ->
+                dialog.dismiss()
+            }
+        alertDialogBuilder.show()
     }
 
     override fun onDestroyView() {

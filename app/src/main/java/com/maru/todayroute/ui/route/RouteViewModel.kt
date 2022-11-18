@@ -8,6 +8,7 @@ import com.maru.data.model.Route
 import com.maru.data.repository.RouteRepository
 import com.maru.todayroute.R
 import com.maru.todayroute.util.RouteUtils
+import com.maru.todayroute.util.SingleLiveEvent
 import com.naver.maps.geometry.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -37,6 +38,9 @@ class RouteViewModel @Inject constructor(
 
     val centerCoord: LiveData<LatLng> get() = _centerCoord
     private val _centerCoord: MutableLiveData<LatLng> = MutableLiveData()
+
+    val moveToPreviousFragment: LiveData<Unit> get() = _moveToPreviousFragment
+    private val _moveToPreviousFragment: SingleLiveEvent<Unit> = SingleLiveEvent()
 
     suspend fun setRouteDiaryData(routeId: Int) {
         getRoute(routeId)
@@ -82,5 +86,14 @@ class RouteViewModel @Inject constructor(
 
     private fun getGeoCoordList() {
         _geoCoordList.value = route.geoCoord.map { LatLng(it[0], it[1]) }
+    }
+
+    suspend fun deleteRoute(routeId: Int) {
+        val result = withContext(viewModelScope.coroutineContext) {
+            repository.deleteRoute(routeId)
+        }
+        if (result.isSuccess) {
+            _moveToPreviousFragment.call()
+        }
     }
 }
