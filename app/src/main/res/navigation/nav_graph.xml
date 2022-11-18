@@ -88,6 +88,12 @@
         <action
             android:id="@+id/action_routeFragment_to_routeBottomSheet"
             app:destination="@id/routeBottomSheet" />
+        <action
+            android:id="@+id/action_routeFragment_to_calendar_fragment"
+            app:destination="@id/calendar_fragment"
+            app:launchSingleTop="true"
+            app:popUpTo="@id/calendar_fragment"
+            app:popUpToInclusive="true" />
     </fragment>
     <dialog
         android:id="@+id/routeBottomSheet"

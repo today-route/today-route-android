@@ -71,7 +71,7 @@ class RouteFragment : BaseFragment<FragmentRouteBinding>(R.layout.fragment_route
                 imageListAdapter.submitList(photoUrlList)
             }
             moveToPreviousFragment.observe(viewLifecycleOwner) {
-                findNavController().popBackStack()
+                findNavController().navigate(R.id.action_routeFragment_to_calendar_fragment)
             }
         }
     }
@@ -104,26 +104,30 @@ class RouteFragment : BaseFragment<FragmentRouteBinding>(R.layout.fragment_route
             findNavController().popBackStack()
         }
 
-        binding.btnMore.setOnClickListener {
-            val navBackStackEntry = findNavController().getBackStackEntry(R.id.routeFragment)
-            val observer = LifecycleEventObserver { _, event ->
-                if (event == Lifecycle.Event.ON_RESUME && navBackStackEntry.savedStateHandle.contains("DELETE")) {
-                    val result = navBackStackEntry.savedStateHandle.get<Boolean>("DELETE")
-                    if (result == true) {
-                        lifecycleScope.launch {
-                            viewModel.deleteRoute(args.routeId)
+        if (findNavController().previousBackStackEntry?.destination?.id == R.id.home_fragment) {
+            binding.btnMore.visibility = View.INVISIBLE
+        } else {
+            binding.btnMore.setOnClickListener {
+                val navBackStackEntry = findNavController().getBackStackEntry(R.id.routeFragment)
+                val observer = LifecycleEventObserver { _, event ->
+                    if (event == Lifecycle.Event.ON_RESUME && navBackStackEntry.savedStateHandle.contains("DELETE")) {
+                        val result = navBackStackEntry.savedStateHandle.get<Boolean>("DELETE")
+                        if (result == true) {
+                            lifecycleScope.launch {
+                                viewModel.deleteRoute(args.routeId)
+                            }
                         }
                     }
                 }
-            }
-            navBackStackEntry.lifecycle.addObserver(observer)
+                navBackStackEntry.lifecycle.addObserver(observer)
 
-            viewLifecycleOwner.lifecycle.addObserver(LifecycleEventObserver() { _, event ->
-                if (event == Lifecycle.Event.ON_DESTROY) {
-                    navBackStackEntry.lifecycle.removeObserver(observer)
-                }
-            })
-            findNavController().navigate(RouteFragmentDirections.actionRouteFragmentToRouteBottomSheet(args.routeId))
+                viewLifecycleOwner.lifecycle.addObserver(LifecycleEventObserver() { _, event ->
+                    if (event == Lifecycle.Event.ON_DESTROY) {
+                        navBackStackEntry.lifecycle.removeObserver(observer)
+                    }
+                })
+                findNavController().navigate(RouteFragmentDirections.actionRouteFragmentToRouteBottomSheet(args.routeId))
+            }
         }
     }
 
