@@ -75,4 +75,7 @@ interface RetrofitService {
         @PartMap map: Map<String, RequestBody>,
         @Part photos: List<MultipartBody.Part>,
     ): EditRouteResponse
+
+    @DELETE("user")
+    suspend fun deleteUser()
 }

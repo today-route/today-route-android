@@ -44,6 +44,13 @@ class SettingsFragment : BaseFragment<FragmentSettingsBinding>(R.layout.fragment
                     viewModel.signOut()
                 }
             }
+            btnDeleteUser.setOnClickListener {
+                showAlertDialog("회원탈퇴", "정말로 오늘의 길을 탈퇴하시겠어요?", "탈퇴") {
+                    lifecycleScope.launch {
+                        viewModel.deleteUser()
+                    }
+                }
+            }
         }
     }
 

@@ -59,6 +59,8 @@ class UserRemoteDataSource @Inject constructor(
         retrofitService.breakUpCouple(BreakUpCoupleRequest(isEnd))
     }
 
+    override suspend fun deleteUser() = retrofitService.deleteUser()
+
     companion object {
         val stringToPlainTextRequestBody: (String) -> RequestBody = { s: String ->
             s.toRequestBody("text/plain".toMediaTypeOrNull())

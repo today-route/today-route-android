@@ -38,4 +38,6 @@ class UserRepository @Inject constructor(
 
     override suspend fun breakUpCouple(isEnd: Boolean): Result<SimpleCoupleInfo> =
         userRemoteDataSource.breakUpCouple(isEnd)
+
+    override suspend fun deleteUser() = userRemoteDataSource.deleteUser()
 }

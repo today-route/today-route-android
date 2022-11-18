@@ -47,4 +47,13 @@ class SettingsViewModel @Inject constructor(
             _moveToInitialActivity.call()
         }
     }
+
+    suspend fun deleteUser() {
+        withContext(viewModelScope.coroutineContext) {
+            userRepository.deleteUser()
+            UserApiClient.instance.logout() {}
+            tokenRepository.removeTokens()
+        }
+        _moveToInitialActivity.call()
+    }
 }

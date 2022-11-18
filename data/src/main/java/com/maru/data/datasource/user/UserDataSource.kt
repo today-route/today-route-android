@@ -17,4 +17,5 @@ interface UserDataSource {
         suspend fun editCoupleStartDate(startDate: String): Result<SimpleCoupleInfo>
         suspend fun editUser(profile: File, nickname: String, birthday: String): Result<User>
         suspend fun breakUpCouple(isEnd: Boolean): Result<SimpleCoupleInfo>
+        suspend fun deleteUser()
 }

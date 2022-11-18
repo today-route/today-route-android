@@ -93,7 +93,7 @@
             app:layout_constraintTop_toBottomOf="@id/btn_sign_out" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btn_unregister"
+            android:id="@+id/btn_delete_user"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
