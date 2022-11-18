@@ -79,12 +79,19 @@ class EditRouteFragment :
             }
             selectedPhotoUriList.observe(viewLifecycleOwner) { photoUriList ->
                 val fileList = mutableListOf<File>()
+                val imageFromGalleryFile = mutableListOf<File>()
                 photoUriList.forEach { uri ->
                     if (uri.toString().startsWith("https://")) {
                         Glide.with(requireContext()).asBitmap().load(uri).into(object : CustomTarget<Bitmap>() {
                             override fun onResourceReady(bitmap: Bitmap, transition: Transition<in Bitmap>?) {
                                 val file = ImageHandler.optimizeImage(bitmap, 100)
                                 file?.let { fileList.add(it) }
+                                if (photoUriList.size == fileList.size + imageFromGalleryFile.size) {
+                                    fileList.addAll(imageFromGalleryFile)
+                                    lifecycleScope.launch {
+                                        viewModel.editRoute(naverMap.cameraPosition.zoom, fileList)
+                                    }
+                                }
                             }
 
                             override fun onLoadCleared(placeholder: Drawable?) {
@@ -93,13 +100,9 @@ class EditRouteFragment :
                     } else {
                         val path = ImageHandler.getRealPathFromUriList(requireActivity(), uri)
                         ImageHandler.decodeBitmapFromUri(path)?.let { bitmap ->
-                            ImageHandler.optimizeImage(bitmap, 70)?.let { fileList.add(it) }
+                            ImageHandler.optimizeImage(bitmap, 70)?.let { imageFromGalleryFile.add(it) }
                         }
                     }
-                }
-
-                lifecycleScope.launch {
-                    viewModel.editRoute(naverMap.cameraPosition.zoom, fileList)
                 }
             }
             moveToPreviousFragment.observe(viewLifecycleOwner) {
