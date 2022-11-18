@@ -86,9 +86,20 @@
             android:name="routeId"
             app:argType="integer" />
         <action
-            android:id="@+id/action_routeFragment_to_editRouteFragment"
-            app:destination="@id/editRouteFragment" />
+            android:id="@+id/action_routeFragment_to_routeBottomSheet"
+            app:destination="@id/routeBottomSheet" />
     </fragment>
+    <dialog
+        android:id="@+id/routeBottomSheet"
+        android:name="com.maru.todayroute.ui.route.RouteBottomSheetFragment"
+        tools:layout="@layout/dialog_route_bottom_sheet">
+        <action
+            android:id="@+id/action_routeBottomSheet_to_editRouteFragment"
+            app:destination="@id/editRouteFragment" />
+        <argument
+            android:name="routeId"
+            app:argType="integer" />
+    </dialog>
     <fragment
         android:id="@+id/editRouteFragment"
         android:name="com.maru.todayroute.ui.addeditroute.EditRouteFragment"

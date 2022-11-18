@@ -98,8 +98,9 @@ class RouteFragment : BaseFragment<FragmentRouteBinding>(R.layout.fragment_route
             findNavController().popBackStack()
         }
 
-        binding.btnEdit.setOnClickListener {
-            findNavController().navigate(RouteFragmentDirections.actionRouteFragmentToEditRouteFragment(args.routeId))
+        binding.btnMore.setOnClickListener {
+//            findNavController().navigate(RouteFragmentDirections.actionRouteFragmentToEditRouteFragment(args.routeId))
+            findNavController().navigate(RouteFragmentDirections.actionRouteFragmentToRouteBottomSheet(args.routeId))
         }
     }
 

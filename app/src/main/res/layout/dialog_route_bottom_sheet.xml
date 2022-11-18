@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="4dp"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_edit_route"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:paddingVertical="12dp"
+            android:paddingHorizontal="80dp"
+            android:text="루트 수정"
+            android:textColor="@color/tmp_black"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:drawableStart="@drawable/ic_baseline_edit_24" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginVertical="4dp"
+            android:background="#D3D3D3" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_delete_route"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@null"
+            android:paddingVertical="12dp"
+            android:paddingHorizontal="80dp"
+            android:text="루트 삭제"
+            android:textColor="#FF7A7A"
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:drawableStart="@drawable/ic_baseline_delete_24" />
+    </LinearLayout>
+</layout>
