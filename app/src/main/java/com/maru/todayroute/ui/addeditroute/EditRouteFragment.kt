@@ -103,6 +103,11 @@ class EditRouteFragment :
                             ImageHandler.optimizeImage(bitmap, 70)?.let { imageFromGalleryFile.add(it) }
                         }
                     }
+                    if (photoUriList.size == imageFromGalleryFile.size) {
+                        lifecycleScope.launch {
+                            viewModel.editRoute(naverMap.cameraPosition.zoom, imageFromGalleryFile)
+                        }
+                    }
                 }
             }
             moveToPreviousFragment.observe(viewLifecycleOwner) {
