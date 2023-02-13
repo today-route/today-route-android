@@ -28,6 +28,7 @@
 
     <string name="format_date">%1$d-%2$s-%3$s</string>
 
+    <!-- InitialActivity -->
     <string name="warning_input_birthday">생년월일을 입력해 주세요.</string>
     <string name="warning_input_start_date">처음 만난 날을 입력해 주세요.</string>
     <string name="warning_kakao_share_fail">카카오톡 공유에 실패했습니다. 다시 시도해 주세요.</string>
@@ -35,4 +36,25 @@
     <string name="warning_check_invite_code">잘못된 초대코드입니다.\n초대코드를 다시 확인해 주세요.</string>
     <string name="kakao_message_content_text">님이 함께 오늘의 길을 만들고 싶어해요!\n초대코드 : </string>
     <string name="kakao_message_button_text">초대코드 입력하러 가기</string>
+
+    <string name="fragment_sign_in_intro">연인과의 추억을\n오늘의 길에 남겨보세요!</string>
+    <string name="fragment_initial_user_info_title">성별과 생년월일을\n입력해주세요</string>
+    <string name="fragment_initial_user_info_finish_sign_up">가입 완료</string>
+    <string name="fragment_conect_couple_title">함께 사용할 연인과\n연결해 주세요.</string>
+    <string name="fragment_connect_couple_explanation">한 분은 초대코드를 보내시고\n다른 한 분은 받은 초대코드를 입력해서 연결을 진행해 주세요!</string>
+    <string name="fragment_connect_couple_go_to_send">초대코드 보내러 가기</string>
+    <string name="fragment_invite_couple_title">연인에게 초대코드를\n전송해 보세요.</string>
+    <string name="fragment_invite_couple_send">초대코드 보내기</string>
+    <string name="fragment_connect_couple_go_to_input">초대코드 입력하러 가기</string>
+    <string name="fragment_input_invite_code_title">받은 초대코드를\n입력해 주세요.</string>
+    <string name="fragment_input_start_date_title">연결하실 연인분과 \n처음 만난 날을 입력해주세요</string>
+    <string name="fragment_input_start_date_connect_and_start">연결하고 시작하기</string>
+    <string name="fragment_invite_couple_start">시작하기</string>
+
+    <string name="edit_date_hint_message">여기를 클릭하세요</string>
+    <string name="gender">성별</string>
+    <string name="male">남</string>
+    <string name="female">여</string>
+    <string name="birthday">생년월일</string>
+    <string name="next">다음으로</string>
 </resources>
