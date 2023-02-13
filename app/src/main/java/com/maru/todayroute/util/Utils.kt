@@ -2,15 +2,18 @@ package com.maru.todayroute.util
 
 import android.Manifest
 import android.app.Activity
+import android.app.DatePickerDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.provider.MediaStore
+import android.widget.EditText
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.maru.todayroute.R
 import com.naver.maps.geometry.LatLng
 import java.text.SimpleDateFormat
 import java.util.*
@@ -18,6 +21,24 @@ import java.util.*
 object Utils {
 
     fun String.convertSingleToDoubleDigit(): String = if (this.length < 2) "0$this" else this
+
+    fun showDatePicker(context: Context, editText: EditText, d: Triple<Int, Int, Int>, setDate: (Int, Int, Int) -> Unit) {
+        DatePickerDialog(context,
+            { _, year, month, date ->
+                setDate(year, month, date)
+                editText.setText(
+                    context.getString(R.string.format_date,
+                            year,
+                            (month + 1).toString().convertSingleToDoubleDigit(),
+                            date.toString().convertSingleToDoubleDigit()
+                    )
+                )
+            },
+            d.first,
+            d.second,
+            d.third
+        ).show()
+    }
 
     fun calculateDDay(startDate: String): String {
         val currentTimeMillis = System.currentTimeMillis()

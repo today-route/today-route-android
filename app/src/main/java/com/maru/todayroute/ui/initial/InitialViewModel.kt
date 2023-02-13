@@ -1,6 +1,7 @@
 package com.maru.todayroute.ui.initial
 
 import android.net.Uri
+import android.os.Build.VERSION_CODES.P
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -15,12 +16,14 @@ import com.maru.data.network.request.SignUpRequest
 import com.maru.data.network.Token
 import com.maru.data.repository.UserRepository
 import com.maru.data.repository.TokenRepository
+import com.maru.todayroute.R
 import com.maru.todayroute.SignInTokenInfo.token
 import com.maru.todayroute.util.SingleLiveEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -29,21 +32,27 @@ class InitialViewModel @Inject constructor(
     private val tokenRepository: TokenRepository
 ) : ViewModel() {
 
+    private val calendar: Calendar = GregorianCalendar()
+    private var year = calendar.get(Calendar.YEAR)
+    private var month = calendar.get(Calendar.MONTH)
+    private var date = calendar.get(Calendar.DATE)
+
     private var id = -1
     private lateinit var key: String
-    private lateinit var gender: Gender
+    private var gender: Gender = Gender.M
     private lateinit var email: String
     private lateinit var profileUrl: String
     private lateinit var nickname: String
-    private lateinit var birthday: String
 
-    val startDate get() = _startDate
-    private var _startDate = ""
     val code get() = _code
     private lateinit var _code: String
     val inviteCode: LiveData<String> get() = _inviteCode
     private var _inviteCode: MutableLiveData<String> = MutableLiveData("")
 
+    private val _showDatePickerDialog = SingleLiveEvent<Triple<Int, Int, Int>>()
+    val showDatePickerDialog: LiveData<Triple<Int, Int, Int>> get() = _showDatePickerDialog
+    private val _showToastMessage = SingleLiveEvent<Int>()
+    val showToastMessage: LiveData<Int> get() = _showToastMessage
     private val _moveToConnectCoupleFragment = SingleLiveEvent<Unit>()
     val moveToConnectCoupleFragment: LiveData<Unit> get() = _moveToConnectCoupleFragment
     private val _moveToInitialUserInfoFragment = SingleLiveEvent<Unit>()
@@ -124,21 +133,28 @@ class InitialViewModel @Inject constructor(
         this.gender = gender
     }
 
-    fun setUserBirthday(birthday: String) {
-        this.birthday = birthday
+    fun editDateButtonClicked() {
+        val day = Triple(year, month, date)
+        _showDatePickerDialog.value = day
+    }
+
+    fun initDate() {
+        this.year = calendar.get(Calendar.YEAR)
+        this.month = calendar.get(Calendar.MONTH)
+        this.date = calendar.get(Calendar.DATE)
+    }
+
+    fun setDate(year: Int, month: Int, date: Int) {
+        this.year = year; this.month = month; this.date = date
     }
 
     fun setInviteCode(inviteCode: String) {
         this._inviteCode.value = inviteCode
     }
 
-    fun setStartDate(startDate: String) {
-        this._startDate = startDate
-    }
-
-    suspend fun registerNewUser() {
-        val result = withContext(viewModelScope.coroutineContext) {
-            userRepository.registerNewUser(
+    fun registerNewUser(birthday: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val result = userRepository.registerNewUser(
                 SignUpRequest(
                     key,
                     gender,
@@ -148,50 +164,62 @@ class InitialViewModel @Inject constructor(
                     birthday
                 )
             )
-        }
 
-        if (result.isSuccess) {
-            val accessToken = result.getOrNull()!!.access
-            val refreshToken = result.getOrNull()!!.refresh
-            token = Token(accessToken, refreshToken)
-            tokenRepository.saveTokens(token)
-            setSignInUser()
-            _moveToConnectCoupleFragment.call()
+            if (result.isSuccess) {
+                val accessToken = result.getOrNull()!!.access
+                val refreshToken = result.getOrNull()!!.refresh
+                token = Token(accessToken, refreshToken)
+                viewModelScope.launch {
+                    tokenRepository.saveTokens(token)
+                }
+                setSignInUser()
+                withContext(Dispatchers.Main) {
+                    _moveToConnectCoupleFragment.call()
+                }
+            } else {
+                _showToastMessage.postValue(R.string.warning_input_birthday)
+            }
         }
     }
 
-    fun makeInviteTextTemplate(inviteLink: Uri): TextTemplate =
+    fun makeInviteTextTemplate(text: String, inviteLink: Uri, buttonTitle: String): TextTemplate =
         TextTemplate(
-            text = """
-                    ${nickname}님이 함께 오늘의 길을 만들고 싶어해요!
-                    초대 코드 : $code
-                """.trimIndent(),
+            text = nickname + text + code,
             link = Link(mobileWebUrl = inviteLink.toString()),
-            buttonTitle = "초대 코드 입력하기"
+            buttonTitle = buttonTitle
         )
 
-    suspend fun tryStart() {
-        val result = withContext(viewModelScope.coroutineContext) {
-            userRepository.getMyCoupleData()
-        }
+    fun tryStart() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val result = userRepository.getMyCoupleData()
 
-        if (result.isSuccess) {
-            _moveToMainActivity.call()
-        } else {
-            // TODO: 다시 시도 알림
+            withContext(Dispatchers.Main) {
+                if (result.isSuccess) {
+                    _moveToMainActivity.call()
+                } else {
+                    _showToastMessage.postValue(R.string.warning_no_connected_couple_yet)
+                }
+            }
         }
     }
 
-    suspend fun connectCoupleByCode() {
-        val result = withContext(viewModelScope.coroutineContext) {
-            val inviteCode = _inviteCode.value ?: ""
-            userRepository.registerNewCouple(inviteCode, startDate)
+    fun connectCoupleByCode(startDate: String) {
+        if (startDate.isEmpty()) {
+            _showToastMessage.value = R.string.warning_input_start_date
+            return
         }
 
-        if (result.isSuccess) {
-            _moveToMainActivity.call()
-        } else {
-            // TODO: 다시 시도 알림
+        viewModelScope.launch(Dispatchers.IO) {
+            val inviteCode = _inviteCode.value ?: ""
+            val result = userRepository.registerNewCouple(inviteCode, startDate)
+
+            withContext(Dispatchers.Main) {
+                if (result.isSuccess) {
+                    _moveToMainActivity.call()
+                } else {
+                    _showToastMessage.postValue(R.string.warning_check_invite_code)
+                }
+            }
         }
     }
 }

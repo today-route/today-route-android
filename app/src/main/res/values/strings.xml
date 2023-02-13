@@ -25,4 +25,14 @@
         <item>11월</item>
         <item>12월</item>
     </string-array>
+
+    <string name="format_date">%1$d-%2$s-%3$s</string>
+
+    <string name="warning_input_birthday">생년월일을 입력해 주세요.</string>
+    <string name="warning_input_start_date">처음 만난 날을 입력해 주세요.</string>
+    <string name="warning_kakao_share_fail">카카오톡 공유에 실패했습니다. 다시 시도해 주세요.</string>
+    <string name="warning_no_connected_couple_yet">아직 연결된 커플이 없습니다.\n확인 후 다시 시도해 주세요.</string>
+    <string name="warning_check_invite_code">잘못된 초대코드입니다.\n초대코드를 다시 확인해 주세요.</string>
+    <string name="kakao_message_content_text">님이 함께 오늘의 길을 만들고 싶어해요!\n초대코드 : </string>
+    <string name="kakao_message_button_text">초대코드 입력하러 가기</string>
 </resources>

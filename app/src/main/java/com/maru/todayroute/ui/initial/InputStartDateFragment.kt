@@ -1,31 +1,35 @@
 package com.maru.todayroute.ui.initial
 
-import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.maru.todayroute.R
 import com.maru.todayroute.databinding.FragmentInputStartDateBinding
 import com.maru.todayroute.util.BaseFragment
-import com.maru.todayroute.util.Utils.convertSingleToDoubleDigit
-import kotlinx.coroutines.launch
-import java.util.*
+import com.maru.todayroute.util.Utils.showDatePicker
 
 class InputStartDateFragment : BaseFragment<FragmentInputStartDateBinding>(R.layout.fragment_input_start_date) {
 
     private val viewModel: InitialViewModel by activityViewModels()
 
-    private val calendar: Calendar = GregorianCalendar()
-    private var year = calendar.get(Calendar.YEAR)
-    private var month = calendar.get(Calendar.MONTH)
-    private var date = calendar.get(Calendar.DATE)
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        viewModel.initDate()
+        setupObserver()
         setupButtonClickListener()
+    }
+
+    private fun setupObserver() {
+        viewModel.showToastMessage.observe(viewLifecycleOwner) { messageId ->
+            Toast.makeText(requireContext(), getString(messageId), Toast.LENGTH_SHORT).show()
+        }
+
+        viewModel.showDatePickerDialog.observe(viewLifecycleOwner) { d ->
+            showDatePicker(requireContext(), binding.etStartDate, d, viewModel::setDate)
+        }
     }
 
     private fun setupButtonClickListener() {
@@ -36,26 +40,11 @@ class InputStartDateFragment : BaseFragment<FragmentInputStartDateBinding>(R.lay
         }
 
         binding.btnStart.setOnClickListener {
-            lifecycleScope.launch {
-                viewModel.connectCoupleByCode()
-            }
+            viewModel.connectCoupleByCode(binding.etStartDate.text.toString())
         }
 
         binding.etStartDate.setOnClickListener {
-            DatePickerDialog(requireContext(),
-                { _, year, m, d ->
-                    val month = (m + 1).toString().convertSingleToDoubleDigit()
-                    val dayOfMonth = d.toString().convertSingleToDoubleDigit()
-                    binding.etStartDate.setText("${year}-${month}-${dayOfMonth}")
-                    viewModel.setStartDate("${year}-${month}-${dayOfMonth}")
-                    this.year = year
-                    this.month = m
-                    date = d
-                },
-                year,
-                month,
-                date
-            ).show()
+            viewModel.editDateButtonClicked()
         }
     }
 }

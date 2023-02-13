@@ -46,13 +46,17 @@ class InitialActivity : BaseActivity<ActivityInitialBinding>(R.layout.activity_i
                 if (pendingDynamicLinkData != null) {
                     deepLink = pendingDynamicLinkData.link
                 }
-                if (deepLink != null && deepLink.getBooleanQueryParameter("code", false)) {
-                    val inviteCode = deepLink.getQueryParameter("code")
+                if (deepLink != null && deepLink.getBooleanQueryParameter(CODE, false)) {
+                    val inviteCode = deepLink.getQueryParameter(CODE)
 
                     inviteCode?.let { it ->
                         viewModel.setInviteCode(it)
                     }
                 }
             }
+    }
+
+    companion object {
+        const val CODE = "code"
     }
 }
