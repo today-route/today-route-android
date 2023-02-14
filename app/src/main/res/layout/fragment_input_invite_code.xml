@@ -11,6 +11,7 @@
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -47,6 +48,10 @@
             android:text="@{viewModel.inviteCode}"
             android:textColor="@color/tmp_black"
             android:textSize="20sp"
+            android:maxLines="1"
+            android:maxLength="6"
+            android:imeOptions="actionDone"
+            android:inputType="textShortMessage"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv_input_invite_code" />
