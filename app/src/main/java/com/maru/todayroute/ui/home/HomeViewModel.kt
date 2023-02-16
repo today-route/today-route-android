@@ -68,14 +68,13 @@ class HomeViewModel @Inject constructor() : ViewModel() {
     }
 
     fun userMoves(latitude: Double, longitude: Double) {
-        if (!isSameLocation(latitude, longitude)) {
-            Log.d("location", "$latitude $longitude")
-            if (TrackingInfo.isRecording) {
-                addGeoCoord(latitude, longitude)
-                showPath()
-            }
-            _showOverlayOnCurrentLocation.value = currentLocation
+        Log.d("location", "$latitude $longitude")
+        if (TrackingInfo.isRecording) {
+            showPath()
+        } else {
+            currentLocation = LatLng(latitude, longitude)
         }
+        _showOverlayOnCurrentLocation.value = currentLocation
     }
 
     fun showPath() {

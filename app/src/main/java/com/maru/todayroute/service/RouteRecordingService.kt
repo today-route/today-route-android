@@ -4,9 +4,7 @@ import android.annotation.SuppressLint
 import android.app.*
 import android.content.Context
 import android.content.Intent
-import android.os.Build
-import android.os.IBinder
-import android.os.Looper
+import android.os.*
 import androidx.core.app.NotificationCompat
 import com.google.android.gms.location.*
 import com.maru.todayroute.R
@@ -17,6 +15,7 @@ class RouteRecordingService: Service() {
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
     private lateinit var locationCallback: LocationCallback
+    private lateinit var serviceHandler: Handler
 
     override fun onBind(p0: Intent?): IBinder? {
         return null
@@ -24,6 +23,11 @@ class RouteRecordingService: Service() {
 
     override fun onCreate() {
         super.onCreate()
+
+        val handlerThread = HandlerThread(HANDLER_THREAD_NAME)
+        handlerThread.start()
+        serviceHandler = Handler(handlerThread.looper)
+
         setLocationChangedListener()
     }
 
@@ -46,7 +50,9 @@ class RouteRecordingService: Service() {
                     val latitude = location.latitude
                     val longitude = location.longitude
 
-                    TrackingInfo.addGeoCoord(latitude, longitude)
+                    if (!TrackingInfo.isSameLocation(latitude, longitude)) {
+                        TrackingInfo.addGeoCoord(latitude, longitude)
+                    }
                 }
             }
         }
@@ -59,7 +65,7 @@ class RouteRecordingService: Service() {
         fusedLocationClient.requestLocationUpdates(
             locationRequest,
             locationCallback,
-            Looper.getMainLooper()
+            serviceHandler.looper
         )
     }
 
@@ -95,5 +101,6 @@ class RouteRecordingService: Service() {
     companion object {
         const val NOTIFICATION_ID = 198
         const val NOTIFICATION_CHANNEL_ID = "recording route"
+        const val HANDLER_THREAD_NAME = "RouteRecordingService"
     }
 }
