@@ -4,43 +4,44 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.maru.todayroute.ui.home.TrackingInfo.addGeoCoord
+import com.maru.todayroute.ui.home.TrackingInfo.clearGeoCoord
+import com.maru.todayroute.ui.home.TrackingInfo.currentLocation
+import com.maru.todayroute.ui.home.TrackingInfo.geoCoordList
+import com.maru.todayroute.ui.home.TrackingInfo.isSameLocation
 import com.maru.todayroute.util.SingleLiveEvent
 import com.maru.todayroute.util.Utils.getCurrentDate
 import com.naver.maps.geometry.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-import kotlin.math.roundToInt
 
 @HiltViewModel
 class HomeViewModel @Inject constructor() : ViewModel() {
 
-    val isRecording: LiveData<Boolean> get() = _isRecording
-    private var _isRecording: MutableLiveData<Boolean> = MutableLiveData(false)
-    private val geoCoordList: MutableList<LatLng> = mutableListOf()
-
-    private lateinit var currentLocation: LatLng
-
+    val isForegroundServiceRunning: LiveData<Boolean> get() = _isForegroundServiceRunning
+    private val _isForegroundServiceRunning: MutableLiveData<Boolean> = MutableLiveData()
     val showOverlayOnCurrentLocation: LiveData<LatLng> get() = _showOverlayOnCurrentLocation
     private val _showOverlayOnCurrentLocation: MutableLiveData<LatLng> = MutableLiveData()
     val updateUserLocation: LiveData<Boolean> get() = _updateUserLocation
     private val _updateUserLocation: MutableLiveData<Boolean> = MutableLiveData(true)
     val updatePath: LiveData<List<LatLng>> get() = _updatePath
-    private val _updatePath: MutableLiveData<List<LatLng>> = MutableLiveData()
+    private val _updatePath: SingleLiveEvent<List<LatLng>> = SingleLiveEvent()
     val moveMapCameraToCurrentLocation: LiveData<LatLng> get() = _moveMapCameraToCurrentLocation
     private val _moveMapCameraToCurrentLocation: MutableLiveData<LatLng> = MutableLiveData()
 
     val moveToAddRouteFragment: LiveData<Pair<Array<LatLng>, String>> get() = _moveToAddRouteFragment
     private val _moveToAddRouteFragment: SingleLiveEvent<Pair<Array<LatLng>, String>> = SingleLiveEvent()
 
-    var date = ""
+    val date get() = getCurrentDate()
 
     fun startRecording() {
-        if (_isRecording.value!!) {
-            _isRecording.value = false
+        if (TrackingInfo.isRecording) {
+            TrackingInfo.isRecording = false
+            _isForegroundServiceRunning.value = false
             if (isValidRecord()) {
                 _updateUserLocation.value = false
                 _moveToAddRouteFragment.value = Pair(geoCoordList.toTypedArray(), date)
-                date = ""
+                clearGeoCoord()
 //                        TODO: ViewModel에 기록 정보 저장하고 루트 추가 화면으로 넘어가도록 요청
             } else {
 //                Toast.makeText(
@@ -50,8 +51,8 @@ class HomeViewModel @Inject constructor() : ViewModel() {
 //                ).show()
             }
         } else {
-            _isRecording.value = true
-            date = getCurrentDate()
+            TrackingInfo.isRecording = true
+            _isForegroundServiceRunning.value = true
             initGeoCoordList()
         }
     }
@@ -61,39 +62,32 @@ class HomeViewModel @Inject constructor() : ViewModel() {
     }
 
     fun initCurrentLocation(currentLocation: LatLng) {
-        this.currentLocation = currentLocation
+        TrackingInfo.currentLocation = currentLocation
         moveMapCameraToCurrentLocation()
         _showOverlayOnCurrentLocation.value = currentLocation
     }
 
     fun userMoves(latitude: Double, longitude: Double) {
-
         if (!isSameLocation(latitude, longitude)) {
             Log.d("location", "$latitude $longitude")
-            if (_isRecording.value!!) {
-                geoCoordList.add(LatLng(latitude, longitude))
-                if (isValidRecord()) {
-                    _updatePath.value = geoCoordList
-                }
+            if (TrackingInfo.isRecording) {
+                addGeoCoord(latitude, longitude)
+                showPath()
             }
-            currentLocation = LatLng(latitude, longitude)
             _showOverlayOnCurrentLocation.value = currentLocation
         }
     }
 
-    private fun isSameLocation(newLatitude: Double, newLongitude: Double): Boolean {
-        val preLatitude = (currentLocation.latitude * 10000).roundToInt()
-        val preLongitude = (currentLocation.longitude * 10000).roundToInt()
-        val targetLatitude = (newLatitude * 10000).roundToInt()
-        val targetLongitude = (newLongitude * 10000).roundToInt()
-
-        return preLatitude == targetLatitude && preLongitude == targetLongitude
+    fun showPath() {
+        if (isValidRecord()) {
+            _updatePath.value = geoCoordList
+        }
     }
 
     private fun isValidRecord(): Boolean = geoCoordList.size >= 2
 
     private fun initGeoCoordList() {
-        geoCoordList.clear()
-        geoCoordList.add(LatLng(currentLocation.latitude, currentLocation.longitude))
+        clearGeoCoord()
+        addGeoCoord(currentLocation.latitude, currentLocation.longitude)
     }
 }

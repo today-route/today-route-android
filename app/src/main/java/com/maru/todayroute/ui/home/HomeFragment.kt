@@ -2,13 +2,16 @@ package com.maru.todayroute.ui.home
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.location.Location
+import android.os.Build
 import android.os.Bundle
 import android.os.Looper
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -16,6 +19,7 @@ import androidx.navigation.fragment.findNavController
 import com.google.android.gms.location.*
 import com.maru.todayroute.R
 import com.maru.todayroute.databinding.FragmentHomeBinding
+import com.maru.todayroute.service.RouteRecordingService
 import com.maru.todayroute.ui.MainViewModel
 import com.maru.todayroute.util.BaseFragment
 import com.maru.todayroute.util.MapViewLifecycleObserver
@@ -79,7 +83,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
         viewModel.moveMapCameraToCurrentLocation.observe(viewLifecycleOwner) { currentLocation ->
             moveMapCameraToCurrentLocation(currentLocation)
+        }
 
+        viewModel.isForegroundServiceRunning.observe(viewLifecycleOwner) { isRunning ->
+            if (isRunning) {
+                startForegroundService()
+            } else {
+                stopForegroundService()
+            }
         }
     }
 
@@ -103,6 +114,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
             outlineColor = requireContext().getColor(R.color.purple)
             width = 30
         }
+        viewModel.showPath()
     }
 
     @SuppressLint("MissingPermission")
@@ -124,7 +136,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
     private fun setButtonClickListener() {
         binding.btnStartRecordRoute.setOnClickListener {
             viewModel.startRecording()
-            initPathOverlay()
             getLastLocation()
         }
 
@@ -133,15 +144,27 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         }
     }
 
-    private fun updatePath(geoCoordList: List<LatLng>) {
-        path.coords = geoCoordList
-        if (path.map == null) {
-            path.map = naverMap
+    private fun startForegroundService() {
+        Intent(context, RouteRecordingService::class.java).run {
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) requireContext().startForegroundService(this)
+            else requireContext().startService(this)
         }
+    }
+
+    private fun stopForegroundService() {
+        val intent = Intent(context, RouteRecordingService::class.java)
+        intent.action = TrackingInfo.ACTION_RECORDING_STOP
+        requireContext().startService(intent)
+    }
+
+    private fun updatePath(geoCoordList: List<LatLng>) {
+            path.coords = geoCoordList
+            path.map = naverMap
     }
 
     override fun onMapReady(naverMap: NaverMap) {
         this.naverMap = naverMap
+        initPathOverlay()
         getLastLocation()
         setLocationChangedListener()
     }
@@ -178,14 +201,27 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
     }
 
     private fun hasNotLocationPermission(): Boolean {
-        return ActivityCompat.checkSelfPermission(
-            requireContext(),
-            Manifest.permission.ACCESS_FINE_LOCATION
-        ) != PackageManager.PERMISSION_GRANTED
-                || ActivityCompat.checkSelfPermission(
-            requireContext(),
-            Manifest.permission.ACCESS_COARSE_LOCATION
-        ) != PackageManager.PERMISSION_GRANTED
+        val permissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION,
+                Manifest.permission.ACCESS_BACKGROUND_LOCATION
+            )
+        else
+            arrayOf(
+                Manifest.permission.ACCESS_FINE_LOCATION,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            )
+
+        for (permission in permissions) {
+            if (ActivityCompat.checkSelfPermission(
+                    requireContext(),
+                    permission
+                ) != PackageManager.PERMISSION_GRANTED
+            ) return false
+        }
+
+        return true
     }
 
     private fun requestLocationPermission() {
@@ -195,6 +231,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
             when {
                 permissions[Manifest.permission.ACCESS_FINE_LOCATION] ?: false
                         || permissions[Manifest.permission.ACCESS_COARSE_LOCATION] ?: false
+                        || permissions[Manifest.permission.ACCESS_BACKGROUND_LOCATION] ?: false
                 -> {
                     binding.mvMap.getMapAsync(this)
                 }
@@ -205,15 +242,27 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         }
 
         locationPermissionRequest.launch(
-            arrayOf(
-                Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            )
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q)
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION,
+                    Manifest.permission.ACCESS_BACKGROUND_LOCATION
+                )
+            else
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                )
         )
     }
 
     private fun stopLocationUpdates() {
         fusedLocationClient.removeLocationUpdates(locationCallback)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        stopLocationUpdates()
     }
 
     override fun onLowMemory() {
