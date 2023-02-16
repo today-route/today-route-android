@@ -7,7 +7,7 @@ data class EditRouteResponse(
     val id: Int,
     val coupleId: Int,
     val date: String,
-    val zoomLevel: Int,
+    val zoomLevel: Double,
     val title: String,
     val content: String,
     val location: String
