@@ -8,7 +8,6 @@ import com.maru.todayroute.ui.home.TrackingInfo.addGeoCoord
 import com.maru.todayroute.ui.home.TrackingInfo.clearGeoCoord
 import com.maru.todayroute.ui.home.TrackingInfo.currentLocation
 import com.maru.todayroute.ui.home.TrackingInfo.geoCoordList
-import com.maru.todayroute.ui.home.TrackingInfo.isSameLocation
 import com.maru.todayroute.util.SingleLiveEvent
 import com.maru.todayroute.util.Utils.getCurrentDate
 import com.naver.maps.geometry.LatLng
@@ -18,8 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor() : ViewModel() {
 
-    val isForegroundServiceRunning: LiveData<Boolean> get() = _isForegroundServiceRunning
-    private val _isForegroundServiceRunning: MutableLiveData<Boolean> = MutableLiveData()
+    val isRecording: LiveData<Boolean> get() = TrackingInfo.isRecording
     val showOverlayOnCurrentLocation: LiveData<LatLng> get() = _showOverlayOnCurrentLocation
     private val _showOverlayOnCurrentLocation: MutableLiveData<LatLng> = MutableLiveData()
     val updateUserLocation: LiveData<Boolean> get() = _updateUserLocation
@@ -35,14 +33,12 @@ class HomeViewModel @Inject constructor() : ViewModel() {
     val date get() = getCurrentDate()
 
     fun startRecording() {
-        if (TrackingInfo.isRecording) {
-            TrackingInfo.isRecording = false
-            _isForegroundServiceRunning.value = false
+        if (TrackingInfo.isRecording.value == true) {
+            TrackingInfo.isRecording.value = false
             if (isValidRecord()) {
                 _updateUserLocation.value = false
                 _moveToAddRouteFragment.value = Pair(geoCoordList.toTypedArray(), date)
                 clearGeoCoord()
-//                        TODO: ViewModel에 기록 정보 저장하고 루트 추가 화면으로 넘어가도록 요청
             } else {
 //                Toast.makeText(
 //                    requireContext(),
@@ -51,8 +47,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
 //                ).show()
             }
         } else {
-            TrackingInfo.isRecording = true
-            _isForegroundServiceRunning.value = true
+            TrackingInfo.isRecording.value = true
             initGeoCoordList()
         }
     }
@@ -69,7 +64,7 @@ class HomeViewModel @Inject constructor() : ViewModel() {
 
     fun userMoves(latitude: Double, longitude: Double) {
         Log.d("location", "$latitude $longitude")
-        if (TrackingInfo.isRecording) {
+        if (TrackingInfo.isRecording.value == true) {
             showPath()
         } else {
             currentLocation = LatLng(latitude, longitude)

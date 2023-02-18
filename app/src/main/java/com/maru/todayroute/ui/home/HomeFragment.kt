@@ -4,14 +4,12 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Color
 import android.location.Location
 import android.os.Build
 import android.os.Bundle
 import android.os.Looper
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
@@ -85,11 +83,13 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
             moveMapCameraToCurrentLocation(currentLocation)
         }
 
-        viewModel.isForegroundServiceRunning.observe(viewLifecycleOwner) { isRunning ->
-            if (isRunning) {
+        viewModel.isRecording.observe(viewLifecycleOwner) { isRecording ->
+            if (isRecording) {
                 startForegroundService()
+                setButtonText(isRecording)
             } else {
                 stopForegroundService()
+                setButtonText(isRecording)
             }
         }
     }
@@ -141,6 +141,14 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
 
         binding.btnCurrentLocation.setOnClickListener {
             viewModel.moveMapCameraToCurrentLocation()
+        }
+    }
+
+    private fun setButtonText(isRecording: Boolean) {
+        if (isRecording) {
+            binding.btnStartRecordRoute.text = "루트 기록 종료"
+        } else {
+            binding.btnStartRecordRoute.text = "루트 기록 시작"
         }
     }
 

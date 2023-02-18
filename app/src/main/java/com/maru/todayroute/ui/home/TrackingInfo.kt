@@ -1,5 +1,6 @@
 package com.maru.todayroute.ui.home
 
+import androidx.lifecycle.MutableLiveData
 import com.maru.todayroute.BuildConfig
 import com.maru.todayroute.ui.home.TrackingInfo.currentLocation
 import com.naver.maps.geometry.LatLng
@@ -9,7 +10,7 @@ object TrackingInfo {
 
     const val ACTION_RECORDING_STOP = "${BuildConfig.APPLICATION_ID}.stop"
 
-    var isRecording = false
+    val isRecording: MutableLiveData<Boolean> = MutableLiveData(false)
     lateinit var currentLocation: LatLng
     val geoCoordList get() = _geoCoordList
     private val _geoCoordList: MutableList<LatLng> = mutableListOf()
