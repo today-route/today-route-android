@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <View
+        android:id="@+id/v_purple_heart"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginBottom="-20dp"
+        android:elevation="10dp"
+        android:background="@drawable/ic_baseline_favorite_24"
+        app:layout_constraintBottom_toTopOf="@id/iv_boy_profile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/tv_d_day"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:elevation="10dp"
+        android:textColor="@color/tmp_black"
+        android:textSize="16sp"
+        android:layout_marginBottom="6dp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="@id/v_purple_heart"
+        app:layout_constraintEnd_toEndOf="@id/v_purple_heart"
+        app:layout_constraintStart_toStartOf="@id/v_purple_heart"
+        app:layout_constraintBottom_toBottomOf="@id/v_purple_heart"
+        tools:text="1650" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/iv_boy_profile"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="92dp"
+        android:elevation="5dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/CornerSize50Percent"
+        tools:src="@tools:sample/avatars" />
+
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/iv_girl_profile"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="92dp"
+        android:elevation="5dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="@id/iv_boy_profile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/iv_boy_profile"
+        app:shapeAppearanceOverlay="@style/CornerSize50Percent"
+        tools:src="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/tv_boy_nickname"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="12dp"
+        android:elevation="10dp"
+        android:gravity="end"
+        android:textColor="@color/tmp_black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/iv_boy_profile"
+        app:layout_constraintEnd_toStartOf="@id/iv_boy_profile"
+        app:layout_constraintTop_toTopOf="@id/iv_boy_profile"
+        tools:text="철수" />
+
+    <TextView
+        android:id="@+id/tv_girl_nickname"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="12dp"
+        android:elevation="10dp"
+        android:gravity="start"
+        android:textColor="@color/tmp_black"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/iv_girl_profile"
+        app:layout_constraintStart_toEndOf="@id/iv_girl_profile"
+        app:layout_constraintTop_toTopOf="@id/iv_girl_profile"
+        tools:text="영희" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CoupleInfoView">
+        <attr name="dDay" format="reference|string"/>
+        <attr name="boyNickname" format="reference|string"/>
+        <attr name="girlNickname" format="reference|string"/>
+        <attr name="boyProfileImageUrl" format="reference|string"/>
+        <attr name="girlProfileImageUrl" format="reference|string"/>
+    </declare-styleable>
+
+</resources>
