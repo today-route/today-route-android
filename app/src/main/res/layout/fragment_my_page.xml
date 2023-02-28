@@ -31,62 +31,20 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <View
-            android:id="@+id/v_purple_heart"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_marginBottom="-20dp"
-            android:background="@drawable/ic_baseline_favorite_24"
-            android:elevation="10dp"
-            app:layout_constraintBottom_toTopOf="@id/iv_boy_profile"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-
-        <TextView
-            android:id="@+id/tv_d_day"
-            android:layout_width="wrap_content"
+        <com.maru.todayroute.ui.customview.CoupleInfoView
+            android:id="@+id/v_couple_info"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="6dp"
+            android:layout_marginTop="24dp"
             android:elevation="10dp"
-            android:textColor="@color/tmp_black"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/v_purple_heart"
-            app:layout_constraintEnd_toEndOf="@id/v_purple_heart"
-            app:layout_constraintStart_toStartOf="@id/v_purple_heart"
-            app:layout_constraintTop_toTopOf="@id/v_purple_heart"
-            tools:text="500" />
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/iv_boy_profile"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginTop="62dp"
-            android:layout_marginEnd="92dp"
-            android:elevation="5dp"
-            android:scaleType="centerCrop"
-            app:imageUrl="@{activityViewModel.coupleInfo.boy.profileUrl}"
+            app:boyNickname="@{activityViewModel.coupleInfo.boy.nickname}"
+            app:boyProfileImageUrl="@{activityViewModel.coupleInfo.boy.profileUrl}"
+            app:dDay="@{activityViewModel.DDay}"
+            app:girlNickname="@{activityViewModel.coupleInfo.girl.nickname}"
+            app:girlProfileImageUrl="@{activityViewModel.coupleInfo.girl.profileUrl}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:shapeAppearanceOverlay="@style/CornerSize50Percent"
-            tools:src="@tools:sample/avatars" />
-
-        <com.google.android.material.imageview.ShapeableImageView
-            android:id="@+id/iv_girl_profile"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginStart="92dp"
-            android:elevation="5dp"
-            android:scaleType="centerCrop"
-            app:imageUrl="@{activityViewModel.coupleInfo.girl.profileUrl}"
-            app:layout_constraintBottom_toBottomOf="@id/iv_boy_profile"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@id/iv_boy_profile"
-            app:shapeAppearanceOverlay="@style/CornerSize50Percent"
-            tools:src="@tools:sample/avatars" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <View
             android:id="@+id/v_start_date"
@@ -109,7 +67,7 @@
             android:textSize="18sp"
             android:textStyle="bold"
             app:layout_constraintStart_toEndOf="@id/v_start_date"
-            app:layout_constraintTop_toBottomOf="@id/iv_girl_profile" />
+            app:layout_constraintTop_toBottomOf="@id/v_couple_info" />
 
         <TextView
             android:id="@+id/tv_start_date_value"

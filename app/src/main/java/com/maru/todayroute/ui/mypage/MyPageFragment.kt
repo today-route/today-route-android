@@ -20,7 +20,6 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         super.onViewCreated(view, savedInstanceState)
         binding.activityViewModel = activityViewModel
         fetchMainData()
-        setupObserver()
         setupButtonClickListener()
     }
 
@@ -28,11 +27,6 @@ class MyPageFragment : BaseFragment<FragmentMyPageBinding>(R.layout.fragment_my_
         activityViewModel.fetchMainData()
     }
 
-    private fun setupObserver() {
-        activityViewModel.coupleInfo.observe(viewLifecycleOwner) { coupleInfo ->
-            binding.tvDDay.text = Utils.calculateDDay(coupleInfo.startDate)
-        }
-    }
 
     private fun setupButtonClickListener() {
         val editUserButton = listOf(binding.btnBoyEdit, binding.btnGirlEdit)
