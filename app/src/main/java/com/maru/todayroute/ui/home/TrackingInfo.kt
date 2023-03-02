@@ -25,11 +25,15 @@ object TrackingInfo {
     }
 
     fun isSameLocation(newLatitude: Double, newLongitude: Double): Boolean {
-        val preLatitude = (currentLocation.latitude * 10000).roundToInt()
-        val preLongitude = (currentLocation.longitude * 10000).roundToInt()
-        val targetLatitude = (newLatitude * 10000).roundToInt()
-        val targetLongitude = (newLongitude * 10000).roundToInt()
+        if (::currentLocation.isInitialized) {
+            val preLatitude = (currentLocation.latitude * 10000).roundToInt()
+            val preLongitude = (currentLocation.longitude * 10000).roundToInt()
+            val targetLatitude = (newLatitude * 10000).roundToInt()
+            val targetLongitude = (newLongitude * 10000).roundToInt()
 
-        return preLatitude == targetLatitude && preLongitude == targetLongitude
+            return preLatitude == targetLatitude && preLongitude == targetLongitude
+        }
+
+        return true
     }
 }
