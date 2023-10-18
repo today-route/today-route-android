@@ -122,7 +122,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home), 
         initLocationCallback()
         val locationRequest = LocationRequest.create().apply {
             interval = 1000
-            priority = Priority.PRIORITY_HIGH_ACCURACY
+            priority = Priority.PRIORITY_LOW_POWER
             maxWaitTime = 1000
         }
 
