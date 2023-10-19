@@ -12,7 +12,7 @@ import java.io.File
 import javax.inject.Inject
 
 class UserRepository @Inject constructor(
-    private val userRemoteDataSource: UserRemoteDataSource
+    private val userRemoteDataSource: UserDataSource
 ) : UserDataSource {
 
     override suspend fun registerNewUser(user: SignUpRequest): Result<SignUpResponse> =

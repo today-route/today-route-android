@@ -10,7 +10,7 @@ import java.io.File
 import javax.inject.Inject
 
 class RouteRepository @Inject constructor(
-    private val remoteDataSource: RouteRemoteDataSource
+    private val remoteDataSource: RouteDataSource
 ) : RouteDataSource {
     override suspend fun getRouteOfMonth(year: Int, month: Int): Result<List<SimpleRoute>> =
         remoteDataSource.getRouteOfMonth(year, month)

@@ -8,8 +8,8 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class TokenRepository @Inject constructor(
-    private val tokenLocalDataSource: TokenLocalDataSource,
-    private val tokenRemoteDataSource: TokenRemoteDataSource
+    private val tokenLocalDataSource: TokenDataSource.Local,
+    private val tokenRemoteDataSource: TokenDataSource.Remote
 ) : TokenDataSource, TokenDataSource.Local, TokenDataSource.Remote {
 
     override suspend fun getAccessToken(): Flow<String> = tokenLocalDataSource.getAccessToken()
